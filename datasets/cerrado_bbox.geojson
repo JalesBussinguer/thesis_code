@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "cerrado_bbox",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -60.47259563399993, -24.681780126000021 ], [ -41.277535526, -24.681780126000021 ], [ -41.277535526, -2.332089774874383 ], [ -60.47259563399993, -2.332089774874383 ], [ -60.47259563399993, -24.681780126000021 ] ] ] } }
+]
+}
