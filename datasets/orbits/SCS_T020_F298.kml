@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>bio_s1_scs__1s_20251122t084504_20251122t084524_t_g01_m01_c01_t020_f298_map.kml</name>
+    <description>L1 Product Overlay ADS</description>
+    <GroundOverlay>
+      <name>Ground overlay</name>
+      <visibility>1</visibility>
+      <TimeStamp>
+        <when>2025-11-22T08:45:14</when>
+      </TimeStamp>
+      <Icon>
+        <href>bio_s1_scs__1s_20251122t084504_20251122t084524_t_g01_m01_c01_t020_f298_ql.png</href>
+      </Icon>
+      <gx:LatLonQuad>
+        <coordinates>-41.606795,-14.244039 -42.183812,-14.357573 -41.917116,-15.619639 -41.335041,-15.506107</coordinates>
+      </gx:LatLonQuad>
+    </GroundOverlay>
+    <Placemark>
+      <name>Placemark</name>
+      <visibility>1</visibility>
+      <TimeStamp>
+        <when>2025-11-22T08:45:14</when>
+      </TimeStamp>
+      <Style>
+        <LineStyle>
+          <color>40ffffff</color>
+          <width>1</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>00000000</color>
+        </PolyStyle>
+      </Style>
+      <ExtendedData>
+        <Data name="Product Name">
+          <value>BIO_S1_SCS__1S_20251122T084504_20251122T084524_T_G01_M01_C01_T020_F298_01_DJWRXB</value>
+        </Data>
+        <Data name="Product Type">
+          <value>S1_SCS__1S</value>
+        </Data>
+        <Data name="Start Date and Time">
+          <value>2025-11-22T08:45:04</value>
+        </Data>
+        <Data name="Stop Date and Time">
+          <value>2025-11-22T08:45:24</value>
+        </Data>
+        <Data name="Duration [s]">
+          <value>20</value>
+        </Data>
+        <Data name="Mission Phase ID">
+          <value>T</value>
+        </Data>
+        <Data name="Global Coverage ID">
+          <value>01</value>
+        </Data>
+        <Data name="Major Cycle ID">
+          <value>01</value>
+        </Data>
+        <Data name="Repeat Cycle ID">
+          <value>01</value>
+        </Data>
+        <Data name="Track Number">
+          <value>020</value>
+        </Data>
+        <Data name="Frame Number">
+          <value>298</value>
+        </Data>
+        <Data name="Baseline ID">
+          <value>01</value>
+        </Data>
+      </ExtendedData>
+      <Polygon>
+        <tessellate>1</tessellate>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>-41.606795,-14.244039,0 -42.183812,-14.357573,0 -41.917116,-15.619639,0 -41.335041,-15.506107,0 -41.606795,-14.244039,0</coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>
