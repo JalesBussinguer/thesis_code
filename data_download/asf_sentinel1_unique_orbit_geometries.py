@@ -29,7 +29,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = ROOT_DIR / "datasets" / "asf_orbits_sentinel1"
 SEARCH_URL = "https://api.daac.asf.alaska.edu/services/search/param"
 REQUEST_TIMEOUT = 120
-DEFAULT_START = "2025-01-01T00:00:00Z"
+DEFAULT_START = "2025-11-01T00:00:00Z"
 DEFAULT_END = "2026-03-31T23:59:59Z"
 DEFAULT_PROCESSING_LEVEL = "SLC"
 DEFAULT_PLATFORMS = ["Sentinel-1A", "Sentinel-1C"]
@@ -266,12 +266,22 @@ def build_orbit_key(properties: dict[str, Any]) -> str:
 		sanitize_name(properties.get("platform") or "SENTINEL-1"),
 		sanitize_name(properties.get("flightDirection") or "UNKNOWN"),
 		f"PATH_{path_number or 'NA'}",
-		f"FRAME_{properties.get('frameNumber') or 'NA'}",
 	]
 	beam_mode = properties.get("beamModeType")
 	if beam_mode:
 		parts.append(sanitize_name(beam_mode))
 	return "__".join(parts)
+
+
+def format_frame_numbers(frame_numbers: set[Any]) -> str | None:
+	values = []
+	for value in frame_numbers:
+		if value in (None, ""):
+			continue
+		values.append(str(value))
+	if not values:
+		return None
+	return ",".join(sorted(values, key=lambda item: (len(item), item)))
 
 
 def write_csv(csv_path: Path, rows: Iterable[dict[str, Any]], fieldnames: list[str]) -> None:
@@ -330,7 +340,7 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 						"processing_level": properties.get("processingLevel"),
 						"flight_direction": properties.get("flightDirection"),
 						"path_number": path_number,
-						"frame_number": properties.get("frameNumber"),
+						"frame_numbers": set(),
 						"beam_mode": properties.get("beamModeType"),
 						"scene_count": 0,
 						"unique_footprints": set(),
@@ -342,6 +352,7 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 
 				entry["scene_count"] += 1
 				entry["unique_footprints"].add(geometry_wkb)
+				entry["frame_numbers"].add(properties.get("frameNumber"))
 
 				start_time = properties.get("startTime")
 				stop_time = properties.get("stopTime")
@@ -389,7 +400,8 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 				"processing_level": entry["processing_level"],
 				"flight_direction": entry["flight_direction"],
 				"path_number": entry["path_number"],
-				"frame_number": entry["frame_number"],
+				"frame_count": len({value for value in entry["frame_numbers"] if value not in (None, "")}),
+				"frame_numbers": format_frame_numbers(entry["frame_numbers"]),
 				"beam_mode": entry["beam_mode"],
 				"scene_count": entry["scene_count"],
 				"unique_footprints": len(entry["unique_footprints"]),
@@ -402,14 +414,14 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 	gdf = gpd.GeoDataFrame(rows, geometry=geometries, crs="EPSG:4326")
 	if gdf.empty:
 		return gdf, scene_rows
-	gdf = gdf.sort_values(["platform", "path_number", "frame_number"], na_position="last").reset_index(drop=True)
+	gdf = gdf.sort_values(["platform", "path_number", "flight_direction"], na_position="last").reset_index(drop=True)
 	return gdf, scene_rows
 
 
 def export_outputs(gdf: gpd.GeoDataFrame, scene_rows: list[dict[str, Any]]) -> None:
 	output_dir = Path(OUTPUT_DIR)
 	output_dir.mkdir(parents=True, exist_ok=True)
-	combined_geojson_path = output_dir / "sentinel-1_unique_orbit_geometries.geojson"
+	combined_geojson_path = output_dir / "sentinel-1_unique_orbit_geometries_nov_2025_to_mar_2026.geojson"
 	combined_csv_path = output_dir / "sentinel-1_unique_orbit_geometries.csv"
 	if gdf.empty:
 		write_csv(
@@ -422,7 +434,8 @@ def export_outputs(gdf: gpd.GeoDataFrame, scene_rows: list[dict[str, Any]]) -> N
 				"processing_level",
 				"flight_direction",
 				"path_number",
-				"frame_number",
+				"frame_count",
+				"frame_numbers",
 				"beam_mode",
 				"scene_count",
 				"unique_footprints",
@@ -446,7 +459,8 @@ def export_outputs(gdf: gpd.GeoDataFrame, scene_rows: list[dict[str, Any]]) -> N
 			"processing_level",
 			"flight_direction",
 			"path_number",
-			"frame_number",
+			"frame_count",
+			"frame_numbers",
 			"beam_mode",
 			"scene_count",
 			"unique_footprints",
