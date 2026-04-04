@@ -39,7 +39,8 @@ logging.getLogger("urllib3").setLevel(logging.ERROR)
 # CONFIGURACAO DO USUARIO
 # =========================
 OUTPUT_DIR = DEFAULT_OUTPUT_DIR
-GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 DATE_START = None
 DATE_END = None
 PROCESSING_LEVEL = DEFAULT_PROCESSING_LEVEL
@@ -277,8 +278,8 @@ def write_csv(csv_path: Path, rows: Iterable[dict[str, Any]], fieldnames: list[s
 
 
 def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, Any]]]:
-	filter_geometry = read_filter_geometry(GEOJSON_PATH) if GEOJSON_PATH else None
-	areas = read_search_areas(GEOJSON_PATH)
+	filter_geometry = read_filter_geometry(VALIDATION_GEOJSON_PATH) if VALIDATION_GEOJSON_PATH else None
+	areas = read_search_areas(SEARCH_GEOJSON_PATH)
 	orbit_map: dict[str, dict[str, Any]] = {}
 	scene_rows: list[dict[str, Any]] = []
 

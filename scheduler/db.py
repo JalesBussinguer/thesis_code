@@ -119,7 +119,7 @@ def ensure_bootstrap_data(connection: sqlite3.Connection, config: AppConfig) -> 
 		""",
 		[row + (now_utc, now_utc) for row in POLICY_ROWS],
 	)
-	aoi_hash = _file_hash(config.paths.aoi_path)
+	aoi_hash = _file_hash(config.paths.validation_aoi_path)
 	connection.execute(
 		"""
 		INSERT INTO aois (
@@ -138,7 +138,7 @@ def ensure_bootstrap_data(connection: sqlite3.Connection, config: AppConfig) -> 
 			config.active_aoi_id,
 			config.active_aoi_name,
 			"biome",
-			str(config.paths.aoi_path),
+			str(config.paths.validation_aoi_path),
 			aoi_hash,
 			"EPSG:4326",
 			1,

@@ -20,12 +20,16 @@ class DatabaseBootstrapTests(unittest.TestCase):
 		self.addCleanup(self.temp_dir.cleanup)
 		self.workspace_dir = Path(self.temp_dir.name)
 		self.state_dir = self.workspace_dir / "scheduler_state"
-		self.aoi_path = self.workspace_dir / "datasets" / "cerrado_border.geojson"
-		write_geojson(self.aoi_path, [make_square_aoi_feature()])
+		self.search_aoi_path = self.workspace_dir / "datasets" / "cerrado_bbox.geojson"
+		self.validation_aoi_path = self.workspace_dir / "datasets" / "cerrado_border.geojson"
+		write_geojson(self.search_aoi_path, [make_square_aoi_feature(min_x=-2.0, min_y=-2.0, max_x=2.0, max_y=2.0)])
+		write_geojson(self.validation_aoi_path, [make_square_aoi_feature()])
 		os.environ["SCHEDULER_WORKSPACE_ROOT"] = str(self.workspace_dir)
-		os.environ["SCHEDULER_AOI_PATH"] = str(self.aoi_path)
+		os.environ["SCHEDULER_SEARCH_AOI_PATH"] = str(self.search_aoi_path)
+		os.environ["SCHEDULER_VALIDATION_AOI_PATH"] = str(self.validation_aoi_path)
 		self.addCleanup(os.environ.pop, "SCHEDULER_WORKSPACE_ROOT", None)
-		self.addCleanup(os.environ.pop, "SCHEDULER_AOI_PATH", None)
+		self.addCleanup(os.environ.pop, "SCHEDULER_SEARCH_AOI_PATH", None)
+		self.addCleanup(os.environ.pop, "SCHEDULER_VALIDATION_AOI_PATH", None)
 
 	def test_bootstrap_creates_schema(self) -> None:
 		db_path = bootstrap_temp_db(self.workspace_dir, self.state_dir)
@@ -56,13 +60,14 @@ class DatabaseBootstrapTests(unittest.TestCase):
 		db_path = bootstrap_temp_db(self.workspace_dir, self.state_dir)
 		with closing(sqlite3.connect(db_path)) as connection:
 			row = connection.execute(
-				"SELECT aoi_id, aoi_name, is_active FROM aois WHERE aoi_id = ?",
+				"SELECT aoi_id, aoi_name, is_active, geometry_path FROM aois WHERE aoi_id = ?",
 				("cerrado_biome_v1",),
 			).fetchone()
 		self.assertIsNotNone(row)
 		self.assertEqual(row[0], "cerrado_biome_v1")
 		self.assertEqual(row[1], "Cerrado")
 		self.assertEqual(row[2], 1)
+		self.assertTrue(str(row[3]).endswith("cerrado_border.geojson"))
 
 	def test_foreign_keys_enabled(self) -> None:
 		db_path = bootstrap_temp_db(self.workspace_dir, self.state_dir)

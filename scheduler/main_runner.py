@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from .db import open_connection
+from .geometry_aoi import load_aoi_context
 from .lease import LeaseHeldError, acquire_main_lease, release_main_lease
 from .models import MAIN_LEASE_NAME, RunSummary
 from .runs import close_step_failure, close_step_success, create_run, finalize_run, open_step
@@ -28,6 +29,10 @@ def run(config, mode: str) -> RunSummary:
 			acquire_main_lease(connection, run_id)
 			close_step_success(connection, lease_step_id)
 			load_state_step_id = open_step(connection, run_id, "load_state")
+			load_aoi_context(
+				search_aoi_path=config.paths.search_aoi_path,
+				validation_aoi_path=config.paths.validation_aoi_path,
+			)
 			close_step_success(connection, load_state_step_id)
 			report_step_id = open_step(connection, run_id, "export_reports")
 			close_step_success(connection, report_step_id)

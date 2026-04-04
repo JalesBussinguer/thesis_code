@@ -17,6 +17,8 @@ import requests
 from pystac import Item
 from pystac_client import Client
 from shapely.geometry import mapping
+from shapely.geometry import shape
+from shapely.ops import unary_union
 from tqdm import tqdm
 
 CATALOG_URL = "https://catalog.maap.eo.esa.int/catalogue/"
@@ -36,7 +38,8 @@ DEFAULT_PRODUCT_TYPE_BY_COLLECTION = {
 # =========================
 # CONFIGURACAO DO USUARIO
 # =========================
-GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 OUTPUT_DIR = "H:/biomass_data/"
 COLLECTION = DEFAULT_COLLECTION
 DATETIME_RANGE = "2026-01-01T00:00:00Z/2026-03-31T23:59:59Z"
@@ -56,8 +59,8 @@ CREDENTIALS_FILE = Path("credentials.txt")
 
 
 def validate_configuration() -> None:
-	if not GEOJSON_PATH:
-		raise ValueError("Defina GEOJSON_PATH com o caminho do seu GeoJSON.")
+	if not SEARCH_GEOJSON_PATH:
+		raise ValueError("Defina SEARCH_GEOJSON_PATH com o caminho do GeoJSON de busca.")
 	if not OUTPUT_DIR:
 		raise ValueError("Defina OUTPUT_DIR com o diretorio de saida.")
 	if (
@@ -228,6 +231,33 @@ def read_polygons(geojson_path: str, property_field: str | None) -> list[dict]:
 	return polygon_rows
 
 
+def read_validation_geometry(geojson_path: str | None):
+	if not geojson_path:
+		return None
+	gdf = gpd.read_file(geojson_path)
+	if gdf.empty:
+		raise ValueError("O GeoJSON de validacao nao contem feicoes.")
+	if gdf.crs is None:
+		raise ValueError("O GeoJSON de validacao precisa ter CRS definido.")
+	gdf = gdf.to_crs("EPSG:4326")
+	gdf = gdf.loc[gdf.geometry.notnull() & ~gdf.geometry.is_empty].copy()
+	if gdf.empty:
+		raise ValueError("Nenhuma geometria valida foi encontrada no GeoJSON de validacao.")
+	gdf["geometry"] = gdf.geometry.make_valid()
+	return unary_union(list(gdf.geometry))
+
+
+def item_intersects_validation_aoi(item: Item, validation_geometry) -> bool:
+	if validation_geometry is None:
+		return True
+	if item.geometry is None:
+		return False
+	geometry = shape(item.geometry)
+	if geometry.is_empty:
+		return False
+	return bool(geometry.intersects(validation_geometry))
+
+
 def build_filter(product_type: str | None, extra_filter: str | None) -> str | None:
 	clauses: list[str] = []
 	if product_type:
@@ -356,7 +386,8 @@ def main() -> None:
 	output_dir.mkdir(parents=True, exist_ok=True)
 
 	access_token = get_token()
-	polygons = read_polygons(GEOJSON_PATH, PROPERTY_FIELD)
+	polygons = read_polygons(SEARCH_GEOJSON_PATH, PROPERTY_FIELD)
+	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
 	catalog = Client.open(CATALOG_URL)
 	effective_product_type = PRODUCT_TYPE or DEFAULT_PRODUCT_TYPE_BY_COLLECTION.get(COLLECTION)
 	cql2_filter = build_filter(effective_product_type, ADDITIONAL_FILTER)
@@ -388,6 +419,8 @@ def main() -> None:
 		print(f"  {len(items)} item(ns) encontrado(s).")
 
 		for item in items:
+			if not item_intersects_validation_aoi(item, validation_geometry):
+				continue
 			item_datetime = item.datetime.isoformat() if item.datetime else ""
 
 			for asset_key in ASSET_KEYS:
@@ -440,7 +473,8 @@ def main() -> None:
 
 	manifest_path = write_manifest(output_dir, manifest_rows)
 	summary = {
-		"geojson": str(Path(GEOJSON_PATH).resolve()),
+		"search_geojson": str(Path(SEARCH_GEOJSON_PATH).resolve()),
+		"validation_geojson": str(Path(VALIDATION_GEOJSON_PATH).resolve()),
 		"output_dir": str(output_dir.resolve()),
 		"collection": COLLECTION,
 		"datetime": DATETIME_RANGE,

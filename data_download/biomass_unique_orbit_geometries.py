@@ -37,7 +37,8 @@ DEFAULT_OUTPUT_DIR = ROOT_DIR / "datasets" / "biomass_orbits_unique"
 # CONFIGURACAO DO USUARIO
 # =========================
 OUTPUT_DIR = DEFAULT_OUTPUT_DIR
-GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 COLLECTION = DEFAULT_COLLECTION
 DATETIME_RANGE = DEFAULT_DATETIME
 PRODUCT_TYPE = DEFAULT_PRODUCT_TYPE_BY_COLLECTION.get(COLLECTION)
@@ -47,8 +48,8 @@ WRITE_SCENE_MANIFEST = False
 
 
 def validate_configuration() -> None:
-	if not GEOJSON_PATH:
-		raise ValueError("Defina GEOJSON_PATH com o caminho do GeoJSON de referencia.")
+	if not SEARCH_GEOJSON_PATH:
+		raise ValueError("Defina SEARCH_GEOJSON_PATH com o caminho do GeoJSON de busca.")
 	if not OUTPUT_DIR:
 		raise ValueError("Defina OUTPUT_DIR com o diretorio de saida.")
 	if not COLLECTION:
@@ -95,6 +96,22 @@ def read_search_geometries(geojson_path: str) -> list[dict[str, object]]:
 		raise ValueError("Nenhum Polygon ou MultiPolygon foi encontrado no GeoJSON.")
 
 	return search_geometries
+
+
+def read_validation_geometry(geojson_path: str | None):
+	if not geojson_path:
+		return None
+	gdf = gpd.read_file(geojson_path)
+	if gdf.empty:
+		raise ValueError("O GeoJSON de validacao nao contem feicoes.")
+	if gdf.crs is None:
+		raise ValueError("O GeoJSON de validacao precisa ter CRS definido.")
+	gdf = gdf.to_crs("EPSG:4326")
+	gdf = gdf.loc[gdf.geometry.notnull() & ~gdf.geometry.is_empty].copy()
+	if gdf.empty:
+		raise ValueError("Nenhuma geometria valida foi encontrada no GeoJSON de validacao.")
+	gdf["geometry"] = gdf.geometry.make_valid()
+	return unary_union(list(gdf.geometry))
 
 
 def build_filter(product_type: str | None, extra_filter: str | None) -> str | None:
@@ -164,7 +181,8 @@ def write_csv(csv_path: Path, rows: Iterable[dict[str, Any]], fieldnames: list[s
 
 
 def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, Any]]]:
-	search_geometries = read_search_geometries(GEOJSON_PATH)
+	search_geometries = read_search_geometries(SEARCH_GEOJSON_PATH)
+	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
 	catalog = Client.open(CATALOG_URL)
 	cql2_filter = build_filter(PRODUCT_TYPE, ADDITIONAL_FILTER)
 	orbit_map: dict[str, dict[str, Any]] = {}
@@ -193,6 +211,8 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 
 			geometry = make_valid(shape(item.geometry))
 			if geometry.is_empty:
+				continue
+			if validation_geometry is not None and not geometry.intersects(validation_geometry):
 				continue
 
 			geometry_wkb = geometry.wkb_hex

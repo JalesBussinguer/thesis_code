@@ -7,7 +7,7 @@ Uso padrao:
     python data_download/asf_unique_orbit_geometries.py
 
 Observacoes:
-    - Para inventario global, deixe GEOJSON_PATH, DATE_START e DATE_END como None.
+	- Para inventario global, deixe SEARCH_GEOJSON_PATH, DATE_START e DATE_END como None.
     - Para reduzir consultas globais do Sentinel-1, o script particiona por relative orbit.
     - A geometria final de cada orbita e a uniao das footprints distintas encontradas.
 """
@@ -49,7 +49,8 @@ logging.getLogger("urllib3").setLevel(logging.ERROR)
 # =========================
 DATASETS = ["SENTINEL-1", "NISAR"]
 OUTPUT_DIR = DEFAULT_OUTPUT_DIR
-GEOJSON_PATH = "datasets/cerrado_border.geojson"
+SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 DATE_START = "2026-01-01T00:00:00Z"
 DATE_END = "2026-01-31T23:59:59Z"
 PROCESSING_LEVEL_BY_DATASET = {
@@ -194,6 +195,22 @@ def read_search_areas(geojson_path: str | None) -> list[SearchArea]:
 	return areas
 
 
+def read_validation_geometry(geojson_path: str | None):
+	if not geojson_path:
+		return None
+	gdf = gpd.read_file(geojson_path)
+	if gdf.empty:
+		raise ValueError("O GeoJSON de validacao nao contem feicoes.")
+	if gdf.crs is None:
+		raise ValueError("O GeoJSON de validacao precisa ter CRS definido.")
+	gdf = gdf.to_crs("EPSG:4326")
+	gdf = gdf.loc[gdf.geometry.notnull() & ~gdf.geometry.is_empty].copy()
+	if gdf.empty:
+		raise ValueError("Nenhuma geometria valida foi encontrada no GeoJSON de validacao.")
+	gdf["geometry"] = gdf.geometry.make_valid()
+	return unary_union(list(gdf.geometry))
+
+
 def iter_search_tasks(dataset: str, areas: list[SearchArea]) -> Iterator[SearchTask]:
 	processing_level = PROCESSING_LEVEL_BY_DATASET.get(dataset)
 	relative_orbits = RELATIVE_ORBIT_FILTERS_BY_DATASET.get(dataset) or [None]
@@ -262,7 +279,8 @@ def write_csv(csv_path: Path, rows: Iterable[dict[str, Any]], fieldnames: list[s
 
 
 def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, Any]]]:
-	areas = read_search_areas(GEOJSON_PATH)
+	areas = read_search_areas(SEARCH_GEOJSON_PATH)
+	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
 	orbit_map: dict[str, dict[str, Any]] = {}
 	scene_rows: list[dict[str, Any]] = []
 
@@ -294,6 +312,8 @@ def collect_unique_orbit_geometries() -> tuple[gpd.GeoDataFrame, list[dict[str, 
 						continue
 					orbit_key = build_orbit_key(properties, dataset)
 					geometry = load_wkt_text(geometry_wkt_text)
+					if validation_geometry is not None and not geometry.intersects(validation_geometry):
+						continue
 					geometry_wkb = geometry.wkb_hex
 					path_number = properties.get("pathNumber") or properties.get("track") or properties.get("relativeOrbit")
 					example_scene = properties.get("sceneName") or properties.get("granuleName") or properties.get("fileName")

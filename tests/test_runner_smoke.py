@@ -22,12 +22,16 @@ class RunnerSmokeTests(unittest.TestCase):
 		self.addCleanup(self.temp_dir.cleanup)
 		self.workspace_dir = Path(self.temp_dir.name)
 		self.state_dir = self.workspace_dir / "scheduler_state"
-		self.aoi_path = self.workspace_dir / "datasets" / "cerrado_border.geojson"
-		write_geojson(self.aoi_path, [make_square_aoi_feature()])
+		self.search_aoi_path = self.workspace_dir / "datasets" / "cerrado_bbox.geojson"
+		self.validation_aoi_path = self.workspace_dir / "datasets" / "cerrado_border.geojson"
+		write_geojson(self.search_aoi_path, [make_square_aoi_feature(min_x=-2.0, min_y=-2.0, max_x=2.0, max_y=2.0)])
+		write_geojson(self.validation_aoi_path, [make_square_aoi_feature()])
 		os.environ["SCHEDULER_WORKSPACE_ROOT"] = str(self.workspace_dir)
-		os.environ["SCHEDULER_AOI_PATH"] = str(self.aoi_path)
+		os.environ["SCHEDULER_SEARCH_AOI_PATH"] = str(self.search_aoi_path)
+		os.environ["SCHEDULER_VALIDATION_AOI_PATH"] = str(self.validation_aoi_path)
 		self.addCleanup(os.environ.pop, "SCHEDULER_WORKSPACE_ROOT", None)
-		self.addCleanup(os.environ.pop, "SCHEDULER_AOI_PATH", None)
+		self.addCleanup(os.environ.pop, "SCHEDULER_SEARCH_AOI_PATH", None)
+		self.addCleanup(os.environ.pop, "SCHEDULER_VALIDATION_AOI_PATH", None)
 		self.db_path = bootstrap_temp_db(self.workspace_dir, self.state_dir)
 
 	def _load_config(self):

@@ -4,13 +4,13 @@ import json
 from pathlib import Path
 
 
-def make_square_aoi_feature() -> dict:
+def make_square_aoi_feature(min_x: float = -1.0, min_y: float = -1.0, max_x: float = 1.0, max_y: float = 1.0) -> dict:
 	return {
 		"type": "Feature",
 		"properties": {"name": "test_aoi"},
 		"geometry": {
 			"type": "Polygon",
-			"coordinates": [[[-1.0, -1.0], [-1.0, 1.0], [1.0, 1.0], [1.0, -1.0], [-1.0, -1.0]]],
+			"coordinates": [[[min_x, min_y], [min_x, max_y], [max_x, max_y], [max_x, min_y], [min_x, min_y]]],
 		},
 	}
 

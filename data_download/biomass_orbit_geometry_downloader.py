@@ -23,7 +23,7 @@ import geopandas as gpd
 import requests
 from pystac import Item
 from pystac_client import Client
-from shapely.geometry import MultiPolygon, Polygon, mapping
+from shapely.geometry import MultiPolygon, Polygon, mapping, shape
 from shapely.ops import unary_union
 from shapely.validation import make_valid
 
@@ -48,7 +48,8 @@ DEFAULT_GEOJSON_PATH = DEFAULT_OUTPUT_DIR / "biomass_orbits.geojson"
 # =========================
 # CONFIGURACAO DO USUARIO
 # =========================
-GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
+VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 OUTPUT_DIR = DEFAULT_OUTPUT_DIR
 MANIFEST_PATH = DEFAULT_MANIFEST_PATH
 COMBINED_GEOJSON_PATH = DEFAULT_GEOJSON_PATH
@@ -91,8 +92,8 @@ class OrbitCandidate:
 
 
 def validate_configuration() -> None:
-	if not GEOJSON_PATH:
-		raise ValueError("Defina GEOJSON_PATH com o caminho do GeoJSON de referencia.")
+	if not SEARCH_GEOJSON_PATH:
+		raise ValueError("Defina SEARCH_GEOJSON_PATH com o caminho do GeoJSON de busca.")
 	if not OUTPUT_DIR:
 		raise ValueError("Defina OUTPUT_DIR com o diretorio de saida.")
 	if not COLLECTION:
@@ -273,6 +274,22 @@ def read_polygons(geojson_path: str) -> list[SearchPolygon]:
 	return polygons
 
 
+def read_validation_geometry(geojson_path: str | None):
+	if not geojson_path:
+		return None
+	gdf = gpd.read_file(geojson_path)
+	if gdf.empty:
+		raise ValueError("O GeoJSON de validacao nao contem feicoes.")
+	if gdf.crs is None:
+		raise ValueError("O GeoJSON de validacao precisa ter CRS definido.")
+	gdf = gdf.to_crs("EPSG:4326")
+	gdf = gdf.loc[gdf.geometry.notnull() & ~gdf.geometry.is_empty].copy()
+	if gdf.empty:
+		raise ValueError("Nenhuma geometria valida foi encontrada no GeoJSON de validacao.")
+	gdf["geometry"] = gdf.geometry.make_valid()
+	return unary_union(list(gdf.geometry))
+
+
 def build_filter(product_type: str | None, extra_filter: str | None) -> str | None:
 	clauses: list[str] = []
 	if product_type:
@@ -347,7 +364,8 @@ def is_candidate_newer(current: OrbitCandidate, incoming: OrbitCandidate) -> boo
 
 
 def collect_unique_orbits() -> list[OrbitCandidate]:
-	polygons = read_polygons(GEOJSON_PATH)
+	polygons = read_polygons(SEARCH_GEOJSON_PATH)
+	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
 	catalog = Client.open(CATALOG_URL)
 	cql2_filter = build_filter(PRODUCT_TYPE, ADDITIONAL_FILTER)
 	orbits: dict[str, OrbitCandidate] = {}
@@ -367,6 +385,12 @@ def collect_unique_orbits() -> list[OrbitCandidate]:
 			if item.id in seen_items:
 				continue
 			seen_items.add(item.id)
+			if validation_geometry is not None:
+				if item.geometry is None:
+					continue
+				item_geometry = make_valid(shape(item.geometry))
+				if item_geometry.is_empty or not item_geometry.intersects(validation_geometry):
+					continue
 
 			product_name = normalize_token_value(item.properties.get("title")) or item.id
 			orbit_key, track, frame = build_orbit_key(product_name)
