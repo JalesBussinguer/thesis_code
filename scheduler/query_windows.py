@@ -85,6 +85,7 @@ def materialize_poll_queue(
 	scheduled_for_utc: str,
 	reason: str,
 	priority: int = 100,
+	predicted_event_id: str | None = None,
 ) -> str:
 	now_utc = current_utc()
 	queue_item_id = f"queue-{uuid.uuid4()}"
@@ -96,6 +97,7 @@ def materialize_poll_queue(
 			created_at_utc, claimed_by_run_id, claimed_at_utc, finished_at_utc, updated_at_utc
 		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		ON CONFLICT(query_window_id) DO UPDATE SET
+			predicted_event_id = COALESCE(excluded.predicted_event_id, poll_queue.predicted_event_id),
 			scheduled_for_utc = excluded.scheduled_for_utc,
 			priority = excluded.priority,
 			reason = excluded.reason,
@@ -106,7 +108,7 @@ def materialize_poll_queue(
 			dataset.upper(),
 			aoi_id,
 			orbit_scope_key,
-			None,
+			predicted_event_id,
 			query_window_id,
 			scheduled_for_utc,
 			"pending",
@@ -122,6 +124,69 @@ def materialize_poll_queue(
 	connection.commit()
 	row = connection.execute("SELECT queue_item_id FROM poll_queue WHERE query_window_id = ?", (query_window_id,)).fetchone()
 	return row["queue_item_id"]
+
+
+def plan_predicted_window(
+	connection: sqlite3.Connection,
+	predicted_event: sqlite3.Row,
+	reason: str = "predicted_poll",
+	priority: int = 50,
+	now_utc: str | None = None,
+) -> str:
+	planned_at_utc = now_utc or current_utc()
+	query_window_id = build_query_window_id(
+		dataset=predicted_event["dataset"],
+		aoi_id=predicted_event["aoi_id"],
+		orbit_scope_key=predicted_event["orbit_scope_key"],
+		window_start_utc=predicted_event["availability_start_utc"],
+		window_end_utc=predicted_event["availability_end_utc"],
+		window_role="active_window",
+	)
+	connection.execute(
+		"""
+		INSERT INTO query_windows (
+			query_window_id, dataset, aoi_id, orbit_scope_key, window_start_utc,
+			window_end_utc, window_role, planned_at_utc, executed_in_run_id,
+			status, retry_count, next_retry_at_utc, response_fingerprint,
+			result_count, error_class, error_message, created_at_utc, updated_at_utc
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT(dataset, aoi_id, orbit_scope_key, window_start_utc, window_end_utc, window_role)
+		DO UPDATE SET planned_at_utc = excluded.planned_at_utc, updated_at_utc = excluded.updated_at_utc
+		""",
+		(
+			query_window_id,
+			predicted_event["dataset"],
+			predicted_event["aoi_id"],
+			predicted_event["orbit_scope_key"],
+			predicted_event["availability_start_utc"],
+			predicted_event["availability_end_utc"],
+			"active_window",
+			planned_at_utc,
+			None,
+			"planned",
+			0,
+			None,
+			None,
+			None,
+			None,
+			None,
+			planned_at_utc,
+			planned_at_utc,
+		),
+	)
+	connection.commit()
+	materialize_poll_queue(
+		connection,
+		dataset=predicted_event["dataset"],
+		aoi_id=predicted_event["aoi_id"],
+		orbit_scope_key=predicted_event["orbit_scope_key"],
+		query_window_id=query_window_id,
+		scheduled_for_utc=predicted_event["availability_start_utc"],
+		reason=reason,
+		priority=priority,
+		predicted_event_id=predicted_event["predicted_event_id"],
+	)
+	return query_window_id
 
 
 def claim_poll_queue_item(connection: sqlite3.Connection, queue_item_id: str, run_id: str) -> None:

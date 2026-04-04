@@ -13,10 +13,11 @@ from .db import current_utc
 from .downloads import queue_product_assets
 from .geometry_aoi import compute_intersection_metrics
 from .policies import get_enabled_policy
+from .prediction import ensure_predicted_event, refresh_predicted_event_states, update_predicted_event_after_query
 from .providers import build_discovery_context
 from .providers.biomass import discover_items, item_to_product
 from .providers.asf import discover_records, record_to_product
-from .query_windows import claim_poll_queue_item, complete_poll_queue_item, mark_query_window_executed, plan_discovery_window
+from .query_windows import claim_poll_queue_item, complete_poll_queue_item, mark_query_window_executed, plan_predicted_window
 from .reconciliation import upsert_product, upsert_product_assets
 
 
@@ -40,6 +41,12 @@ def list_poll_candidates(connection: sqlite3.Connection, datasets: set[str] | No
 			ob.frame_code,
 			oda.aoi_id,
 			dp.policy_id,
+			ob.first_seen_acquisition_utc,
+			ob.last_seen_acquisition_utc,
+			ob.median_gap_hours,
+			ob.p90_gap_hours,
+			ob.confidence_score,
+			ob.last_calibrated_at_utc,
 			dp.query_margin_hours,
 			CASE
 				WHEN ob.dataset = 'BIOMASS' THEN NULL
@@ -67,22 +74,20 @@ def execute_poll_only(
 	candidates = list_poll_candidates(connection, SUPPORTED_POLL_DATASETS)
 	results = {
 		"candidates": len(candidates),
+		"predicted_events": 0,
 		"query_windows": 0,
 		"records_found": 0,
 		"products_upserted": 0,
 		"queue_items_completed": 0,
 	}
+	refresh_predicted_event_states(connection)
 	for orbit_row in candidates:
 		policy = get_enabled_policy(connection, orbit_row["dataset"])
 		if policy is None:
 			continue
-		query_window_id = plan_discovery_window(
-			connection,
-			dataset=orbit_row["dataset"],
-			aoi_id=orbit_row["aoi_id"],
-			orbit_scope_key=orbit_row["orbit_scope_key"],
-			query_margin_hours=policy["query_margin_hours"],
-		)
+		predicted_event = ensure_predicted_event(connection, orbit_row, policy)
+		results["predicted_events"] += 1
+		query_window_id = plan_predicted_window(connection, predicted_event)
 		results["query_windows"] += 1
 		window_row = connection.execute(
 			"SELECT * FROM query_windows WHERE query_window_id = ?",
@@ -104,6 +109,7 @@ def execute_poll_only(
 			status = "results_found" if records else "empty"
 			mark_query_window_executed(connection, query_window_id, run_id, status, len(records), response_fingerprint)
 			_insert_api_observation(connection, query_window_id, run_id, orbit_row["dataset"], response_fingerprint, len(records), "ok" if records else "empty")
+			update_predicted_event_after_query(connection, predicted_event["predicted_event_id"], len(records))
 			results["records_found"] += len(records)
 			validation_geometry = load_wkt(context.validation_geometry_wkt)
 			for record in records:
@@ -119,6 +125,7 @@ def execute_poll_only(
 					connection,
 					orbit_row["aoi_id"],
 					product,
+					first_query_window_id=query_window_id,
 					intersects_aoi=intersection.intersects,
 					intersection_fraction=intersection.intersection_fraction,
 					coverage_id=coverage_id,

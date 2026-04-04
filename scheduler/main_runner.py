@@ -6,6 +6,7 @@ from .geometry_aoi import load_aoi_context
 from .lease import LeaseHeldError, acquire_main_lease, release_main_lease
 from .models import MAIN_LEASE_NAME, RunSummary
 from .polling import execute_poll_only
+from .reporting import export_run_report
 from .runs import close_step_failure, close_step_success, create_run, finalize_run, open_step
 
 
@@ -55,7 +56,8 @@ def run(config, mode: str, request_get=None, downloader=None) -> RunSummary:
 					records_out=download_summary["downloaded_assets"],
 				)
 			report_step_id = open_step(connection, run_id, "export_reports")
-			close_step_success(connection, report_step_id)
+			report_outputs = export_run_report(connection, config, run_id)
+			close_step_success(connection, report_step_id, records_out=len(report_outputs))
 		except Exception as error:
 			close_step_failure(connection, lease_step_id, error)
 			finalize_run(connection, run_id, "failed", 1, str(error))

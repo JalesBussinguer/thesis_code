@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import sqlite3
 import tempfile
@@ -55,7 +56,19 @@ class RunnerSmokeTests(unittest.TestCase):
 			}
 		self.assertIn("acquire_lease", steps)
 		self.assertIn("load_state", steps)
+		self.assertIn("export_reports", steps)
 		self.assertIn("release_lease", steps)
+
+	def test_runner_exports_report_files(self) -> None:
+		summary = run(self._load_config(), "dry-run")
+		markdown_report = self.state_dir / "reports" / f"{summary.run_id}_summary.md"
+		json_report = self.state_dir / "exports" / f"{summary.run_id}_summary.json"
+		self.assertTrue(markdown_report.exists())
+		self.assertTrue(json_report.exists())
+		report_payload = json.loads(json_report.read_text(encoding="utf-8"))
+		self.assertIn("catalog_dataset_summary", report_payload)
+		self.assertIn("asset_status_summary", report_payload)
+		self.assertIn("predicted_event_status_summary", report_payload)
 
 	def test_runner_releases_lease_on_success(self) -> None:
 		cli_main(["--mode", "dry-run", "--state-dir", str(self.state_dir)])

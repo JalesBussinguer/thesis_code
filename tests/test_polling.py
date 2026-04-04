@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 import os
 import sqlite3
 import tempfile
 import unittest
+import zipfile
 from contextlib import closing
 from pathlib import Path
 
@@ -24,6 +26,10 @@ class _FakeResponse:
 
 	def json(self):
 		return self._payload
+
+
+def _fake_asf_get_empty(url, params=None, timeout=None):
+	return _FakeResponse([])
 
 
 def _fake_asf_get(url, params=None, timeout=None):
@@ -74,8 +80,17 @@ def _fake_biomass_search(**kwargs):
 
 def _fake_downloader(url: str, destination: Path):
 	destination.parent.mkdir(parents=True, exist_ok=True)
-	destination.write_bytes(b"test-bytes")
-	return len(b"test-bytes"), len(b"test-bytes")
+	with zipfile.ZipFile(destination, "w") as archive:
+		archive.writestr("payload.txt", "test-bytes")
+	file_size = destination.stat().st_size
+	return file_size, file_size
+
+
+def _fake_bad_zip_downloader(url: str, destination: Path):
+	destination.parent.mkdir(parents=True, exist_ok=True)
+	destination.write_bytes(b"not-a-zip")
+	file_size = destination.stat().st_size
+	return file_size, file_size
 
 
 class PollingTests(unittest.TestCase):
@@ -166,14 +181,30 @@ class PollingTests(unittest.TestCase):
 		self.assertTrue(summary.run_id.startswith("run-"))
 		with closing(sqlite3.connect(self.db_path)) as connection:
 			window_count = connection.execute("SELECT COUNT(*) FROM query_windows").fetchone()[0]
+			predicted_count = connection.execute("SELECT COUNT(*) FROM predicted_events").fetchone()[0]
 			product_count = connection.execute("SELECT COUNT(*) FROM products").fetchone()[0]
 			obs_count = connection.execute("SELECT COUNT(*) FROM api_observations").fetchone()[0]
 		self.assertEqual(window_count, 1)
+		self.assertEqual(predicted_count, 1)
 		self.assertEqual(product_count, 1)
 		self.assertEqual(obs_count, 1)
 		with closing(sqlite3.connect(self.db_path)) as connection:
 			queue_count = connection.execute("SELECT COUNT(*) FROM poll_queue WHERE queue_state = 'completed'").fetchone()[0]
+			predicted_status = connection.execute("SELECT status FROM predicted_events").fetchone()[0]
+			queue_event_id = connection.execute("SELECT predicted_event_id FROM poll_queue").fetchone()[0]
 		self.assertEqual(queue_count, 1)
+		self.assertEqual(predicted_status, "satisfied")
+		self.assertIsNotNone(queue_event_id)
+
+	def test_poll_only_marks_overdue_prediction_as_missed_when_empty(self) -> None:
+		run(self._load_config(), "poll-only", request_get={"SENTINEL-1": _fake_asf_get_empty})
+		with closing(sqlite3.connect(self.db_path)) as connection:
+			predicted_status = connection.execute("SELECT status FROM predicted_events").fetchone()[0]
+			window_status = connection.execute("SELECT status FROM query_windows").fetchone()[0]
+			product_count = connection.execute("SELECT COUNT(*) FROM products").fetchone()[0]
+		self.assertEqual(predicted_status, "missed")
+		self.assertEqual(window_status, "empty")
+		self.assertEqual(product_count, 0)
 
 	def test_poll_only_supports_biomass_provider_dispatch(self) -> None:
 		with closing(open_connection(self.db_path)) as connection:
@@ -246,10 +277,34 @@ class PollingTests(unittest.TestCase):
 		summary = run(self._load_config(), "download-only", downloader=_fake_downloader)
 		self.assertTrue(summary.run_id.startswith("run-"))
 		with closing(sqlite3.connect(self.db_path)) as connection:
-			asset_status = connection.execute("SELECT asset_status FROM product_assets WHERE asset_key = 'primary'").fetchone()[0]
+			asset_row = connection.execute("SELECT asset_status, integrity_status FROM product_assets WHERE asset_key = 'primary'").fetchone()
 			download_count = connection.execute("SELECT COUNT(*) FROM downloads WHERE status = 'succeeded'").fetchone()[0]
-		self.assertEqual(asset_status, "downloaded")
+			integrity_count = connection.execute("SELECT COUNT(*) FROM file_integrity_checks").fetchone()[0]
+			observation_count = connection.execute("SELECT COUNT(*) FROM api_observations WHERE endpoint_name = 'earthdata_download'").fetchone()[0]
+		self.assertEqual(asset_row[0], "downloaded")
+		self.assertEqual(asset_row[1], "ok")
 		self.assertEqual(download_count, 1)
+		self.assertGreaterEqual(integrity_count, 4)
+		self.assertEqual(observation_count, 1)
+
+	def test_download_only_records_anomaly_for_failed_integrity(self) -> None:
+		run(self._load_config(), "poll-only", request_get={"SENTINEL-1": _fake_asf_get})
+		summary = run(self._load_config(), "download-only", downloader=_fake_bad_zip_downloader)
+		with closing(sqlite3.connect(self.db_path)) as connection:
+			asset_row = connection.execute("SELECT asset_status, integrity_status FROM product_assets WHERE asset_key = 'primary'").fetchone()
+			product_status = connection.execute("SELECT current_status FROM products").fetchone()[0]
+			anomaly_count = connection.execute("SELECT COUNT(*) FROM anomalies WHERE anomaly_type = 'integrity_failed'").fetchone()[0]
+			partial_download_observations = connection.execute("SELECT COUNT(*) FROM api_observations WHERE endpoint_name = 'earthdata_download' AND observation_status = 'partial'").fetchone()[0]
+		self.assertEqual(asset_row[0], "quarantined")
+		self.assertEqual(asset_row[1], "failed")
+		self.assertEqual(product_status, "quarantined")
+		self.assertEqual(anomaly_count, 1)
+		self.assertEqual(partial_download_observations, 1)
+		report_path = self.state_dir / "exports" / f"{summary.run_id}_summary.json"
+		report_payload = json.loads(report_path.read_text(encoding="utf-8"))
+		self.assertEqual(report_payload["counts"]["quarantined_assets"], 1)
+		self.assertEqual(report_payload["counts"]["quarantined_products"], 1)
+		self.assertEqual(report_payload["catalog_dataset_summary"][0]["quarantined_assets"], 1)
 
 	def test_full_run_polls_and_downloads_in_single_run(self) -> None:
 		summary = run(
