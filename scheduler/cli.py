@@ -40,10 +40,18 @@ def main(argv: list[str] | None = None) -> int:
 			print("Scheduler database not found. Run: python -m scheduler --bootstrap-db")
 			return 3
 		run_summary = run(config, mode=args.mode)
-		print(
-			f"Dry-run completed: run_id={run_summary.run_id} | lease released | "
-			"no external queries executed"
-		)
+		if args.mode == "dry-run":
+			print(
+				f"Dry-run completed: run_id={run_summary.run_id} | lease released | "
+				"no external queries executed"
+			)
+		else:
+			message = {
+				"poll-only": "Poll-only completed",
+				"download-only": "Download-only completed",
+				"full-run": "Full-run completed",
+			}[args.mode]
+			print(f"{message}: run_id={run_summary.run_id} | lease released")
 		return 0
 	except LeaseHeldError as error:
 		print(str(error))

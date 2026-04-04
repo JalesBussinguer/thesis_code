@@ -9,6 +9,7 @@ def build_paths(
 	repo_root: Path,
 	state_dir: Path | None = None,
 	database_path: Path | None = None,
+	credentials_path: Path | None = None,
 	search_aoi_path: Path | None = None,
 	validation_aoi_path: Path | None = None,
 ) -> SchedulerPaths:
@@ -22,6 +23,7 @@ def build_paths(
 		repo_root=repo_root,
 		state_dir=resolved_state_dir,
 		database_path=resolved_db_path,
+		credentials_path=(credentials_path or (repo_root / "credentials.txt")).resolve(),
 		logs_dir=resolved_state_dir / "logs",
 		reports_dir=resolved_state_dir / "reports",
 		exports_dir=resolved_state_dir / "exports",

@@ -15,6 +15,7 @@ class SchedulerPaths:
 	repo_root: Path
 	state_dir: Path
 	database_path: Path
+	credentials_path: Path
 	logs_dir: Path
 	reports_dir: Path
 	exports_dir: Path
@@ -72,6 +73,10 @@ class ProductRecord:
 	path_number: int | None = None
 	frame_number: int | None = None
 	beam_mode: str | None = None
+	mode: str | None = None
+	orbit_state: str | None = None
+	track_number: int | None = None
+	frame_code: str | None = None
 	flight_direction: str | None = None
 	acquisition_start_utc: str | None = None
 	acquisition_stop_utc: str | None = None
