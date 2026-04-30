@@ -333,25 +333,43 @@ def main() -> None:
 	print(f"[SENTINEL-1] Cenas unicas apos filtragem: {len(seen)}", flush=True)
 
 	manifest_rows: list[dict[str, Any]] = []
-	for product in seen.values():
+	products_list = list(seen.values())
+	total = len(products_list)
+	downloaded_count = skipped_count = error_count = 0
+
+	print(f"[SENTINEL-1] Iniciando downloads: {total} cena(s) em {output_dir}", flush=True)
+	print(f"[SENTINEL-1] {'=' * 60}", flush=True)
+
+	for idx, product in enumerate(products_list, start=1):
 		props = product.properties
 		url = props.get("url") or props.get("downloadUrl") or ""
 		filename = props.get("fileName") or props.get("sceneName") or "unknown"
 		destination = output_dir / filename
+		size_mb = props.get("sizeMB", "")
+		size_label = f" ({size_mb} MB)" if size_mb else ""
+		prefix = f"[{idx:>{len(str(total))}}/{total}]"
 
 		if not url:
 			status = "no_url"
+			print(f"[SENTINEL-1] {prefix} SEM URL   - {filename}", flush=True)
 		elif destination.exists() and SKIP_EXISTING:
 			status = "skipped"
+			skipped_count += 1
+			print(f"[SENTINEL-1] {prefix} PULADO    - {filename}{size_label}", flush=True)
 		elif not auth_available:
 			status = "missing_auth"
+			print(f"[SENTINEL-1] {prefix} SEM AUTH  - {filename}{size_label}", flush=True)
 		else:
+			print(f"[SENTINEL-1] {prefix} Baixando  - {filename}{size_label} ...", flush=True)
 			try:
 				asf.download_url(url=url, path=str(output_dir), filename=filename, session=session)
 				status = "downloaded"
+				downloaded_count += 1
+				print(f"[SENTINEL-1] {prefix} OK        - {filename}", flush=True)
 			except Exception as err:
-				print(f"[SENTINEL-1] Erro ao baixar {filename}: {err}", flush=True)
 				status = "error"
+				error_count += 1
+				print(f"[SENTINEL-1] {prefix} ERRO      - {filename}: {err}", flush=True)
 
 		manifest_rows.append({
 			"product_id": props.get("fileID") or props.get("sceneName", ""),
@@ -372,7 +390,8 @@ def main() -> None:
 		})
 
 	manifest_path = write_manifest(output_dir=output_dir, rows=manifest_rows)
-	print(f"[SENTINEL-1] Total no manifesto: {len(manifest_rows)}", flush=True)
+	print(f"[SENTINEL-1] {'=' * 60}", flush=True)
+	print(f"[SENTINEL-1] Resumo: {downloaded_count} baixado(s) | {skipped_count} pulado(s) | {error_count} erro(s) | {len(manifest_rows)} total", flush=True)
 	print(f"[SENTINEL-1] Manifesto salvo em: {manifest_path}", flush=True)
 
 
