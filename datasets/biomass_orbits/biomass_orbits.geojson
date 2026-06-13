@@ -1,63 +1,5020 @@
 {
-"type": "FeatureCollection",
-"name": "biomass_orbits",
-"features": [
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F292", "source_file": "SCS_T006_F292.kml", "product_name": "BIO_S1_SCS__1S_20251121T094836_20251121T094857_T_G01_M01_C01_T006_F292_01_DJUQIZ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:48:36", "stop_date_and_time": "2025-11-21T09:48:57", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "292", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.483735, -21.16994 ], [ -57.093324, -21.283734 ], [ -56.818926, -22.543963 ], [ -56.20185, -22.429964 ], [ -56.483735, -21.16994 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F293", "source_file": "SCS_T006_F293.kml", "product_name": "BIO_S1_SCS__1S_20251121T094855_20251121T094916_T_G01_M01_C01_T006_F293_01_DJUQJS", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:48:55", "stop_date_and_time": "2025-11-21T09:49:16", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "293", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.733962, -20.016017 ], [ -57.337671, -20.129783 ], [ -57.064962, -21.390419 ], [ -56.454196, -21.276484 ], [ -56.733962, -20.016017 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F294", "source_file": "SCS_T006_F294.kml", "product_name": "BIO_S1_SCS__1S_20251121T094914_20251121T094935_T_G01_M01_C01_T006_F294_01_DJUQJI", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:49:14", "stop_date_and_time": "2025-11-21T09:49:35", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "294", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.98263, -18.861947 ], [ -57.5808, -18.975709 ], [ -57.309617, -20.236678 ], [ -56.704809, -20.122783 ], [ -56.98263, -18.861947 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F296", "source_file": "SCS_T006_F296.kml", "product_name": "BIO_S1_SCS__1S_20251121T094952_20251121T095013_T_G01_M01_C01_T006_F296_01_DJUQPI", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:49:52", "stop_date_and_time": "2025-11-21T09:50:13", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "296", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -57.478455, -16.553539 ], [ -58.064546, -16.666971 ], [ -57.795921, -17.928549 ], [ -57.204011, -17.815053 ], [ -57.478455, -16.553539 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F297", "source_file": "SCS_T006_F297.kml", "product_name": "BIO_S1_SCS__1S_20251121T095011_20251121T095032_T_G01_M01_C01_T006_F297_01_DNGCS6", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:50:11", "stop_date_and_time": "2025-11-21T09:50:32", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "297", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -57.724368, -15.411317 ], [ -58.306592, -15.524926 ], [ -58.042109, -16.762572 ], [ -57.455607, -16.649133 ], [ -57.724368, -15.411317 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F298", "source_file": "SCS_T006_F298.kml", "product_name": "BIO_S1_SCS__1S_20251121T095030_20251121T095051_T_G01_M01_C01_T006_F298_01_DJUQNJ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:50:30", "stop_date_and_time": "2025-11-21T09:50:51", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "298", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -57.967824, -14.243682 ], [ -58.54543, -14.357326 ], [ -58.278729, -15.619435 ], [ -57.696056, -15.505792 ], [ -57.967824, -14.243682 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F299", "source_file": "SCS_T006_F299.kml", "product_name": "BIO_S1_SCS__1S_20251121T095049_20251121T095110_T_G01_M01_C01_T006_F299_01_DJUQKZ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:50:49", "stop_date_and_time": "2025-11-21T09:51:10", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "299", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -58.211402, -13.088473 ], [ -58.784995, -13.202212 ], [ -58.519029, -14.464559 ], [ -57.940732, -14.350853 ], [ -58.211402, -13.088473 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F300", "source_file": "SCS_T006_F300.kml", "product_name": "BIO_S1_SCS__1S_20251121T095108_20251121T095129_T_G01_M01_C01_T006_F300_01_DNQLJC", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:51:08", "stop_date_and_time": "2025-11-21T09:51:29", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "300", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -58.457445, -11.946165 ], [ -59.027526, -12.060039 ], [ -58.770929, -13.299483 ], [ -58.196254, -13.185619 ], [ -58.457445, -11.946165 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T006_F301", "source_file": "SCS_T006_F301.kml", "product_name": "BIO_S1_SCS__1S_20251121T095127_20251121T095148_T_G01_M01_C01_T006_F301_01_DNGCYZ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-21T09:51:27", "stop_date_and_time": "2025-11-21T09:51:48", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "006", "frame_number": "301", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -58.701312, -10.790903 ], [ -59.268709, -10.905063 ], [ -59.008402, -12.143822 ], [ -58.437485, -12.029837 ], [ -58.701312, -10.790903 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F297", "source_file": "SCS_T020_F297.kml", "product_name": "BIO_S1_SCS__1S_20251122T084445_20251122T084505_T_G01_M01_C01_T020_F297_01_DJXN09", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:44:45", "stop_date_and_time": "2025-11-22T08:45:05", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "297", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -41.362624, -15.399074 ], [ -41.943524, -15.512452 ], [ -41.675941, -16.774262 ], [ -41.089613, -16.660854 ], [ -41.362624, -15.399074 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F298", "source_file": "SCS_T020_F298.kml", "product_name": "BIO_S1_SCS__1S_20251122T084504_20251122T084524_T_G01_M01_C01_T020_F298_01_DJWRXB", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:45:04", "stop_date_and_time": "2025-11-22T08:45:24", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "298", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -41.606795, -14.244039 ], [ -42.183812, -14.357573 ], [ -41.917116, -15.619639 ], [ -41.335041, -15.506107 ], [ -41.606795, -14.244039 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F299", "source_file": "SCS_T020_F299.kml", "product_name": "BIO_S1_SCS__1S_20251122T084523_20251122T084543_T_G01_M01_C01_T020_F299_01_DJXN02", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:45:23", "stop_date_and_time": "2025-11-22T08:45:43", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "299", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -41.850376, -13.088805 ], [ -42.423387, -13.202434 ], [ -42.157426, -14.464737 ], [ -41.57972, -14.351141 ], [ -41.850376, -13.088805 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F304", "source_file": "SCS_T020_F304.kml", "product_name": "BIO_S1_SCS__1S_20251125T084700_20251125T084720_T_G01_M01_C02_T020_F304_01_DKCSXK", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-25T08:47:00", "stop_date_and_time": "2025-11-25T08:47:20", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "02", "track_number": "020", "frame_number": "304", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -43.069904, -7.310347 ], [ -43.628925, -7.425133 ], [ -43.364472, -8.688358 ], [ -42.802455, -8.573759 ], [ -43.069904, -7.310347 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F305", "source_file": "SCS_T020_F305.kml", "product_name": "BIO_S1_SCS__1S_20251122T084717_20251122T084737_T_G01_M01_C01_T020_F305_01_DJXN15", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:47:17", "stop_date_and_time": "2025-11-22T08:47:37", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "305", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -43.304241, -6.154527 ], [ -43.860748, -6.269492 ], [ -43.596188, -7.532839 ], [ -43.037011, -7.418091 ], [ -43.304241, -6.154527 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F306", "source_file": "SCS_T020_F306.kml", "product_name": "BIO_S1_SCS__1S_20251122T084728_20251122T084756_T_G01_M01_C01_T020_F306_01_DJXN18", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:47:28", "stop_date_and_time": "2025-11-22T08:47:56", "duration_s": "28", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "306", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -43.547463, -4.998758 ], [ -44.102015, -5.113989 ], [ -43.73663, -6.857621 ], [ -43.178745, -6.742723 ], [ -43.547463, -4.998758 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F307", "source_file": "SCS_T020_F307.kml", "product_name": "BIO_S1_SCS__1S_20251122T084755_20251122T084815_T_G01_M01_C01_T020_F307_01_DJXN0J", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:47:55", "stop_date_and_time": "2025-11-22T08:48:15", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "307", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -43.789978, -3.842674 ], [ -44.341882, -3.957994 ], [ -44.076675, -5.221494 ], [ -43.522742, -5.106451 ], [ -43.789978, -3.842674 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T020_F308", "source_file": "SCS_T020_F308.kml", "product_name": "BIO_S1_SCS__1S_20251122T084814_20251122T084834_T_G01_M01_C01_T020_F308_01_DNQY3B", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T08:48:14", "stop_date_and_time": "2025-11-22T08:48:34", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "020", "frame_number": "308", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -44.030793, -2.698733 ], [ -44.58065, -2.814228 ], [ -44.320604, -4.054035 ], [ -43.76828, -3.938678 ], [ -44.030793, -2.698733 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F158", "source_file": "SCS_T028_F158.kml", "product_name": "BIO_S1_SCS__1S_20251122T210606_20251122T210627_T_G01_M01_C01_T028_F158_01_DKLZ2Q", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:06:06", "stop_date_and_time": "2025-11-22T21:06:27", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "158", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -44.880836, -4.05063 ], [ -44.330146, -4.165643 ], [ -44.064217, -2.90207 ], [ -44.613098, -2.786793 ], [ -44.880836, -4.05063 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F159", "source_file": "SCS_T028_F159.kml", "product_name": "BIO_S1_SCS__1S_20251122T210625_20251122T210646_T_G01_M01_C01_T028_F159_01_DKLZ39", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:06:25", "stop_date_and_time": "2025-11-22T21:06:46", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "159", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -45.123992, -5.206728 ], [ -44.569696, -5.321868 ], [ -44.304218, -4.058284 ], [ -44.85638, -3.942909 ], [ -45.123992, -5.206728 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F160", "source_file": "SCS_T028_F160.kml", "product_name": "BIO_S1_SCS__1S_20251122T210644_20251122T210705_T_G01_M01_C01_T028_F160_01_DJYINR", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:06:44", "stop_date_and_time": "2025-11-22T21:07:05", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "160", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -45.366557, -6.362676 ], [ -44.806911, -6.478266 ], [ -44.54178, -5.214817 ], [ -45.098956, -5.099022 ], [ -45.366557, -6.362676 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F161", "source_file": "SCS_T028_F161.kml", "product_name": "BIO_S1_SCS__1S_20251122T210703_20251122T210724_T_G01_M01_C01_T028_F161_01_DNRL8M", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:07:03", "stop_date_and_time": "2025-11-22T21:07:24", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "161", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -45.596906, -7.508732 ], [ -45.038282, -7.623419 ], [ -44.777005, -6.384155 ], [ -45.332566, -6.269367 ], [ -45.596906, -7.508732 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F162", "source_file": "SCS_T028_F162.kml", "product_name": "BIO_S1_SCS__1S_20251122T210722_20251122T210743_T_G01_M01_C01_T028_F162_01_DJYIUW", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:07:22", "stop_date_and_time": "2025-11-22T21:07:43", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "162", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -45.844168, -8.676016 ], [ -45.283183, -8.790467 ], [ -45.018298, -7.52723 ], [ -45.576179, -7.412637 ], [ -45.844168, -8.676016 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F163", "source_file": "SCS_T028_F163.kml", "product_name": "BIO_S1_SCS__1S_20251122T210741_20251122T210802_T_G01_M01_C01_T028_F163_01_DKNK40", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:07:41", "stop_date_and_time": "2025-11-22T21:08:02", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "163", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -46.082794, -9.832612 ], [ -45.51946, -9.946786 ], [ -45.254503, -8.683691 ], [ -45.814403, -8.569404 ], [ -46.082794, -9.832612 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F164", "source_file": "SCS_T028_F164.kml", "product_name": "BIO_S1_SCS__1S_20251122T210800_20251122T210821_T_G01_M01_C01_T028_F164_01_DNRL83", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:08:00", "stop_date_and_time": "2025-11-22T21:08:21", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "164", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -46.301817, -10.980639 ], [ -45.743551, -11.092995 ], [ -45.486131, -9.853384 ], [ -46.044308, -9.740218 ], [ -46.301817, -10.980639 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F165", "source_file": "SCS_T028_F165.kml", "product_name": "BIO_S1_SCS__1S_20251122T210819_20251122T210840_T_G01_M01_C01_T028_F165_01_DK4Y0D", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:08:19", "stop_date_and_time": "2025-11-22T21:08:40", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "165", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -46.560457, -12.145381 ], [ -45.991713, -12.25904 ], [ -45.726201, -10.99629 ], [ -46.290842, -10.882578 ], [ -46.560457, -12.145381 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F166", "source_file": "SCS_T028_F166.kml", "product_name": "BIO_S1_SCS__1S_20251122T210838_20251122T210859_T_G01_M01_C01_T028_F166_01_DJYIU7", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:08:38", "stop_date_and_time": "2025-11-22T21:08:59", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "166", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -46.803831, -13.300633 ], [ -46.228152, -13.414825 ], [ -45.962155, -12.152276 ], [ -46.533355, -12.038062 ], [ -46.803831, -13.300633 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F167", "source_file": "SCS_T028_F167.kml", "product_name": "BIO_S1_SCS__1S_20251122T210857_20251122T210918_T_G01_M01_C01_T028_F167_01_DNGWE0", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:08:57", "stop_date_and_time": "2025-11-22T21:09:18", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "167", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.031889, -14.446709 ], [ -46.469416, -14.55741 ], [ -46.207796, -13.318923 ], [ -46.763598, -13.208638 ], [ -47.031889, -14.446709 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F168", "source_file": "SCS_T028_F168.kml", "product_name": "BIO_S1_SCS__1S_20251122T210916_20251122T210937_T_G01_M01_C01_T028_F168_01_DJYIQX", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:09:16", "stop_date_and_time": "2025-11-22T21:09:37", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "168", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.284538, -15.612531 ], [ -46.701846, -15.726298 ], [ -46.434456, -14.464217 ], [ -47.01196, -14.350488 ], [ -47.284538, -15.612531 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F169", "source_file": "SCS_T028_F169.kml", "product_name": "BIO_S1_SCS__1S_20251122T210935_20251122T210956_T_G01_M01_C01_T028_F169_01_DNGWE1", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:09:35", "stop_date_and_time": "2025-11-22T21:09:56", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "169", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.50101, -16.760556 ], [ -46.94456, -16.868285 ], [ -46.687372, -15.629115 ], [ -47.235188, -15.522109 ], [ -47.50101, -16.760556 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F170", "source_file": "SCS_T028_F170.kml", "product_name": "BIO_S1_SCS__1S_20251122T210954_20251122T211015_T_G01_M01_C01_T028_F170_01_DJYIRW", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:09:54", "stop_date_and_time": "2025-11-22T21:10:15", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "170", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.768391, -17.923479 ], [ -47.177607, -18.036882 ], [ -46.90824, -16.775345 ], [ -47.493097, -16.662044 ], [ -47.768391, -17.923479 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F171", "source_file": "SCS_T028_F171.kml", "product_name": "BIO_S1_SCS__1S_20251122T211013_20251122T211027_T_G01_M01_C01_T028_F171_01_DNGWEG", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:10:13", "stop_date_and_time": "2025-11-22T21:10:27", "duration_s": "14", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "171", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.89947, -18.670878 ], [ -47.34157, -18.777338 ], [ -47.160328, -17.940238 ], [ -47.718883, -17.832988 ], [ -47.89947, -18.670878 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F172", "source_file": "SCS_T028_F172.kml", "product_name": "BIO_S1_SCS__1S_20251122T211032_20251122T211053_T_G01_M01_C01_T028_F172_01_DK4Y34", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:10:32", "stop_date_and_time": "2025-11-22T21:10:53", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "172", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.256635, -20.233495 ], [ -47.661105, -20.345759 ], [ -47.389097, -19.08484 ], [ -47.977974, -18.972742 ], [ -48.256635, -20.233495 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F173", "source_file": "SCS_T028_F173.kml", "product_name": "BIO_S1_SCS__1S_20251122T211052_20251122T211112_T_G01_M01_C01_T028_F173_01_DNRKAL", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:10:52", "stop_date_and_time": "2025-11-22T21:11:12", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "173", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.48663, -21.378747 ], [ -47.888948, -21.490316 ], [ -47.615169, -20.254554 ], [ -48.213192, -20.141831 ], [ -48.48663, -21.378747 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F174", "source_file": "SCS_T028_F174.kml", "product_name": "BIO_S1_SCS__1S_20251122T211110_20251122T211131_T_G01_M01_C01_T028_F174_01_DK4Y4R", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:11:10", "stop_date_and_time": "2025-11-22T21:11:31", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "174", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.750219, -22.542335 ], [ -48.144765, -22.654291 ], [ -47.869498, -21.394064 ], [ -48.467498, -21.282342 ], [ -48.750219, -22.542335 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F175", "source_file": "SCS_T028_F175.kml", "product_name": "BIO_S1_SCS__1S_20251122T211130_20251122T211150_T_G01_M01_C01_T028_F175_01_DNRK7F", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:11:30", "stop_date_and_time": "2025-11-22T21:11:50", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "175", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.979673, -23.68761 ], [ -48.374464, -23.798353 ], [ -48.104243, -22.562062 ], [ -48.70502, -22.45097 ], [ -48.979673, -23.68761 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T028_F176", "source_file": "SCS_T028_F176.kml", "product_name": "BIO_S1_SCS__1S_20251122T211148_20251122T211209_T_G01_M01_C01_T028_F176_01_DKLZ9Q", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-22T21:11:48", "stop_date_and_time": "2025-11-22T21:12:09", "duration_s": "21", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "028", "frame_number": "176", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -49.250881, -24.850057 ], [ -48.634208, -24.961784 ], [ -48.35497, -23.702322 ], [ -48.963339, -23.590898 ], [ -49.250881, -24.850057 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F290", "source_file": "SCS_T035_F290.kml", "product_name": "BIO_S1_SCS__1S_20251123T091516_20251123T091536_T_G01_M01_C01_T035_F290_01_DK4LPZ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:15:16", "stop_date_and_time": "2025-11-23T09:15:36", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "290", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -47.799432, -23.476319 ], [ -48.419111, -23.589758 ], [ -48.140715, -24.849217 ], [ -47.512683, -24.735497 ], [ -47.799432, -23.476319 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F291", "source_file": "SCS_T035_F291.kml", "product_name": "BIO_S1_SCS__1S_20251123T091535_20251123T091555_T_G01_M01_C01_T035_F291_01_DK2BGI", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:15:35", "stop_date_and_time": "2025-11-23T09:15:55", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "291", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.052893, -22.323093 ], [ -48.668913, -22.436987 ], [ -48.392614, -23.696888 ], [ -47.768661, -23.582752 ], [ -48.052893, -22.323093 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F292", "source_file": "SCS_T035_F292.kml", "product_name": "BIO_S1_SCS__1S_20251123T091554_20251123T091614_T_G01_M01_C01_T035_F292_01_DK2BM1", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:15:54", "stop_date_and_time": "2025-11-23T09:16:14", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "292", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.304768, -21.169688 ], [ -48.91456, -21.28353 ], [ -48.640145, -22.5438 ], [ -48.022866, -22.429753 ], [ -48.304768, -21.169688 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F293", "source_file": "SCS_T035_F293.kml", "product_name": "BIO_S1_SCS__1S_20251123T091613_20251123T091633_T_G01_M01_C01_T035_F293_01_DK2BGC", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:16:13", "stop_date_and_time": "2025-11-23T09:16:33", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "293", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.554974, -20.015876 ], [ -49.158888, -20.12969 ], [ -48.886175, -21.390312 ], [ -48.275204, -21.27633 ], [ -48.554974, -20.015876 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F294", "source_file": "SCS_T035_F294.kml", "product_name": "BIO_S1_SCS__1S_20251123T091632_20251123T091652_T_G01_M01_C01_T035_F294_01_DK4PHW", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:16:32", "stop_date_and_time": "2025-11-23T09:16:52", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "294", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -48.803648, -18.861799 ], [ -49.402024, -18.975609 ], [ -49.130838, -20.236562 ], [ -48.525823, -20.122619 ], [ -48.803648, -18.861799 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F295", "source_file": "SCS_T035_F295.kml", "product_name": "BIO_S1_SCS__1S_20251123T091651_20251123T091711_T_G01_M01_C01_T035_F295_01_DK2BM3", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:16:51", "stop_date_and_time": "2025-11-23T09:17:11", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "295", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -49.051037, -17.707519 ], [ -49.644189, -17.821344 ], [ -49.374362, -19.082613 ], [ -48.774977, -18.96869 ], [ -49.051037, -17.707519 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F296", "source_file": "SCS_T035_F296.kml", "product_name": "BIO_S1_SCS__1S_20251123T091710_20251123T091730_T_G01_M01_C01_T035_F296_01_DNGYYA", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:17:10", "stop_date_and_time": "2025-11-23T09:17:30", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "296", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -49.312581, -16.568239 ], [ -49.89439, -16.680804 ], [ -49.63298, -17.918928 ], [ -49.043483, -17.805922 ], [ -49.312581, -16.568239 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F297", "source_file": "SCS_T035_F297.kml", "product_name": "BIO_S1_SCS__1S_20251123T091729_20251123T091749_T_G01_M01_C01_T035_F297_01_DNGYZ8", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:17:29", "stop_date_and_time": "2025-11-23T09:17:49", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "297", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -49.554654, -15.41291 ], [ -50.136093, -15.526348 ], [ -49.872257, -16.764088 ], [ -49.289827, -16.651458 ], [ -49.554654, -15.41291 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F298", "source_file": "SCS_T035_F298.kml", "product_name": "BIO_S1_SCS__1S_20251123T091748_20251123T091808_T_G01_M01_C01_T035_F298_01_DNGYZ2", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:17:48", "stop_date_and_time": "2025-11-23T09:18:08", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "298", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -49.792826, -14.25668 ], [ -50.368656, -14.36996 ], [ -50.114875, -15.609728 ], [ -49.531773, -15.496022 ], [ -49.792826, -14.25668 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F299", "source_file": "SCS_T035_F299.kml", "product_name": "BIO_S1_SCS__1S_20251123T091807_20251123T091827_T_G01_M01_C01_T035_F299_01_DK4FVZ", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:18:07", "stop_date_and_time": "2025-11-23T09:18:27", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "299", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -50.032422, -13.088352 ], [ -50.60623, -13.202141 ], [ -50.340263, -14.464472 ], [ -49.761753, -14.350716 ], [ -50.032422, -13.088352 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F300", "source_file": "SCS_T035_F300.kml", "product_name": "BIO_S1_SCS__1S_20251123T091826_20251123T091846_T_G01_M01_C01_T035_F300_01_DK4FQ9", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:18:26", "stop_date_and_time": "2025-11-23T09:18:46", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "300", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -50.27545, -11.932952 ], [ -50.845521, -12.046854 ], [ -50.580143, -13.309402 ], [ -50.005726, -13.195564 ], [ -50.27545, -11.932952 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F301", "source_file": "SCS_T035_F301.kml", "product_name": "BIO_S1_SCS__1S_20251123T091845_20251123T091905_T_G01_M01_C01_T035_F301_01_DK2CQB", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:18:45", "stop_date_and_time": "2025-11-23T09:19:05", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "301", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -50.517963, -10.777386 ], [ -51.086479, -10.891801 ], [ -50.821558, -12.154543 ], [ -50.249032, -12.040224 ], [ -50.517963, -10.777386 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T035_F302", "source_file": "SCS_T035_F302.kml", "product_name": "BIO_S1_SCS__1S_20251123T091904_20251123T091924_T_G01_M01_C01_T035_F302_01_DK2CEF", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T09:19:04", "stop_date_and_time": "2025-11-23T09:19:24", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "035", "frame_number": "302", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -50.76018, -9.621723 ], [ -51.325498, -9.736289 ], [ -51.060879, -10.999207 ], [ -50.491893, -10.884767 ], [ -50.76018, -9.621723 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F166", "source_file": "SCS_T043_F166.kml", "product_name": "BIO_S1_SCS__1S_20251123T214123_20251123T214143_T_G01_M01_C01_T043_F166_01_DNHM59", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:41:23", "stop_date_and_time": "2025-11-23T21:41:43", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "166", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -54.976451, -13.290823 ], [ -54.40923, -13.40333 ], [ -54.150411, -12.164198 ], [ -54.713363, -12.051651 ], [ -54.976451, -13.290823 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F167", "source_file": "SCS_T043_F167.kml", "product_name": "BIO_S1_SCS__1S_20251123T214142_20251123T214202_T_G01_M01_C01_T043_F167_01_DKCPNF", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:41:42", "stop_date_and_time": "2025-11-23T21:42:02", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "167", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -55.228502, -14.456754 ], [ -54.648272, -14.570954 ], [ -54.381636, -13.308629 ], [ -54.957019, -13.194439 ], [ -55.228502, -14.456754 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F168", "source_file": "SCS_T043_F168.kml", "product_name": "BIO_S1_SCS__1S_20251123T214201_20251123T214221_T_G01_M01_C01_T043_F168_01_DKCPNE", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:42:01", "stop_date_and_time": "2025-11-23T21:42:21", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "168", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -55.46912, -15.612522 ], [ -54.88525, -15.726514 ], [ -54.617848, -14.464432 ], [ -55.196512, -14.35048 ], [ -55.46912, -15.612522 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F169", "source_file": "SCS_T043_F169.kml", "product_name": "BIO_S1_SCS__1S_20251123T214220_20251123T214240_T_G01_M01_C01_T043_F169_01_DKCPOP", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:42:20", "stop_date_and_time": "2025-11-23T21:42:40", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "169", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -55.710594, -16.768142 ], [ -55.122806, -16.881945 ], [ -54.85449, -15.620125 ], [ -55.436706, -15.506394 ], [ -55.710594, -16.768142 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F170", "source_file": "SCS_T043_F170.kml", "product_name": "BIO_S1_SCS__1S_20251123T214239_20251123T214259_T_G01_M01_C01_T043_F170_01_DNHM4T", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:42:39", "stop_date_and_time": "2025-11-23T21:42:59", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "170", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -55.947247, -17.912208 ], [ -55.363593, -18.024249 ], [ -55.09903, -16.786576 ], [ -55.676936, -16.674634 ], [ -55.947247, -17.912208 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F172", "source_file": "SCS_T043_F172.kml", "product_name": "BIO_S1_SCS__1S_20251123T214317_20251123T214337_T_G01_M01_C01_T043_F172_01_DKCJYO", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:43:17", "stop_date_and_time": "2025-11-23T21:43:37", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "172", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.441343, -20.233527 ], [ -55.844574, -20.34602 ], [ -55.572555, -19.085103 ], [ -56.162651, -18.972777 ], [ -56.441343, -20.233527 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F173", "source_file": "SCS_T043_F173.kml", "product_name": "BIO_S1_SCS__1S_20251123T214336_20251123T214356_T_G01_M01_C01_T043_F173_01_DKCJZ6", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:43:36", "stop_date_and_time": "2025-11-23T21:43:56", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "173", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.68741, -21.388227 ], [ -56.08561, -21.500596 ], [ -55.812049, -20.240015 ], [ -56.406777, -20.127847 ], [ -56.68741, -21.388227 ] ] ] } },
-{ "type": "Feature", "properties": { "file_name": "SCS_T043_F174", "source_file": "SCS_T043_F174.kml", "product_name": "BIO_S1_SCS__1S_20251123T214355_20251123T214415_T_G01_M01_C01_T043_F174_01_DKCJYS", "product_type": "S1_SCS__1S", "start_date_and_time": "2025-11-23T21:43:55", "stop_date_and_time": "2025-11-23T21:44:15", "duration_s": "20", "mission_phase_id": "T", "global_coverage_id": "01", "major_cycle_id": "01", "repeat_cycle_id": "01", "track_number": "043", "frame_number": "174", "baseline_id": "01" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -56.934974, -22.542308 ], [ -56.328247, -22.654494 ], [ -56.05297, -21.394268 ], [ -56.65222, -21.282317 ], [ -56.934974, -22.542308 ] ] ] } }
-]
+  "type": "FeatureCollection",
+  "name": "biomass_orbits",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F289",
+        "source_file": "SCS_T006_F289.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094739_20251121T094800_T_G01_M01_C01_T006_F289_01_DJUR25",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:47:39",
+        "stop_date_and_time": "2025-11-21T09:48:00",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "289",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.722963,
+              -24.629254
+            ],
+            [
+              -56.348908,
+              -24.742665
+            ],
+            [
+              -56.068229,
+              -26.001793
+            ],
+            [
+              -55.433462,
+              -25.888062
+            ],
+            [
+              -55.722963,
+              -24.629254
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F290",
+        "source_file": "SCS_T006_F290.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094758_20251121T094819_T_G01_M01_C01_T006_F290_01_DNQLJ8",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:47:58",
+        "stop_date_and_time": "2025-11-21T09:48:19",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "290",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.982813,
+              -23.489671
+            ],
+            [
+              -56.598292,
+              -23.602302
+            ],
+            [
+              -56.327093,
+              -24.838334
+            ],
+            [
+              -55.701209,
+              -24.725028
+            ],
+            [
+              -55.982813,
+              -23.489671
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F291",
+        "source_file": "SCS_T006_F291.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094817_20251121T094838_T_G01_M01_C01_T006_F291_01_DJUQJI",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:48:17",
+        "stop_date_and_time": "2025-11-21T09:48:38",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "291",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.231874,
+              -22.323304
+            ],
+            [
+              -56.847691,
+              -22.43715
+            ],
+            [
+              -56.571397,
+              -23.697067
+            ],
+            [
+              -55.947647,
+              -23.582978
+            ],
+            [
+              -56.231874,
+              -22.323304
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F292",
+        "source_file": "SCS_T006_F292.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094836_20251121T094857_T_G01_M01_C01_T006_F292_01_DJUQIZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:48:36",
+        "stop_date_and_time": "2025-11-21T09:48:57",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "292",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.483735,
+              -21.16994
+            ],
+            [
+              -57.093324,
+              -21.283734
+            ],
+            [
+              -56.818926,
+              -22.543963
+            ],
+            [
+              -56.20185,
+              -22.429964
+            ],
+            [
+              -56.483735,
+              -21.16994
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F293",
+        "source_file": "SCS_T006_F293.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094855_20251121T094916_T_G01_M01_C01_T006_F293_01_DJUQJS",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:48:55",
+        "stop_date_and_time": "2025-11-21T09:49:16",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "293",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.733962,
+              -20.016017
+            ],
+            [
+              -57.337671,
+              -20.129783
+            ],
+            [
+              -57.064962,
+              -21.390419
+            ],
+            [
+              -56.454196,
+              -21.276484
+            ],
+            [
+              -56.733962,
+              -20.016017
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F294",
+        "source_file": "SCS_T006_F294.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094914_20251121T094935_T_G01_M01_C01_T006_F294_01_DJUQJI",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:49:14",
+        "stop_date_and_time": "2025-11-21T09:49:35",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "294",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.98263,
+              -18.861947
+            ],
+            [
+              -57.5808,
+              -18.975709
+            ],
+            [
+              -57.309617,
+              -20.236678
+            ],
+            [
+              -56.704809,
+              -20.122783
+            ],
+            [
+              -56.98263,
+              -18.861947
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F295",
+        "source_file": "SCS_T006_F295.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094933_20251121T094954_T_G01_M01_C01_T006_F295_01_DJUQJB",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:49:33",
+        "stop_date_and_time": "2025-11-21T09:49:54",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "295",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.230017,
+              -17.707668
+            ],
+            [
+              -57.82296,
+              -17.821444
+            ],
+            [
+              -57.553136,
+              -19.082727
+            ],
+            [
+              -56.953959,
+              -18.968852
+            ],
+            [
+              -57.230017,
+              -17.707668
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F296",
+        "source_file": "SCS_T006_F296.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T094952_20251121T095013_T_G01_M01_C01_T006_F296_01_DJUQPI",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:49:52",
+        "stop_date_and_time": "2025-11-21T09:50:13",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "296",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.478455,
+              -16.553539
+            ],
+            [
+              -58.064546,
+              -16.666971
+            ],
+            [
+              -57.795921,
+              -17.928549
+            ],
+            [
+              -57.204011,
+              -17.815053
+            ],
+            [
+              -57.478455,
+              -16.553539
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F297",
+        "source_file": "SCS_T006_F297.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095011_20251121T095032_T_G01_M01_C01_T006_F297_01_DNGCS6",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:50:11",
+        "stop_date_and_time": "2025-11-21T09:50:32",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "297",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.724368,
+              -15.411317
+            ],
+            [
+              -58.306592,
+              -15.524926
+            ],
+            [
+              -58.042109,
+              -16.762572
+            ],
+            [
+              -57.455607,
+              -16.649133
+            ],
+            [
+              -57.724368,
+              -15.411317
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F298",
+        "source_file": "SCS_T006_F298.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095030_20251121T095051_T_G01_M01_C01_T006_F298_01_DJUQNJ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:50:30",
+        "stop_date_and_time": "2025-11-21T09:50:51",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "298",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.967824,
+              -14.243682
+            ],
+            [
+              -58.54543,
+              -14.357326
+            ],
+            [
+              -58.278729,
+              -15.619435
+            ],
+            [
+              -57.696056,
+              -15.505792
+            ],
+            [
+              -57.967824,
+              -14.243682
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F299",
+        "source_file": "SCS_T006_F299.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095049_20251121T095110_T_G01_M01_C01_T006_F299_01_DJUQKZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:50:49",
+        "stop_date_and_time": "2025-11-21T09:51:10",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "299",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.211402,
+              -13.088473
+            ],
+            [
+              -58.784995,
+              -13.202212
+            ],
+            [
+              -58.519029,
+              -14.464559
+            ],
+            [
+              -57.940732,
+              -14.350853
+            ],
+            [
+              -58.211402,
+              -13.088473
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F300",
+        "source_file": "SCS_T006_F300.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095108_20251121T095129_T_G01_M01_C01_T006_F300_01_DNQLJC",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:51:08",
+        "stop_date_and_time": "2025-11-21T09:51:29",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "300",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.457445,
+              -11.946165
+            ],
+            [
+              -59.027526,
+              -12.060039
+            ],
+            [
+              -58.770929,
+              -13.299483
+            ],
+            [
+              -58.196254,
+              -13.185619
+            ],
+            [
+              -58.457445,
+              -11.946165
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F301",
+        "source_file": "SCS_T006_F301.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095127_20251121T095148_T_G01_M01_C01_T006_F301_01_DNGCYZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:51:27",
+        "stop_date_and_time": "2025-11-21T09:51:48",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "301",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.701312,
+              -10.790903
+            ],
+            [
+              -59.268709,
+              -10.905063
+            ],
+            [
+              -59.008402,
+              -12.143822
+            ],
+            [
+              -58.437485,
+              -12.029837
+            ],
+            [
+              -58.701312,
+              -10.790903
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F302",
+        "source_file": "SCS_T006_F302.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095146_20251121T095207_T_G01_M01_C01_T006_F302_01_DJUREA",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:51:46",
+        "stop_date_and_time": "2025-11-21T09:52:07",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "302",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -58.939156,
+              -9.621874
+            ],
+            [
+              -59.504255,
+              -9.736389
+            ],
+            [
+              -59.239633,
+              -10.999324
+            ],
+            [
+              -58.670865,
+              -10.884935
+            ],
+            [
+              -58.939156,
+              -9.621874
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F303",
+        "source_file": "SCS_T006_F303.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095206_20251121T095226_T_G01_M01_C01_T006_F303_01_DNGCYN",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:52:06",
+        "stop_date_and_time": "2025-11-21T09:52:26",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "303",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -59.184298,
+              -8.479243
+            ],
+            [
+              -59.742472,
+              -8.593103
+            ],
+            [
+              -59.483492,
+              -9.832427
+            ],
+            [
+              -58.919991,
+              -9.7183
+            ],
+            [
+              -59.184298,
+              -8.479243
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F304",
+        "source_file": "SCS_T006_F304.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095225_20251121T095245_T_G01_M01_C01_T006_F304_01_DNGCYN",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:52:25",
+        "stop_date_and_time": "2025-11-21T09:52:45",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "304",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -59.423919,
+              -7.322905
+            ],
+            [
+              -59.984567,
+              -7.437999
+            ],
+            [
+              -59.722934,
+              -8.676909
+            ],
+            [
+              -59.163434,
+              -8.56283
+            ],
+            [
+              -59.423919,
+              -7.322905
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F305",
+        "source_file": "SCS_T006_F305.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095243_20251121T095304_T_G01_M01_C01_T006_F305_01_DJURCE",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:52:43",
+        "stop_date_and_time": "2025-11-21T09:53:04",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "305",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -59.665257,
+              -6.154342
+            ],
+            [
+              -60.222316,
+              -6.269416
+            ],
+            [
+              -59.957759,
+              -7.532746
+            ],
+            [
+              -59.398025,
+              -7.417889
+            ],
+            [
+              -59.665257,
+              -6.154342
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F306",
+        "source_file": "SCS_T006_F306.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095302_20251121T095323_T_G01_M01_C01_T006_F306_01_DJURCC",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:53:02",
+        "stop_date_and_time": "2025-11-21T09:53:23",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "306",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -59.908467,
+              -4.998663
+            ],
+            [
+              -60.462449,
+              -5.113771
+            ],
+            [
+              -60.197637,
+              -6.37719
+            ],
+            [
+              -59.641305,
+              -6.262329
+            ],
+            [
+              -59.908467,
+              -4.998663
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F307",
+        "source_file": "SCS_T006_F307.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095321_20251121T095342_T_G01_M01_C01_T006_F307_01_DJURAJ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:53:21",
+        "stop_date_and_time": "2025-11-21T09:53:42",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "307",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.150992,
+              -3.842556
+            ],
+            [
+              -60.703437,
+              -3.957984
+            ],
+            [
+              -60.438232,
+              -5.221467
+            ],
+            [
+              -59.883752,
+              -5.106316
+            ],
+            [
+              -60.150992,
+              -3.842556
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F308",
+        "source_file": "SCS_T006_F308.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095340_20251121T095401_T_G01_M01_C01_T006_F308_01_DJUR70",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:53:40",
+        "stop_date_and_time": "2025-11-21T09:54:01",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "308",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.393814,
+              -2.686424
+            ],
+            [
+              -60.944991,
+              -2.802196
+            ],
+            [
+              -60.679254,
+              -4.065721
+            ],
+            [
+              -60.126354,
+              -3.950255
+            ],
+            [
+              -60.393814,
+              -2.686424
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T006_F309",
+        "source_file": "SCS_T006_F309.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T095359_20251121T095420_T_G01_M01_C01_T006_F309_01_DJUQIZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T09:53:59",
+        "stop_date_and_time": "2025-11-21T09:54:20",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "006",
+        "frame_number": "309",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.637316,
+              -1.530407
+            ],
+            [
+              -61.187078,
+              -1.64646
+            ],
+            [
+              -60.920667,
+              -2.910003
+            ],
+            [
+              -60.369493,
+              -2.794286
+            ],
+            [
+              -60.637316,
+              -1.530407
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T013_F172",
+        "source_file": "SCS_T013_F172.kml",
+        "product_name": "BIO_S1_SCS__1S_20260228T204243_20260228T204304_T_G01_M02_C07_T013_F172_01_DNL0MM",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2026-02-28T20:42:43",
+        "stop_date_and_time": "2026-02-28T20:43:04",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "07",
+        "track_number": "013",
+        "frame_number": "172",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.289661,
+              -20.226568
+            ],
+            [
+              -40.707933,
+              -20.336218
+            ],
+            [
+              -40.451446,
+              -19.097192
+            ],
+            [
+              -41.025997,
+              -18.987812
+            ],
+            [
+              -41.289661,
+              -20.226568
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T013_F173",
+        "source_file": "SCS_T013_F173.kml",
+        "product_name": "BIO_S1_SCS__1S_20260228T204302_20260228T204323_T_G01_M02_C07_T013_F173_01_DNL0MF",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2026-02-28T20:43:02",
+        "stop_date_and_time": "2026-02-28T20:43:23",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "07",
+        "track_number": "013",
+        "frame_number": "173",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.560448,
+              -21.376468
+            ],
+            [
+              -40.962682,
+              -21.488135
+            ],
+            [
+              -40.681408,
+              -20.253744
+            ],
+            [
+              -41.260415,
+              -20.144567
+            ],
+            [
+              -41.560448,
+              -21.376468
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T013_F174",
+        "source_file": "SCS_T013_F174.kml",
+        "product_name": "BIO_S2_SCS__1S_20260321T204336_20260321T204353_T_G01_M02_C07_T013_F174_01_DONY11",
+        "product_type": "S2_SCS__1S",
+        "start_date_and_time": "2026-03-21T20:43:36",
+        "stop_date_and_time": "2026-03-21T20:43:53",
+        "duration_s": "17",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "07",
+        "track_number": "013",
+        "frame_number": "174",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.424502,
+              -22.428513
+            ],
+            [
+              -40.795541,
+              -22.543313
+            ],
+            [
+              -40.568253,
+              -21.483896
+            ],
+            [
+              -41.190104,
+              -21.369312
+            ],
+            [
+              -41.424502,
+              -22.428513
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T014_F157",
+        "source_file": "SCS_T014_F157.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T221114_20251121T221135_T_G01_M01_C01_T014_F157_01_DJVHW4",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T22:11:14",
+        "stop_date_and_time": "2025-11-21T22:11:35",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "014",
+        "frame_number": "157",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.99875,
+              -2.894531
+            ],
+            [
+              -60.448361,
+              -3.01006
+            ],
+            [
+              -60.181819,
+              -1.746402
+            ],
+            [
+              -60.730703,
+              -1.630577
+            ],
+            [
+              -60.99875,
+              -2.894531
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T014_F158",
+        "source_file": "SCS_T014_F158.kml",
+        "product_name": "BIO_S1_SCS__1S_20251121T221133_20251121T221154_T_G01_M01_C01_T014_F158_01_DJVHUL",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-21T22:11:33",
+        "stop_date_and_time": "2025-11-21T22:11:54",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "014",
+        "frame_number": "158",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.242369,
+              -4.050424
+            ],
+            [
+              -60.690127,
+              -4.165749
+            ],
+            [
+              -60.424198,
+              -2.902175
+            ],
+            [
+              -60.974618,
+              -2.786587
+            ],
+            [
+              -61.242369,
+              -4.050424
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T014_F159",
+        "source_file": "SCS_T014_F159.kml",
+        "product_name": "BIO_S3_SCS__1S_20260129T221233_20260129T221253_T_G01_M01_C10_T014_F159_01_DM1J66",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-01-29T22:12:33",
+        "stop_date_and_time": "2026-01-29T22:12:53",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "10",
+        "track_number": "014",
+        "frame_number": "159",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.721503,
+              -5.402575
+            ],
+            [
+              -60.229347,
+              -5.504021
+            ],
+            [
+              -59.966875,
+              -4.241185
+            ],
+            [
+              -60.457529,
+              -4.139261
+            ],
+            [
+              -60.721503,
+              -5.402575
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T014_F160",
+        "source_file": "SCS_T014_F160.kml",
+        "product_name": "BIO_S3_SCS__1S_20260129T221252_20260129T221312_T_G01_M01_C10_T014_F160_01_DM1J2C",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-01-29T22:12:52",
+        "stop_date_and_time": "2026-01-29T22:13:12",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "10",
+        "track_number": "014",
+        "frame_number": "160",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -60.962304,
+              -6.557755
+            ],
+            [
+              -60.468948,
+              -6.658698
+            ],
+            [
+              -60.207177,
+              -5.39591
+            ],
+            [
+              -60.699471,
+              -5.294366
+            ],
+            [
+              -60.962304,
+              -6.557755
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T014_F161",
+        "source_file": "SCS_T014_F161.kml",
+        "product_name": "BIO_S3_SCS__1S_20260129T221311_20260129T221331_T_G01_M01_C10_T014_F161_01_DM1JZI",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-01-29T22:13:11",
+        "stop_date_and_time": "2026-01-29T22:13:31",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "10",
+        "track_number": "014",
+        "frame_number": "161",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -61.20311,
+              -7.712838
+            ],
+            [
+              -60.707173,
+              -7.813529
+            ],
+            [
+              -60.446933,
+              -6.550617
+            ],
+            [
+              -60.940161,
+              -6.449629
+            ],
+            [
+              -61.20311,
+              -7.712838
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F291",
+        "source_file": "SCS_T020_F291.kml",
+        "product_name": "BIO_S3_SCS__1S_20260331T084815_20260331T084826_T_G01_M02_C03_T020_F291_01_DP5EW0",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-03-31T08:48:15",
+        "stop_date_and_time": "2026-03-31T08:48:26",
+        "duration_s": "11",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "03",
+        "track_number": "020",
+        "frame_number": "291",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.943291,
+              -22.474004
+            ],
+            [
+              -42.490893,
+              -22.572659
+            ],
+            [
+              -42.34011,
+              -23.266839
+            ],
+            [
+              -41.791912,
+              -23.168736
+            ],
+            [
+              -41.943291,
+              -22.474004
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F292",
+        "source_file": "SCS_T020_F292.kml",
+        "product_name": "BIO_S3_SCS__1S_20260331T084825_20260331T084845_T_G01_M02_C03_T020_F292_01_DP5F4H",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-03-31T08:48:25",
+        "stop_date_and_time": "2026-03-31T08:48:45",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "03",
+        "track_number": "020",
+        "frame_number": "292",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.203951,
+              -21.32353
+            ],
+            [
+              -42.735629,
+              -21.420384
+            ],
+            [
+              -42.471023,
+              -22.656246
+            ],
+            [
+              -41.924255,
+              -22.557813
+            ],
+            [
+              -42.203951,
+              -21.32353
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F293",
+        "source_file": "SCS_T020_F293.kml",
+        "product_name": "BIO_S1_SCS__1S_20260217T084816_20260217T084837_T_G01_M02_C03_T020_F293_01_DMZKC9",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2026-02-17T08:48:16",
+        "stop_date_and_time": "2026-02-17T08:48:37",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "03",
+        "track_number": "020",
+        "frame_number": "293",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.601025,
+              -20.031233
+            ],
+            [
+              -42.198394,
+              -20.143775
+            ],
+            [
+              -41.921982,
+              -21.378951
+            ],
+            [
+              -41.309668,
+              -21.264697
+            ],
+            [
+              -41.601025,
+              -20.031233
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F294",
+        "source_file": "SCS_T020_F294.kml",
+        "product_name": "BIO_S3_SCS__1S_20260331T084903_20260331T084923_T_G01_M02_C03_T020_F294_01_DP5EXC",
+        "product_type": "S3_SCS__1S",
+        "start_date_and_time": "2026-03-31T08:49:03",
+        "stop_date_and_time": "2026-03-31T08:49:23",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "02",
+        "repeat_cycle_id": "03",
+        "track_number": "020",
+        "frame_number": "294",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.695736,
+              -19.017055
+            ],
+            [
+              -43.225619,
+              -19.115655
+            ],
+            [
+              -42.964579,
+              -20.35231
+            ],
+            [
+              -42.434481,
+              -20.254779
+            ],
+            [
+              -42.695736,
+              -19.017055
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F295",
+        "source_file": "SCS_T020_F295.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084406_20251122T084427_T_G01_M01_C01_T020_F295_01_DJXN0F",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:44:06",
+        "stop_date_and_time": "2025-11-22T08:44:27",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "295",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -40.869009,
+              -17.707959
+            ],
+            [
+              -41.461341,
+              -17.821623
+            ],
+            [
+              -41.191521,
+              -19.082861
+            ],
+            [
+              -40.592964,
+              -18.969099
+            ],
+            [
+              -40.869009,
+              -17.707959
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F296",
+        "source_file": "SCS_T020_F296.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084426_20251122T084446_T_G01_M01_C01_T020_F296_01_DJXN00",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:44:26",
+        "stop_date_and_time": "2025-11-22T08:44:46",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "296",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.117454,
+              -16.553785
+            ],
+            [
+              -41.702942,
+              -16.667107
+            ],
+            [
+              -41.434308,
+              -17.928701
+            ],
+            [
+              -40.84301,
+              -17.815316
+            ],
+            [
+              -41.117454,
+              -16.553785
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F297",
+        "source_file": "SCS_T020_F297.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084445_20251122T084505_T_G01_M01_C01_T020_F297_01_DJXN09",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:44:45",
+        "stop_date_and_time": "2025-11-22T08:45:05",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "297",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.362624,
+              -15.399074
+            ],
+            [
+              -41.943524,
+              -15.512452
+            ],
+            [
+              -41.675941,
+              -16.774262
+            ],
+            [
+              -41.089613,
+              -16.660854
+            ],
+            [
+              -41.362624,
+              -15.399074
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F298",
+        "source_file": "SCS_T020_F298.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084504_20251122T084524_T_G01_M01_C01_T020_F298_01_DJWRXB",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:45:04",
+        "stop_date_and_time": "2025-11-22T08:45:24",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "298",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.606795,
+              -14.244039
+            ],
+            [
+              -42.183812,
+              -14.357573
+            ],
+            [
+              -41.917116,
+              -15.619639
+            ],
+            [
+              -41.335041,
+              -15.506107
+            ],
+            [
+              -41.606795,
+              -14.244039
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F299",
+        "source_file": "SCS_T020_F299.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084523_20251122T084543_T_G01_M01_C01_T020_F299_01_DJXN02",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:45:23",
+        "stop_date_and_time": "2025-11-22T08:45:43",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "299",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -41.850376,
+              -13.088805
+            ],
+            [
+              -42.423387,
+              -13.202434
+            ],
+            [
+              -42.157426,
+              -14.464737
+            ],
+            [
+              -41.57972,
+              -14.351141
+            ],
+            [
+              -41.850376,
+              -13.088805
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F300",
+        "source_file": "SCS_T020_F300.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084542_20251122T084602_T_G01_M01_C01_T020_F300_01_DNHP0K",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:45:42",
+        "stop_date_and_time": "2025-11-22T08:46:02",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "300",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.112997,
+              -11.949759
+            ],
+            [
+              -42.678329,
+              -12.062659
+            ],
+            [
+              -42.409825,
+              -13.29977
+            ],
+            [
+              -41.857509,
+              -13.190335
+            ],
+            [
+              -42.112997,
+              -11.949759
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F301",
+        "source_file": "SCS_T020_F301.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084601_20251122T084621_T_G01_M01_C01_T020_F301_01_DJXN7P",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:46:01",
+        "stop_date_and_time": "2025-11-22T08:46:21",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "301",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.335912,
+              -10.777845
+            ],
+            [
+              -42.903638,
+              -10.892099
+            ],
+            [
+              -42.638722,
+              -12.154813
+            ],
+            [
+              -42.066992,
+              -12.040655
+            ],
+            [
+              -42.335912,
+              -10.777845
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F302",
+        "source_file": "SCS_T020_F302.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084620_20251122T084640_T_G01_M01_C01_T020_F302_01_DJXN7H",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:46:20",
+        "stop_date_and_time": "2025-11-22T08:46:40",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "302",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.578142,
+              -9.622108
+            ],
+            [
+              -43.142675,
+              -9.736514
+            ],
+            [
+              -42.878048,
+              -10.999463
+            ],
+            [
+              -42.309853,
+              -10.885184
+            ],
+            [
+              -42.578142,
+              -9.622108
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F303",
+        "source_file": "SCS_T020_F303.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084639_20251122T084659_T_G01_M01_C01_T020_F303_01_DJXN6V",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:46:39",
+        "stop_date_and_time": "2025-11-22T08:46:59",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "303",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -42.820078,
+              -8.466446
+            ],
+            [
+              -43.381692,
+              -8.581023
+            ],
+            [
+              -43.117238,
+              -9.844068
+            ],
+            [
+              -42.552298,
+              -9.729648
+            ],
+            [
+              -42.820078,
+              -8.466446
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F304",
+        "source_file": "SCS_T020_F304.kml",
+        "product_name": "BIO_S1_SCS__1S_20251125T084700_20251125T084720_T_G01_M01_C02_T020_F304_01_DKCSXK",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-25T08:47:00",
+        "stop_date_and_time": "2025-11-25T08:47:20",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "02",
+        "track_number": "020",
+        "frame_number": "304",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -43.069904,
+              -7.310347
+            ],
+            [
+              -43.628925,
+              -7.425133
+            ],
+            [
+              -43.364472,
+              -8.688358
+            ],
+            [
+              -42.802455,
+              -8.573759
+            ],
+            [
+              -43.069904,
+              -7.310347
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F305",
+        "source_file": "SCS_T020_F305.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084717_20251122T084737_T_G01_M01_C01_T020_F305_01_DJXN15",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:47:17",
+        "stop_date_and_time": "2025-11-22T08:47:37",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "305",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -43.304241,
+              -6.154527
+            ],
+            [
+              -43.860748,
+              -6.269492
+            ],
+            [
+              -43.596188,
+              -7.532839
+            ],
+            [
+              -43.037011,
+              -7.418091
+            ],
+            [
+              -43.304241,
+              -6.154527
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F306",
+        "source_file": "SCS_T020_F306.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084728_20251122T084756_T_G01_M01_C01_T020_F306_01_DJXN18",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:47:28",
+        "stop_date_and_time": "2025-11-22T08:47:56",
+        "duration_s": "28",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "306",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -43.547463,
+              -4.998758
+            ],
+            [
+              -44.102015,
+              -5.113989
+            ],
+            [
+              -43.73663,
+              -6.857621
+            ],
+            [
+              -43.178745,
+              -6.742723
+            ],
+            [
+              -43.547463,
+              -4.998758
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F307",
+        "source_file": "SCS_T020_F307.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084755_20251122T084815_T_G01_M01_C01_T020_F307_01_DJXN0J",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:47:55",
+        "stop_date_and_time": "2025-11-22T08:48:15",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "307",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -43.789978,
+              -3.842674
+            ],
+            [
+              -44.341882,
+              -3.957994
+            ],
+            [
+              -44.076675,
+              -5.221494
+            ],
+            [
+              -43.522742,
+              -5.106451
+            ],
+            [
+              -43.789978,
+              -3.842674
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F308",
+        "source_file": "SCS_T020_F308.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084814_20251122T084834_T_G01_M01_C01_T020_F308_01_DNQY3B",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:48:14",
+        "stop_date_and_time": "2025-11-22T08:48:34",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "308",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -44.030793,
+              -2.698733
+            ],
+            [
+              -44.58065,
+              -2.814228
+            ],
+            [
+              -44.320604,
+              -4.054035
+            ],
+            [
+              -43.76828,
+              -3.938678
+            ],
+            [
+              -44.030793,
+              -2.698733
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T020_F309",
+        "source_file": "SCS_T020_F309.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T084833_20251122T084853_T_G01_M01_C01_T020_F309_01_DNQY3J",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T08:48:33",
+        "stop_date_and_time": "2025-11-22T08:48:53",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "020",
+        "frame_number": "309",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -44.273313,
+              -1.542364
+            ],
+            [
+              -44.822814,
+              -1.658361
+            ],
+            [
+              -44.561345,
+              -2.898026
+            ],
+            [
+              -44.011617,
+              -2.782602
+            ],
+            [
+              -44.273313,
+              -1.542364
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F157",
+        "source_file": "SCS_T028_F157.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210549_20251122T210608_T_G01_M01_C01_T028_F157_01_DKLXME",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:05:49",
+        "stop_date_and_time": "2025-11-22T21:06:08",
+        "duration_s": "19",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "157",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -44.636657,
+              -2.894776
+            ],
+            [
+              -44.08867,
+              -3.009812
+            ],
+            [
+              -43.847682,
+              -1.867152
+            ],
+            [
+              -44.394307,
+              -1.751849
+            ],
+            [
+              -44.636657,
+              -2.894776
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F158",
+        "source_file": "SCS_T028_F158.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210606_20251122T210627_T_G01_M01_C01_T028_F158_01_DKLZ2Q",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:06:06",
+        "stop_date_and_time": "2025-11-22T21:06:27",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "158",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -44.880836,
+              -4.05063
+            ],
+            [
+              -44.330146,
+              -4.165643
+            ],
+            [
+              -44.064217,
+              -2.90207
+            ],
+            [
+              -44.613098,
+              -2.786793
+            ],
+            [
+              -44.880836,
+              -4.05063
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F159",
+        "source_file": "SCS_T028_F159.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210625_20251122T210646_T_G01_M01_C01_T028_F159_01_DKLZ39",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:06:25",
+        "stop_date_and_time": "2025-11-22T21:06:46",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "159",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -45.123992,
+              -5.206728
+            ],
+            [
+              -44.569696,
+              -5.321868
+            ],
+            [
+              -44.304218,
+              -4.058284
+            ],
+            [
+              -44.85638,
+              -3.942909
+            ],
+            [
+              -45.123992,
+              -5.206728
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F160",
+        "source_file": "SCS_T028_F160.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210644_20251122T210705_T_G01_M01_C01_T028_F160_01_DJYINR",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:06:44",
+        "stop_date_and_time": "2025-11-22T21:07:05",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "160",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -45.366557,
+              -6.362676
+            ],
+            [
+              -44.806911,
+              -6.478266
+            ],
+            [
+              -44.54178,
+              -5.214817
+            ],
+            [
+              -45.098956,
+              -5.099022
+            ],
+            [
+              -45.366557,
+              -6.362676
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F161",
+        "source_file": "SCS_T028_F161.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210703_20251122T210724_T_G01_M01_C01_T028_F161_01_DNRL8M",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:07:03",
+        "stop_date_and_time": "2025-11-22T21:07:24",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "161",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -45.596906,
+              -7.508732
+            ],
+            [
+              -45.038282,
+              -7.623419
+            ],
+            [
+              -44.777005,
+              -6.384155
+            ],
+            [
+              -45.332566,
+              -6.269367
+            ],
+            [
+              -45.596906,
+              -7.508732
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F162",
+        "source_file": "SCS_T028_F162.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210722_20251122T210743_T_G01_M01_C01_T028_F162_01_DJYIUW",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:07:22",
+        "stop_date_and_time": "2025-11-22T21:07:43",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "162",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -45.844168,
+              -8.676016
+            ],
+            [
+              -45.283183,
+              -8.790467
+            ],
+            [
+              -45.018298,
+              -7.52723
+            ],
+            [
+              -45.576179,
+              -7.412637
+            ],
+            [
+              -45.844168,
+              -8.676016
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F163",
+        "source_file": "SCS_T028_F163.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210741_20251122T210802_T_G01_M01_C01_T028_F163_01_DKNK40",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:07:41",
+        "stop_date_and_time": "2025-11-22T21:08:02",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "163",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -46.082794,
+              -9.832612
+            ],
+            [
+              -45.51946,
+              -9.946786
+            ],
+            [
+              -45.254503,
+              -8.683691
+            ],
+            [
+              -45.814403,
+              -8.569404
+            ],
+            [
+              -46.082794,
+              -9.832612
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F164",
+        "source_file": "SCS_T028_F164.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210800_20251122T210821_T_G01_M01_C01_T028_F164_01_DNRL83",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:08:00",
+        "stop_date_and_time": "2025-11-22T21:08:21",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "164",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -46.301817,
+              -10.980639
+            ],
+            [
+              -45.743551,
+              -11.092995
+            ],
+            [
+              -45.486131,
+              -9.853384
+            ],
+            [
+              -46.044308,
+              -9.740218
+            ],
+            [
+              -46.301817,
+              -10.980639
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F165",
+        "source_file": "SCS_T028_F165.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210819_20251122T210840_T_G01_M01_C01_T028_F165_01_DK4Y0D",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:08:19",
+        "stop_date_and_time": "2025-11-22T21:08:40",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "165",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -46.560457,
+              -12.145381
+            ],
+            [
+              -45.991713,
+              -12.25904
+            ],
+            [
+              -45.726201,
+              -10.99629
+            ],
+            [
+              -46.290842,
+              -10.882578
+            ],
+            [
+              -46.560457,
+              -12.145381
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F166",
+        "source_file": "SCS_T028_F166.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210838_20251122T210859_T_G01_M01_C01_T028_F166_01_DJYIU7",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:08:38",
+        "stop_date_and_time": "2025-11-22T21:08:59",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "166",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -46.803831,
+              -13.300633
+            ],
+            [
+              -46.228152,
+              -13.414825
+            ],
+            [
+              -45.962155,
+              -12.152276
+            ],
+            [
+              -46.533355,
+              -12.038062
+            ],
+            [
+              -46.803831,
+              -13.300633
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F167",
+        "source_file": "SCS_T028_F167.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210857_20251122T210918_T_G01_M01_C01_T028_F167_01_DNGWE0",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:08:57",
+        "stop_date_and_time": "2025-11-22T21:09:18",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "167",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.031889,
+              -14.446709
+            ],
+            [
+              -46.469416,
+              -14.55741
+            ],
+            [
+              -46.207796,
+              -13.318923
+            ],
+            [
+              -46.763598,
+              -13.208638
+            ],
+            [
+              -47.031889,
+              -14.446709
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F168",
+        "source_file": "SCS_T028_F168.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210916_20251122T210937_T_G01_M01_C01_T028_F168_01_DJYIQX",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:09:16",
+        "stop_date_and_time": "2025-11-22T21:09:37",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "168",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.284538,
+              -15.612531
+            ],
+            [
+              -46.701846,
+              -15.726298
+            ],
+            [
+              -46.434456,
+              -14.464217
+            ],
+            [
+              -47.01196,
+              -14.350488
+            ],
+            [
+              -47.284538,
+              -15.612531
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F169",
+        "source_file": "SCS_T028_F169.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210935_20251122T210956_T_G01_M01_C01_T028_F169_01_DNGWE1",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:09:35",
+        "stop_date_and_time": "2025-11-22T21:09:56",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "169",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.50101,
+              -16.760556
+            ],
+            [
+              -46.94456,
+              -16.868285
+            ],
+            [
+              -46.687372,
+              -15.629115
+            ],
+            [
+              -47.235188,
+              -15.522109
+            ],
+            [
+              -47.50101,
+              -16.760556
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F170",
+        "source_file": "SCS_T028_F170.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T210954_20251122T211015_T_G01_M01_C01_T028_F170_01_DJYIRW",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:09:54",
+        "stop_date_and_time": "2025-11-22T21:10:15",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "170",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.768391,
+              -17.923479
+            ],
+            [
+              -47.177607,
+              -18.036882
+            ],
+            [
+              -46.90824,
+              -16.775345
+            ],
+            [
+              -47.493097,
+              -16.662044
+            ],
+            [
+              -47.768391,
+              -17.923479
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F171",
+        "source_file": "SCS_T028_F171.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211013_20251122T211027_T_G01_M01_C01_T028_F171_01_DNGWEG",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:10:13",
+        "stop_date_and_time": "2025-11-22T21:10:27",
+        "duration_s": "14",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "171",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.89947,
+              -18.670878
+            ],
+            [
+              -47.34157,
+              -18.777338
+            ],
+            [
+              -47.160328,
+              -17.940238
+            ],
+            [
+              -47.718883,
+              -17.832988
+            ],
+            [
+              -47.89947,
+              -18.670878
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F172",
+        "source_file": "SCS_T028_F172.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211032_20251122T211053_T_G01_M01_C01_T028_F172_01_DK4Y34",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:10:32",
+        "stop_date_and_time": "2025-11-22T21:10:53",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "172",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.256635,
+              -20.233495
+            ],
+            [
+              -47.661105,
+              -20.345759
+            ],
+            [
+              -47.389097,
+              -19.08484
+            ],
+            [
+              -47.977974,
+              -18.972742
+            ],
+            [
+              -48.256635,
+              -20.233495
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F173",
+        "source_file": "SCS_T028_F173.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211052_20251122T211112_T_G01_M01_C01_T028_F173_01_DNRKAL",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:10:52",
+        "stop_date_and_time": "2025-11-22T21:11:12",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "173",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.48663,
+              -21.378747
+            ],
+            [
+              -47.888948,
+              -21.490316
+            ],
+            [
+              -47.615169,
+              -20.254554
+            ],
+            [
+              -48.213192,
+              -20.141831
+            ],
+            [
+              -48.48663,
+              -21.378747
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F174",
+        "source_file": "SCS_T028_F174.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211110_20251122T211131_T_G01_M01_C01_T028_F174_01_DK4Y4R",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:11:10",
+        "stop_date_and_time": "2025-11-22T21:11:31",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "174",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.750219,
+              -22.542335
+            ],
+            [
+              -48.144765,
+              -22.654291
+            ],
+            [
+              -47.869498,
+              -21.394064
+            ],
+            [
+              -48.467498,
+              -21.282342
+            ],
+            [
+              -48.750219,
+              -22.542335
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F175",
+        "source_file": "SCS_T028_F175.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211130_20251122T211150_T_G01_M01_C01_T028_F175_01_DNRK7F",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:11:30",
+        "stop_date_and_time": "2025-11-22T21:11:50",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "175",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.979673,
+              -23.68761
+            ],
+            [
+              -48.374464,
+              -23.798353
+            ],
+            [
+              -48.104243,
+              -22.562062
+            ],
+            [
+              -48.70502,
+              -22.45097
+            ],
+            [
+              -48.979673,
+              -23.68761
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T028_F176",
+        "source_file": "SCS_T028_F176.kml",
+        "product_name": "BIO_S1_SCS__1S_20251122T211148_20251122T211209_T_G01_M01_C01_T028_F176_01_DKLZ9Q",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-22T21:11:48",
+        "stop_date_and_time": "2025-11-22T21:12:09",
+        "duration_s": "21",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "028",
+        "frame_number": "176",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -49.250881,
+              -24.850057
+            ],
+            [
+              -48.634208,
+              -24.961784
+            ],
+            [
+              -48.35497,
+              -23.702322
+            ],
+            [
+              -48.963339,
+              -23.590898
+            ],
+            [
+              -49.250881,
+              -24.850057
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F289",
+        "source_file": "SCS_T035_F289.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091504_20251123T091517_T_G01_M01_C01_T035_F289_01_DNHNN5",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:15:04",
+        "stop_date_and_time": "2025-11-23T09:15:17",
+        "duration_s": "13",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "289",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.541601,
+              -24.641116
+            ],
+            [
+              -48.16834,
+              -24.754666
+            ],
+            [
+              -47.989405,
+              -25.554475
+            ],
+            [
+              -47.357632,
+              -25.440815
+            ],
+            [
+              -47.541601,
+              -24.641116
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F290",
+        "source_file": "SCS_T035_F290.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091516_20251123T091536_T_G01_M01_C01_T035_F290_01_DK4LPZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:15:16",
+        "stop_date_and_time": "2025-11-23T09:15:36",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "290",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -47.799432,
+              -23.476319
+            ],
+            [
+              -48.419111,
+              -23.589758
+            ],
+            [
+              -48.140715,
+              -24.849217
+            ],
+            [
+              -47.512683,
+              -24.735497
+            ],
+            [
+              -47.799432,
+              -23.476319
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F291",
+        "source_file": "SCS_T035_F291.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091535_20251123T091555_T_G01_M01_C01_T035_F291_01_DK2BGI",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:15:35",
+        "stop_date_and_time": "2025-11-23T09:15:55",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "291",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.052893,
+              -22.323093
+            ],
+            [
+              -48.668913,
+              -22.436987
+            ],
+            [
+              -48.392614,
+              -23.696888
+            ],
+            [
+              -47.768661,
+              -23.582752
+            ],
+            [
+              -48.052893,
+              -22.323093
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F292",
+        "source_file": "SCS_T035_F292.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091554_20251123T091614_T_G01_M01_C01_T035_F292_01_DK2BM1",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:15:54",
+        "stop_date_and_time": "2025-11-23T09:16:14",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "292",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.304768,
+              -21.169688
+            ],
+            [
+              -48.91456,
+              -21.28353
+            ],
+            [
+              -48.640145,
+              -22.5438
+            ],
+            [
+              -48.022866,
+              -22.429753
+            ],
+            [
+              -48.304768,
+              -21.169688
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F293",
+        "source_file": "SCS_T035_F293.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091613_20251123T091633_T_G01_M01_C01_T035_F293_01_DK2BGC",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:16:13",
+        "stop_date_and_time": "2025-11-23T09:16:33",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "293",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.554974,
+              -20.015876
+            ],
+            [
+              -49.158888,
+              -20.12969
+            ],
+            [
+              -48.886175,
+              -21.390312
+            ],
+            [
+              -48.275204,
+              -21.27633
+            ],
+            [
+              -48.554974,
+              -20.015876
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F294",
+        "source_file": "SCS_T035_F294.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091632_20251123T091652_T_G01_M01_C01_T035_F294_01_DK4PHW",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:16:32",
+        "stop_date_and_time": "2025-11-23T09:16:52",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "294",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -48.803648,
+              -18.861799
+            ],
+            [
+              -49.402024,
+              -18.975609
+            ],
+            [
+              -49.130838,
+              -20.236562
+            ],
+            [
+              -48.525823,
+              -20.122619
+            ],
+            [
+              -48.803648,
+              -18.861799
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F295",
+        "source_file": "SCS_T035_F295.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091651_20251123T091711_T_G01_M01_C01_T035_F295_01_DK2BM3",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:16:51",
+        "stop_date_and_time": "2025-11-23T09:17:11",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "295",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -49.051037,
+              -17.707519
+            ],
+            [
+              -49.644189,
+              -17.821344
+            ],
+            [
+              -49.374362,
+              -19.082613
+            ],
+            [
+              -48.774977,
+              -18.96869
+            ],
+            [
+              -49.051037,
+              -17.707519
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F296",
+        "source_file": "SCS_T035_F296.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091710_20251123T091730_T_G01_M01_C01_T035_F296_01_DNGYYA",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:17:10",
+        "stop_date_and_time": "2025-11-23T09:17:30",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "296",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -49.312581,
+              -16.568239
+            ],
+            [
+              -49.89439,
+              -16.680804
+            ],
+            [
+              -49.63298,
+              -17.918928
+            ],
+            [
+              -49.043483,
+              -17.805922
+            ],
+            [
+              -49.312581,
+              -16.568239
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F297",
+        "source_file": "SCS_T035_F297.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091729_20251123T091749_T_G01_M01_C01_T035_F297_01_DNGYZ8",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:17:29",
+        "stop_date_and_time": "2025-11-23T09:17:49",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "297",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -49.554654,
+              -15.41291
+            ],
+            [
+              -50.136093,
+              -15.526348
+            ],
+            [
+              -49.872257,
+              -16.764088
+            ],
+            [
+              -49.289827,
+              -16.651458
+            ],
+            [
+              -49.554654,
+              -15.41291
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F298",
+        "source_file": "SCS_T035_F298.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091748_20251123T091808_T_G01_M01_C01_T035_F298_01_DNGYZ2",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:17:48",
+        "stop_date_and_time": "2025-11-23T09:18:08",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "298",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -49.792826,
+              -14.25668
+            ],
+            [
+              -50.368656,
+              -14.36996
+            ],
+            [
+              -50.114875,
+              -15.609728
+            ],
+            [
+              -49.531773,
+              -15.496022
+            ],
+            [
+              -49.792826,
+              -14.25668
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F299",
+        "source_file": "SCS_T035_F299.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091807_20251123T091827_T_G01_M01_C01_T035_F299_01_DK4FVZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:18:07",
+        "stop_date_and_time": "2025-11-23T09:18:27",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "299",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -50.032422,
+              -13.088352
+            ],
+            [
+              -50.60623,
+              -13.202141
+            ],
+            [
+              -50.340263,
+              -14.464472
+            ],
+            [
+              -49.761753,
+              -14.350716
+            ],
+            [
+              -50.032422,
+              -13.088352
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F300",
+        "source_file": "SCS_T035_F300.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091826_20251123T091846_T_G01_M01_C01_T035_F300_01_DK4FQ9",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:18:26",
+        "stop_date_and_time": "2025-11-23T09:18:46",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "300",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -50.27545,
+              -11.932952
+            ],
+            [
+              -50.845521,
+              -12.046854
+            ],
+            [
+              -50.580143,
+              -13.309402
+            ],
+            [
+              -50.005726,
+              -13.195564
+            ],
+            [
+              -50.27545,
+              -11.932952
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F301",
+        "source_file": "SCS_T035_F301.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091845_20251123T091905_T_G01_M01_C01_T035_F301_01_DK2CQB",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:18:45",
+        "stop_date_and_time": "2025-11-23T09:19:05",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "301",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -50.517963,
+              -10.777386
+            ],
+            [
+              -51.086479,
+              -10.891801
+            ],
+            [
+              -50.821558,
+              -12.154543
+            ],
+            [
+              -50.249032,
+              -12.040224
+            ],
+            [
+              -50.517963,
+              -10.777386
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F302",
+        "source_file": "SCS_T035_F302.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091904_20251123T091924_T_G01_M01_C01_T035_F302_01_DK2CEF",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:19:04",
+        "stop_date_and_time": "2025-11-23T09:19:24",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "302",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -50.76018,
+              -9.621723
+            ],
+            [
+              -51.325498,
+              -9.736289
+            ],
+            [
+              -51.060879,
+              -10.999207
+            ],
+            [
+              -50.491893,
+              -10.884767
+            ],
+            [
+              -50.76018,
+              -9.621723
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F303",
+        "source_file": "SCS_T035_F303.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091923_20251123T091943_T_G01_M01_C01_T035_F303_01_DK4OUC",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:19:23",
+        "stop_date_and_time": "2025-11-23T09:19:43",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "303",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.002145,
+              -8.465931
+            ],
+            [
+              -51.564541,
+              -8.580669
+            ],
+            [
+              -51.300082,
+              -9.843741
+            ],
+            [
+              -50.734355,
+              -9.72916
+            ],
+            [
+              -51.002145,
+              -8.465931
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F304",
+        "source_file": "SCS_T035_F304.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T091942_20251123T092002_T_G01_M01_C01_T035_F304_01_DK2CQQ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:19:42",
+        "stop_date_and_time": "2025-11-23T09:20:02",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "304",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.244269,
+              -7.310028
+            ],
+            [
+              -51.803968,
+              -7.424949
+            ],
+            [
+              -51.539532,
+              -8.688152
+            ],
+            [
+              -50.976834,
+              -8.573418
+            ],
+            [
+              -51.244269,
+              -7.310028
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F305",
+        "source_file": "SCS_T035_F305.kml",
+        "product_name": "BIO_S1_SCS__1S_20251126T092003_20251126T092023_T_G01_M01_C02_T035_F305_01_DK96PT",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-26T09:20:03",
+        "stop_date_and_time": "2025-11-26T09:20:23",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "02",
+        "track_number": "035",
+        "frame_number": "305",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.495667,
+              -6.154272
+            ],
+            [
+              -52.052759,
+              -6.269363
+            ],
+            [
+              -51.788194,
+              -7.532692
+            ],
+            [
+              -51.228431,
+              -7.417819
+            ],
+            [
+              -51.495667,
+              -6.154272
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F306",
+        "source_file": "SCS_T035_F306.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T092020_20251123T092040_T_G01_M01_C01_T035_F306_01_DNGYQ6",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:20:20",
+        "stop_date_and_time": "2025-11-23T09:20:40",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "306",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.730701,
+              -5.011015
+            ],
+            [
+              -52.284377,
+              -5.126055
+            ],
+            [
+              -52.024415,
+              -6.365614
+            ],
+            [
+              -51.470019,
+              -6.251143
+            ],
+            [
+              -51.730701,
+              -5.011015
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F307",
+        "source_file": "SCS_T035_F307.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T092039_20251123T092059_T_G01_M01_C01_T035_F307_01_DNGYPZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:20:39",
+        "stop_date_and_time": "2025-11-23T09:20:59",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "307",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -51.972503,
+              -3.854896
+            ],
+            [
+              -52.524613,
+              -3.970251
+            ],
+            [
+              -52.265547,
+              -5.210075
+            ],
+            [
+              -51.710501,
+              -5.094798
+            ],
+            [
+              -51.972503,
+              -3.854896
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F308",
+        "source_file": "SCS_T035_F308.kml",
+        "product_name": "BIO_S1_SCS__1S_20251126T092100_20251126T092120_T_G01_M01_C02_T035_F308_01_DK96XZ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-26T09:21:00",
+        "stop_date_and_time": "2025-11-26T09:21:20",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "02",
+        "track_number": "035",
+        "frame_number": "308",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -52.22422,
+              -2.686405
+            ],
+            [
+              -52.775439,
+              -2.802195
+            ],
+            [
+              -52.509697,
+              -4.065716
+            ],
+            [
+              -51.956759,
+              -3.950233
+            ],
+            [
+              -52.22422,
+              -2.686405
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T035_F309",
+        "source_file": "SCS_T035_F309.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T092117_20251123T092137_T_G01_M01_C01_T035_F309_01_DNGYQR",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T09:21:17",
+        "stop_date_and_time": "2025-11-23T09:21:37",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "035",
+        "frame_number": "309",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -52.455445,
+              -1.542086
+            ],
+            [
+              -53.005485,
+              -1.658198
+            ],
+            [
+              -52.745703,
+              -2.898181
+            ],
+            [
+              -52.195359,
+              -2.782628
+            ],
+            [
+              -52.455445,
+              -1.542086
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F157",
+        "source_file": "SCS_T043_F157.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T213832_20251123T213852_T_G01_M01_C01_T043_F157_01_DKCK0Y",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:38:32",
+        "stop_date_and_time": "2025-11-23T21:38:52",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "157",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -52.821512,
+              -2.894698
+            ],
+            [
+              -52.271605,
+              -3.010133
+            ],
+            [
+              -52.005046,
+              -1.746467
+            ],
+            [
+              -52.55345,
+              -1.630736
+            ],
+            [
+              -52.821512,
+              -2.894698
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F158",
+        "source_file": "SCS_T043_F158.kml",
+        "product_name": "BIO_S1_SCS__1S_20251126T213853_20251126T213913_T_G01_M01_C02_T043_F158_01_DK9KM1",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-26T21:38:53",
+        "stop_date_and_time": "2025-11-26T21:39:13",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "02",
+        "track_number": "043",
+        "frame_number": "158",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -53.074947,
+              -4.050492
+            ],
+            [
+              -52.522964,
+              -4.165776
+            ],
+            [
+              -52.256996,
+              -2.902157
+            ],
+            [
+              -52.807159,
+              -2.78661
+            ],
+            [
+              -53.074947,
+              -4.050492
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F159",
+        "source_file": "SCS_T043_F159.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T213910_20251123T213930_T_G01_M01_C01_T043_F159_01_DKCKKQ",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:39:10",
+        "stop_date_and_time": "2025-11-23T21:39:30",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "159",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -53.308334,
+              -5.206735
+            ],
+            [
+              -52.752962,
+              -5.322094
+            ],
+            [
+              -52.487468,
+              -4.058507
+            ],
+            [
+              -53.040695,
+              -3.942914
+            ],
+            [
+              -53.308334,
+              -5.206735
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F160",
+        "source_file": "SCS_T043_F160.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T213929_20251123T213949_T_G01_M01_C01_T043_F160_01_DKCK78",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:39:29",
+        "stop_date_and_time": "2025-11-23T21:39:49",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "160",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -53.550922,
+              -6.362673
+            ],
+            [
+              -52.990191,
+              -6.478482
+            ],
+            [
+              -52.725043,
+              -5.215028
+            ],
+            [
+              -53.283293,
+              -5.099015
+            ],
+            [
+              -53.550922,
+              -6.362673
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F161",
+        "source_file": "SCS_T043_F161.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T213948_20251123T214008_T_G01_M01_C01_T043_F161_01_DKCK95",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:39:48",
+        "stop_date_and_time": "2025-11-23T21:40:08",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "161",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -53.789859,
+              -7.519534
+            ],
+            [
+              -53.229908,
+              -7.634491
+            ],
+            [
+              -52.964934,
+              -6.371071
+            ],
+            [
+              -53.522091,
+              -6.255942
+            ],
+            [
+              -53.789859,
+              -7.519534
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F162",
+        "source_file": "SCS_T043_F162.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214007_20251123T214027_T_G01_M01_C01_T043_F162_01_DKCK7J",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:40:07",
+        "stop_date_and_time": "2025-11-23T21:40:27",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "162",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -54.028584,
+              -8.676006
+            ],
+            [
+              -53.466493,
+              -8.790678
+            ],
+            [
+              -53.201593,
+              -7.527438
+            ],
+            [
+              -53.760567,
+              -7.412625
+            ],
+            [
+              -54.028584,
+              -8.676006
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F163",
+        "source_file": "SCS_T043_F163.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214026_20251123T214046_T_G01_M01_C01_T043_F163_01_DKCK9C",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:40:26",
+        "stop_date_and_time": "2025-11-23T21:40:46",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "163",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -54.267242,
+              -9.832626
+            ],
+            [
+              -53.702791,
+              -9.947022
+            ],
+            [
+              -53.437818,
+              -8.683922
+            ],
+            [
+              -53.998822,
+              -8.569415
+            ],
+            [
+              -54.267242,
+              -9.832626
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F164",
+        "source_file": "SCS_T043_F164.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214045_20251123T214105_T_G01_M01_C01_T043_F164_01_DKCK8N",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:40:45",
+        "stop_date_and_time": "2025-11-23T21:41:05",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "164",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -54.505993,
+              -10.989098
+            ],
+            [
+              -53.938946,
+              -11.10323
+            ],
+            [
+              -53.673765,
+              -9.840292
+            ],
+            [
+              -54.237031,
+              -9.726078
+            ],
+            [
+              -54.505993,
+              -10.989098
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F165",
+        "source_file": "SCS_T043_F165.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214104_20251123T214124_T_G01_M01_C01_T043_F165_01_DKCK98",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:41:04",
+        "stop_date_and_time": "2025-11-23T21:41:24",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "165",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -54.744959,
+              -12.145394
+            ],
+            [
+              -54.175076,
+              -12.259276
+            ],
+            [
+              -53.90955,
+              -10.996522
+            ],
+            [
+              -54.475315,
+              -10.882588
+            ],
+            [
+              -54.744959,
+              -12.145394
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F166",
+        "source_file": "SCS_T043_F166.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214123_20251123T214143_T_G01_M01_C01_T043_F166_01_DNHM59",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:41:23",
+        "stop_date_and_time": "2025-11-23T21:41:43",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "166",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -54.976451,
+              -13.290823
+            ],
+            [
+              -54.40923,
+              -13.40333
+            ],
+            [
+              -54.150411,
+              -12.164198
+            ],
+            [
+              -54.713363,
+              -12.051651
+            ],
+            [
+              -54.976451,
+              -13.290823
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F167",
+        "source_file": "SCS_T043_F167.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214142_20251123T214202_T_G01_M01_C01_T043_F167_01_DKCPNF",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:41:42",
+        "stop_date_and_time": "2025-11-23T21:42:02",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "167",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.228502,
+              -14.456754
+            ],
+            [
+              -54.648272,
+              -14.570954
+            ],
+            [
+              -54.381636,
+              -13.308629
+            ],
+            [
+              -54.957019,
+              -13.194439
+            ],
+            [
+              -55.228502,
+              -14.456754
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F168",
+        "source_file": "SCS_T043_F168.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214201_20251123T214221_T_G01_M01_C01_T043_F168_01_DKCPNE",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:42:01",
+        "stop_date_and_time": "2025-11-23T21:42:21",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "168",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.46912,
+              -15.612522
+            ],
+            [
+              -54.88525,
+              -15.726514
+            ],
+            [
+              -54.617848,
+              -14.464432
+            ],
+            [
+              -55.196512,
+              -14.35048
+            ],
+            [
+              -55.46912,
+              -15.612522
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F169",
+        "source_file": "SCS_T043_F169.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214220_20251123T214240_T_G01_M01_C01_T043_F169_01_DKCPOP",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:42:20",
+        "stop_date_and_time": "2025-11-23T21:42:40",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "169",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.710594,
+              -16.768142
+            ],
+            [
+              -55.122806,
+              -16.881945
+            ],
+            [
+              -54.85449,
+              -15.620125
+            ],
+            [
+              -55.436706,
+              -15.506394
+            ],
+            [
+              -55.710594,
+              -16.768142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F170",
+        "source_file": "SCS_T043_F170.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214239_20251123T214259_T_G01_M01_C01_T043_F170_01_DNHM4T",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:42:39",
+        "stop_date_and_time": "2025-11-23T21:42:59",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "170",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -55.947247,
+              -17.912208
+            ],
+            [
+              -55.363593,
+              -18.024249
+            ],
+            [
+              -55.09903,
+              -16.786576
+            ],
+            [
+              -55.676936,
+              -16.674634
+            ],
+            [
+              -55.947247,
+              -17.912208
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F171",
+        "source_file": "SCS_T043_F171.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214258_20251123T214318_T_G01_M01_C01_T043_F171_01_DKCJY2",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:42:58",
+        "stop_date_and_time": "2025-11-23T21:43:18",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "171",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.196506,
+              -19.078643
+            ],
+            [
+              -55.604498,
+              -19.191272
+            ],
+            [
+              -55.333858,
+              -17.930035
+            ],
+            [
+              -55.919582,
+              -17.817541
+            ],
+            [
+              -56.196506,
+              -19.078643
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F172",
+        "source_file": "SCS_T043_F172.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214317_20251123T214337_T_G01_M01_C01_T043_F172_01_DKCJYO",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:43:17",
+        "stop_date_and_time": "2025-11-23T21:43:37",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "172",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.441343,
+              -20.233527
+            ],
+            [
+              -55.844574,
+              -20.34602
+            ],
+            [
+              -55.572555,
+              -19.085103
+            ],
+            [
+              -56.162651,
+              -18.972777
+            ],
+            [
+              -56.441343,
+              -20.233527
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F173",
+        "source_file": "SCS_T043_F173.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214336_20251123T214356_T_G01_M01_C01_T043_F173_01_DKCJZ6",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:43:36",
+        "stop_date_and_time": "2025-11-23T21:43:56",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "173",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.68741,
+              -21.388227
+            ],
+            [
+              -56.08561,
+              -21.500596
+            ],
+            [
+              -55.812049,
+              -20.240015
+            ],
+            [
+              -56.406777,
+              -20.127847
+            ],
+            [
+              -56.68741,
+              -21.388227
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F174",
+        "source_file": "SCS_T043_F174.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214355_20251123T214415_T_G01_M01_C01_T043_F174_01_DKCJYS",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:43:55",
+        "stop_date_and_time": "2025-11-23T21:44:15",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "174",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -56.934974,
+              -22.542308
+            ],
+            [
+              -56.328247,
+              -22.654494
+            ],
+            [
+              -56.05297,
+              -21.394268
+            ],
+            [
+              -56.65222,
+              -21.282317
+            ],
+            [
+              -56.934974,
+              -22.542308
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F175",
+        "source_file": "SCS_T043_F175.kml",
+        "product_name": "BIO_S1_SCS__1S_20251126T214416_20251126T214436_T_G01_M01_C02_T043_F175_01_DK9JNR",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-26T21:44:16",
+        "stop_date_and_time": "2025-11-26T21:44:36",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "02",
+        "track_number": "043",
+        "frame_number": "175",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.194307,
+              -23.696162
+            ],
+            [
+              -56.581689,
+              -23.808312
+            ],
+            [
+              -56.30451,
+              -22.548478
+            ],
+            [
+              -56.909227,
+              -22.436598
+            ],
+            [
+              -57.194307,
+              -23.696162
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "file_name": "SCS_T043_F176",
+        "source_file": "SCS_T043_F176.kml",
+        "product_name": "BIO_S1_SCS__1S_20251123T214433_20251123T214453_T_G01_M01_C01_T043_F176_01_DNSE0Z",
+        "product_type": "S1_SCS__1S",
+        "start_date_and_time": "2025-11-23T21:44:33",
+        "stop_date_and_time": "2025-11-23T21:44:53",
+        "duration_s": "20",
+        "mission_phase_id": "T",
+        "global_coverage_id": "01",
+        "major_cycle_id": "01",
+        "repeat_cycle_id": "01",
+        "track_number": "043",
+        "frame_number": "176",
+        "baseline_id": "01"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -57.43104,
+              -24.838505
+            ],
+            [
+              -56.813479,
+              -24.950391
+            ],
+            [
+              -56.538105,
+              -23.714962
+            ],
+            [
+              -57.147677,
+              -23.603347
+            ],
+            [
+              -57.43104,
+              -24.838505
+            ]
+          ]
+        ]
+      }
+    }
+  ]
 }

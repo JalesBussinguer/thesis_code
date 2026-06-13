@@ -17,7 +17,8 @@ import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Iterator
+from typing import Any, Iterable, Iterator
+from urllib.parse import urljoin
 
 import geopandas as gpd
 import requests
@@ -309,15 +310,71 @@ def search_items(
 	cql2_filter: str | None,
 	max_items: int | None,
 ) -> Iterator[Item]:
-	search = catalog.search(
-		collections=[collection],
-		intersects=geometry,
-		datetime=datetime_range,
-		filter=cql2_filter,
-		method="POST",
-		max_items=max_items,
-	)
-	yield from search.items()
+	search_link = catalog.get_search_link()
+	if search_link is None or not search_link.target:
+		raise RuntimeError("O catalogo STAC nao exibe link de busca (/search).")
+
+	search_url = str(search_link.target)
+	payload: dict[str, Any] = {
+		"collections": [collection],
+		"intersects": geometry,
+		"datetime": datetime_range,
+	}
+	if cql2_filter:
+		payload["filter"] = cql2_filter
+		payload["filter-lang"] = "cql2-text"
+	if max_items is not None:
+		payload["limit"] = max_items
+
+	remaining = max_items
+	request_method = "POST"
+	request_url = search_url
+	request_body: dict[str, Any] | None = payload
+	visited_pages: set[tuple[str, str]] = set()
+
+	while request_url:
+		request_key = (request_method.upper(), request_url)
+		if request_key in visited_pages:
+			break
+		visited_pages.add(request_key)
+
+		request_kwargs: dict[str, Any] = {"timeout": REQUEST_TIMEOUT}
+		if request_method.upper() == "POST":
+			request_kwargs["json"] = request_body or {}
+		response = requests.request(request_method.upper(), request_url, **request_kwargs)
+
+		if response.status_code >= 400:
+			body = response.text.strip()
+			if len(body) > 1200:
+				body = body[:1200] + "..."
+			raise RuntimeError(
+				"Erro na consulta STAC ao iterar resultados com intersects. "
+				f"collection={collection}; datetime={datetime_range}; status={response.status_code}; detalhes={body}"
+			)
+
+		result = response.json()
+		for feature in result.get("features", []):
+			yield Item.from_dict(feature)
+			if remaining is not None:
+				remaining -= 1
+				if remaining <= 0:
+					return
+
+		next_link = None
+		for link in result.get("links", []):
+			if isinstance(link, dict) and link.get("rel") == "next":
+				next_link = link
+				break
+		if not next_link:
+			break
+
+		next_href = next_link.get("href")
+		if not isinstance(next_href, str) or not next_href:
+			break
+
+		request_url = urljoin(search_url, next_href)
+		request_method = str(next_link.get("method", "GET")).upper()
+		request_body = next_link.get("body") if isinstance(next_link.get("body"), dict) else None
 
 
 def split_product_name(product_name: str) -> list[str]:

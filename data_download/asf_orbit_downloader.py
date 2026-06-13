@@ -12,6 +12,8 @@ import csv
 import json
 import os
 import re
+import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -37,8 +39,8 @@ DATASETS = ["SENTINEL-1", "NISAR"]
 OUTPUT_DIR = "H:/asf_orbit_data/"
 SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"  # Use None para pesquisar apenas por orbita.
 VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"  # Use None para baixar tudo que vier da busca.
-DATE_START = "2026-01-01T00:00:00Z"
-DATE_END = "2026-03-31T23:59:59Z"
+DATE_START = "2025-11-20T00:00:00Z"
+DATE_END = "2026-06-12T23:59:59Z"
 PROCESSING_LEVEL_BY_DATASET = {
 	"SENTINEL-1": DEFAULT_PROCESSING_LEVEL_BY_DATASET["SENTINEL-1"],
 	"NISAR": DEFAULT_PROCESSING_LEVEL_BY_DATASET["NISAR"],
@@ -53,12 +55,15 @@ SKIP_EXISTING = True
 DOWNLOAD_PRIMARY = True
 DOWNLOAD_NISAR_KML = False
 REQUEST_TIMEOUT = DEFAULT_TIMEOUT
+SEARCH_MAX_RETRIES = 8
+SEARCH_RETRY_BACKOFF_SECONDS = 3
+SEARCH_WINDOW_DAYS = 7
 
 # Informe EARTHDATA_TOKEN ou EARTHDATA_USERNAME/EARTHDATA_PASSWORD.
 EARTHDATA_TOKEN = None
 EARTHDATA_USERNAME = None
 EARTHDATA_PASSWORD = None
-CREDENTIALS_FILE = Path("credentials.txt")
+CREDENTIALS_FILE = Path("asf_credentials.txt")
 
 
 def validate_configuration() -> None:
@@ -238,6 +243,16 @@ def record_intersects_validation_aoi(record: dict[str, Any], validation_geometry
 	return bool(geometry.intersects(validation_geometry))
 
 
+def record_footprint_geometry(record: dict[str, Any]):
+	footprint_wkt = record.get("stringFootprint") or record.get("wkt")
+	if not isinstance(footprint_wkt, str) or not footprint_wkt.strip():
+		return None
+	geometry = shapely_wkt.loads(footprint_wkt)
+	if geometry.is_empty:
+		return None
+	return geometry
+
+
 def build_search_params(
 	dataset: str,
 	processing_level: str | None,
@@ -278,15 +293,176 @@ def extract_records(payload: Any) -> list[dict[str, Any]]:
 	raise ValueError("Resposta inesperada da Search API do ASF.")
 
 
+def parse_iso8601_utc(value: str) -> datetime:
+	return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
+
+
+def format_iso8601_utc(value: datetime) -> str:
+	return value.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def split_time_windows(
+	start_value: str | None,
+	end_value: str | None,
+	window_days: int | None,
+) -> list[tuple[str | None, str | None]]:
+	if not start_value or not end_value or not window_days or window_days <= 0:
+		return [(start_value, end_value)]
+
+	start = parse_iso8601_utc(start_value)
+	end = parse_iso8601_utc(end_value)
+	if end < start:
+		raise ValueError("DATE_END deve ser maior ou igual a DATE_START.")
+
+	windows: list[tuple[str, str]] = []
+	current_start = start
+	while current_start <= end:
+		current_end = min(current_start + timedelta(days=window_days) - timedelta(seconds=1), end)
+		windows.append((format_iso8601_utc(current_start), format_iso8601_utc(current_end)))
+		current_start = current_end + timedelta(seconds=1)
+
+	return windows
+
+
+def fetch_search_records_with_retries(params: dict[str, str | int]) -> list[dict[str, Any]]:
+	last_error: Exception | None = None
+	for attempt in range(1, SEARCH_MAX_RETRIES + 1):
+		try:
+			response = requests.get(SEARCH_URL, params=params, timeout=REQUEST_TIMEOUT)
+			response.raise_for_status()
+			return extract_records(response.json())
+		except requests.exceptions.RequestException as error:
+			last_error = error
+			status_code = None
+			if isinstance(error, requests.exceptions.HTTPError) and error.response is not None:
+				status_code = error.response.status_code
+
+			is_retryable_http = status_code in {429, 500, 502, 503, 504}
+			is_retryable_network = isinstance(error, (requests.exceptions.Timeout, requests.exceptions.ConnectionError))
+			if not (is_retryable_http or is_retryable_network) or attempt == SEARCH_MAX_RETRIES:
+				break
+
+			wait_seconds = SEARCH_RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1))
+			print(
+				f"  Tentativa {attempt}/{SEARCH_MAX_RETRIES} falhou (status={status_code or 'n/a'}). "
+				f"Nova tentativa em {wait_seconds}s..."
+			)
+			time.sleep(wait_seconds)
+
+	if last_error is None:
+		raise RuntimeError("Falha desconhecida na consulta da Search API do ASF.")
+	raise last_error
+
+
+def _split_window_into_halves(window_start: str, window_end: str) -> list[tuple[str, str]]:
+	start_dt = parse_iso8601_utc(window_start)
+	end_dt = parse_iso8601_utc(window_end)
+	if end_dt <= start_dt:
+		return [(window_start, window_end)]
+
+	total_seconds = int((end_dt - start_dt).total_seconds())
+	if total_seconds <= 1:
+		return [(window_start, window_end)]
+
+	middle_dt = start_dt + timedelta(seconds=total_seconds // 2)
+	left_end = format_iso8601_utc(middle_dt)
+	right_start_dt = middle_dt + timedelta(seconds=1)
+	if right_start_dt > end_dt:
+		return [(window_start, window_end)]
+	right_start = format_iso8601_utc(right_start_dt)
+	return [(window_start, left_end), (right_start, window_end)]
+
+
+def fetch_search_records_for_window(
+	dataset: str,
+	processing_level: str | None,
+	area_wkt: str | None,
+	window_start: str,
+	window_end: str,
+	retry_depth: int = 0,
+) -> list[dict[str, Any]]:
+	if retry_depth == 0:
+		print(f"  Janela de busca: {window_start} ate {window_end}")
+	else:
+		print(f"    Sub-janela (profundidade {retry_depth}): {window_start} ate {window_end}")
+
+	params = build_search_params(dataset=dataset, processing_level=processing_level, area_wkt=area_wkt)
+	params["start"] = window_start
+	params["end"] = window_end
+
+	try:
+		return fetch_search_records_with_retries(params)
+	except Exception as error:
+		status_code = None
+		if isinstance(error, requests.exceptions.HTTPError) and error.response is not None:
+			status_code = error.response.status_code
+		if status_code == 504 and retry_depth < 6:
+			sub_windows = _split_window_into_halves(window_start, window_end)
+			if len(sub_windows) > 1 and sub_windows != [(window_start, window_end)]:
+				print(
+					f"  [504 Gateway Timeout] Dividindo janela em {len(sub_windows)} sub-janelas..."
+				)
+				records: list[dict[str, Any]] = []
+				for sub_window_start, sub_window_end in sub_windows:
+					try:
+						records.extend(
+							fetch_search_records_for_window(
+								dataset=dataset,
+								processing_level=processing_level,
+								area_wkt=area_wkt,
+								window_start=sub_window_start,
+								window_end=sub_window_end,
+								retry_depth=retry_depth + 1,
+							)
+						)
+					except Exception as sub_error:
+						print(f"    Sub-janela falhou: {sub_error}")
+						if retry_depth >= 5:
+							raise
+				return records
+		raise
+
+
 def search_records(
 	dataset: str,
 	processing_level: str | None,
 	area_wkt: str | None,
 ) -> list[dict[str, Any]]:
-	params = build_search_params(dataset=dataset, processing_level=processing_level, area_wkt=area_wkt)
-	response = requests.get(SEARCH_URL, params=params, timeout=REQUEST_TIMEOUT)
-	response.raise_for_status()
-	return extract_records(response.json())
+	windows = split_time_windows(DATE_START, DATE_END, SEARCH_WINDOW_DAYS)
+
+	records: list[dict[str, Any]] = []
+	for window_start, window_end in windows:
+		if not window_start or not window_end:
+			continue
+		records.extend(
+			fetch_search_records_for_window(
+				dataset=dataset,
+				processing_level=processing_level,
+				area_wkt=area_wkt,
+				window_start=window_start,
+				window_end=window_end,
+			)
+		)
+
+	if len(windows) <= 1:
+		return records
+
+	# Remove duplicatas caso o backend retorne o mesmo produto em chamadas diferentes.
+	unique_records: list[dict[str, Any]] = []
+	seen_keys: set[str] = set()
+	for record in records:
+		key = str(
+			record.get("product_file_id")
+			or record.get("sceneId")
+			or record.get("granuleName")
+			or record.get("fileID")
+		)
+		if key in seen_keys:
+			continue
+		seen_keys.add(key)
+		unique_records.append(record)
+
+	return unique_records
 
 
 def choose_asset_urls(dataset: str, record: dict[str, Any]) -> list[dict[str, str]]:
@@ -378,6 +554,20 @@ def write_manifest(output_dir: Path, rows: Iterable[dict[str, Any]]) -> Path:
 	return manifest_path
 
 
+def write_selected_image_geometries(output_dir: Path, rows: list[dict[str, Any]]) -> Path:
+	geojson_path = output_dir / "selected_image_geometries.geojson"
+	if not rows:
+		geojson_path.write_text(
+			json.dumps({"type": "FeatureCollection", "features": []}, ensure_ascii=True, indent=2),
+			encoding="utf-8",
+		)
+		return geojson_path
+
+	gdf = gpd.GeoDataFrame(rows, geometry="geometry", crs="EPSG:4326")
+	gdf.to_file(geojson_path, driver="GeoJSON")
+	return geojson_path
+
+
 def main() -> None:
 	validate_configuration()
 	output_dir = Path(OUTPUT_DIR).resolve()
@@ -388,6 +578,8 @@ def main() -> None:
 	datasets = [normalize_dataset(dataset) for dataset in DATASETS]
 
 	manifest_rows: list[dict[str, Any]] = []
+	selected_image_rows: list[dict[str, Any]] = []
+	seen_products: set[str] = set()
 	seen_assets: set[tuple[str, str]] = set()
 	total_records_found = 0
 
@@ -413,6 +605,27 @@ def main() -> None:
 					or record.get("sceneId")
 					or record.get("granuleName")
 				)
+				if product_id not in seen_products:
+					footprint_geometry = record_footprint_geometry(record)
+					if footprint_geometry is not None:
+						selected_image_rows.append(
+							{
+								"query_name": query_name,
+								"feature_index": feature_index,
+								"dataset": dataset,
+								"platform": record.get("platform", ""),
+								"product_id": product_id,
+								"processing_level": record.get("processingLevel", ""),
+								"flight_direction": record.get("flightDirection", ""),
+								"relative_orbit": format_orbit_value(record.get("relativeOrbit")),
+								"absolute_orbit": format_orbit_value(record.get("absoluteOrbit")),
+								"frame_number": format_orbit_value(record.get("frameNumber")),
+								"start_time": record.get("startTime", ""),
+								"stop_time": record.get("stopTime", ""),
+								"geometry": footprint_geometry,
+							}
+						)
+						seen_products.add(product_id)
 				for asset in choose_asset_urls(dataset=dataset, record=record):
 					dedupe_key = (product_id, asset["asset_key"])
 					dataset_dir = output_dir / sanitize_name(dataset)
@@ -448,6 +661,7 @@ def main() -> None:
 					)
 
 	manifest_path = write_manifest(output_dir=output_dir, rows=manifest_rows)
+	selected_image_geometries_path = write_selected_image_geometries(output_dir=output_dir, rows=selected_image_rows)
 	summary = {
 		"datasets": datasets,
 		"processing_level_by_dataset": PROCESSING_LEVEL_BY_DATASET,
@@ -463,8 +677,10 @@ def main() -> None:
 		"output_dir": str(output_dir),
 		"total_queries": len(areas),
 		"total_records_found": total_records_found,
+		"selected_image_geometries": len(selected_image_rows),
 		"total_manifest_rows": len(manifest_rows),
 		"manifest": str(manifest_path),
+		"selected_image_geometries_geojson": str(selected_image_geometries_path),
 	}
 	print(json.dumps(summary, indent=2, ensure_ascii=True))
 
