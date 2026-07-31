@@ -42,6 +42,10 @@ MAX_RESULTS_PER_QUERY: int | None = None
 SKIP_EXISTING = True
 CMR_TIMEOUT_SECONDS = 120  # Aumentado de 30s para evitar timeouts em buscas grandes
 
+# Se definido, baixa apenas os produtos listados (um granule ID/scene name por linha)
+# e ignora a busca por criterios (DATE_START/DATE_END/AOI/orbita).
+PRODUCT_LIST_TXT: str | Path | None = None
+
 # Credenciais Earthdata Login
 # Metodo recomendado: configure ~/.netrc com:
 #   machine urs.earthdata.nasa.gov login <usuario> password <senha>
@@ -268,6 +272,20 @@ def product_matches_path_filter(product: asf.ASFProduct) -> bool:
 	return path_int in PATH_NUMBER_FILTERS
 
 
+def read_product_list(path: str | Path | None) -> list[str]:
+	resolved = _resolve_path(path)
+	if resolved is None:
+		return []
+	if not resolved.exists():
+		raise FileNotFoundError(f"Lista de produtos nao encontrada: {resolved}")
+	with resolved.open("r", encoding="utf-8") as fh:
+		return [line.strip() for line in fh if line.strip() and not line.strip().startswith("#")]
+
+
+def search_by_product_list(granule_ids: list[str]) -> asf.ASFSearchResults:
+	return asf.granule_search(granule_ids)
+
+
 def write_manifest(output_dir: Path, rows: list[dict[str, Any]]) -> Path:
 	manifest_path = output_dir / "download_manifest.csv"
 	fieldnames = [
@@ -321,52 +339,68 @@ def main() -> None:
 			)
 
 	session = build_asf_session()
-	search_wkt = read_search_aoi_wkt(SEARCH_GEOJSON_PATH)
-	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
-	windows = build_time_windows()
-	relative_orbits: list[int | None] = RELATIVE_ORBIT_FILTERS or [None]
 
 	# Collect all matching products, deduplicated by fileID/granuleName.
 	seen: dict[str, asf.ASFProduct] = {}
 	total_found = 0
 
-	for start, end in windows:
-		for relative_orbit in relative_orbits:
-			try:
-				results = search_window(search_wkt, start, end, relative_orbit)
-			except Exception as err:
+	product_list = read_product_list(PRODUCT_LIST_TXT)
+	if product_list:
+		print(f"[NISAR] Modo lista: buscando {len(product_list)} produto(s) em {PRODUCT_LIST_TXT}", flush=True)
+		try:
+			results = search_by_product_list(product_list)
+		except Exception as err:
+			print(f"[NISAR] Busca por lista falhou: {err}", flush=True)
+			results = []
+		total_found = len(results)
+		for product in results:
+			props = product.properties
+			pid = props.get("fileID") or props.get("granuleName") or props.get("sceneName") or ""
+			if pid:
+				seen[pid] = product
+	else:
+		search_wkt = read_search_aoi_wkt(SEARCH_GEOJSON_PATH)
+		validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
+		windows = build_time_windows()
+		relative_orbits: list[int | None] = RELATIVE_ORBIT_FILTERS or [None]
+
+		for start, end in windows:
+			for relative_orbit in relative_orbits:
+				try:
+					results = search_window(search_wkt, start, end, relative_orbit)
+				except Exception as err:
+					print(
+						f"[NISAR] Busca falhou ({start} -> {end}, "
+						f"relativeOrbit={relative_orbit}): {err}",
+						flush=True,
+					)
+					continue
+
+				if not results:
+					continue
+
+				total_found += len(results)
 				print(
-					f"[NISAR] Busca falhou ({start} -> {end}, "
-					f"relativeOrbit={relative_orbit}): {err}",
+					f"[NISAR] {len(results)} cena(s) | {start} -> {end} | "
+					f"relativeOrbit={relative_orbit}",
 					flush=True,
 				)
-				continue
 
-			if not results:
-				continue
-
-			total_found += len(results)
-			print(
-				f"[NISAR] {len(results)} cena(s) | {start} -> {end} | "
-				f"relativeOrbit={relative_orbit}",
-				flush=True,
-			)
-
-			for product in results:
-				props = product.properties
-				pid = (
-					props.get("fileID")
-					or props.get("granuleName")
-					or props.get("sceneName")
-					or ""
-				)
-				if not pid or pid in seen:
-					continue
-				if not product_intersects_validation(product, validation_geometry):
-					continue
-				if not product_matches_path_filter(product):
-					continue
-				seen[pid] = product
+				for product in results:
+					props = product.properties
+					pid = (
+						props.get("fileID")
+						or props.get("granuleName")
+						or props.get("sceneName")
+						or ""
+					)
+					if not pid or pid in seen:
+						continue
+					if not product_intersects_validation(product, validation_geometry):
+						continue
+					if not product_matches_path_filter(product):
+						continue
+					seen[pid] = product
 
 	print(f"[NISAR] Total bruto da busca: {total_found}", flush=True)
 	print(f"[NISAR] Cenas unicas apos filtragem: {len(seen)}", flush=True)

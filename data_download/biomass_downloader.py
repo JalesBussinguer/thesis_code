@@ -53,6 +53,10 @@ REQUEST_TIMEOUT = DEFAULT_TIMEOUT
 SKIP_EXISTING = True
 MIN_DOWNLOAD_SIZE_MB = 100
 
+# Se definido, baixa apenas os itens listados (um item ID/title por linha)
+# e ignora a busca por poligono/data.
+PRODUCT_LIST_TXT: str | None = None
+
 # Informe apenas um deles.
 ACCESS_TOKEN = None
 OFFLINE_TOKEN = None
@@ -424,6 +428,29 @@ def asset_href(item: Item, asset_key: str) -> str | None:
 	return asset.href
 
 
+def read_product_list(path: str | None) -> list[str]:
+	if not path:
+		return []
+	resolved = Path(path)
+	if not resolved.exists():
+		raise FileNotFoundError(f"Lista de produtos nao encontrada: {resolved}")
+	with resolved.open("r", encoding="utf-8") as fh:
+		return [line.strip() for line in fh if line.strip() and not line.strip().startswith("#")]
+
+
+def search_items_by_ids(catalog: Client, collection: str, item_ids: list[str]) -> list[Item]:
+	search_link = catalog.get_search_link()
+	if search_link is None or not search_link.target:
+		raise RuntimeError("O catalogo STAC nao exibe link de busca (/search).")
+	response = requests.post(
+		str(search_link.target),
+		json={"collections": [collection], "ids": item_ids},
+		timeout=REQUEST_TIMEOUT,
+	)
+	response.raise_for_status()
+	return [Item.from_dict(feature) for feature in response.json().get("features", [])]
+
+
 def write_manifest(output_dir: Path, rows: Iterable[dict]) -> Path:
 	manifest_path = output_dir / "download_manifest.csv"
 	rows = list(rows)
@@ -445,15 +472,89 @@ def write_manifest(output_dir: Path, rows: Iterable[dict]) -> Path:
 	return manifest_path
 
 
+def download_items(output_dir: Path, access_token: str, items: list[Item], effective_product_type: str | None, polygon_name: str, feature_index: Any) -> tuple[list[dict], set[tuple[str, str]]]:
+	rows: list[dict] = []
+	seen_downloads: set[tuple[str, str]] = set()
+	for item in items:
+		item_datetime = item.datetime.isoformat() if item.datetime else ""
+		for asset_key in ASSET_KEYS:
+			url = asset_href(item, asset_key)
+			if not url:
+				rows.append(
+					{
+						"polygon_name": polygon_name,
+						"feature_index": feature_index,
+						"item_id": item.id,
+						"collection": item.collection_id or COLLECTION,
+						"datetime": item_datetime,
+						"asset_key": asset_key,
+						"asset_url": "",
+						"download_path": "",
+						"status": "asset_not_found",
+					}
+				)
+				continue
+
+			filename = resolve_filename(url, asset_key)
+			destination = output_dir / filename
+
+			dedupe_key = (item.id, asset_key)
+			if dedupe_key in seen_downloads and destination.exists():
+				status = "already_downloaded"
+			else:
+				status = download_asset(
+					url=url,
+					destination=destination,
+					access_token=access_token,
+					timeout=REQUEST_TIMEOUT,
+					skip_existing=SKIP_EXISTING,
+				)
+				seen_downloads.add(dedupe_key)
+
+			rows.append(
+				{
+					"polygon_name": polygon_name,
+					"feature_index": feature_index,
+					"item_id": item.id,
+					"collection": item.collection_id or COLLECTION,
+					"datetime": item_datetime,
+					"asset_key": asset_key,
+					"asset_url": url,
+					"download_path": str(destination.resolve()),
+					"status": status,
+				}
+			)
+	return rows, seen_downloads
+
+
 def main() -> None:
-	validate_configuration()
 	output_dir = Path(OUTPUT_DIR)
 	output_dir.mkdir(parents=True, exist_ok=True)
-
 	access_token = get_token()
+	catalog = Client.open(CATALOG_URL)
+
+	product_list = read_product_list(PRODUCT_LIST_TXT)
+	if product_list:
+		print(f"Modo lista: buscando {len(product_list)} item(ns) em {PRODUCT_LIST_TXT}...")
+		items = search_items_by_ids(catalog, COLLECTION, product_list)
+		print(f"  {len(items)} item(ns) encontrado(s).")
+		manifest_rows, _ = download_items(output_dir, access_token, items, None, "product_list", "")
+		manifest_path = write_manifest(output_dir, manifest_rows)
+		summary = {
+			"product_list_txt": str(Path(PRODUCT_LIST_TXT).resolve()),
+			"output_dir": str(output_dir.resolve()),
+			"collection": COLLECTION,
+			"assets": ASSET_KEYS,
+			"total_items_requested": len(product_list),
+			"total_items_found": len(items),
+			"manifest": str(manifest_path.resolve()),
+		}
+		print(json.dumps(summary, indent=2, ensure_ascii=True))
+		return
+
+	validate_configuration()
 	polygons = read_polygons(SEARCH_GEOJSON_PATH, PROPERTY_FIELD)
 	validation_geometry = read_validation_geometry(VALIDATION_GEOJSON_PATH)
-	catalog = Client.open(CATALOG_URL)
 	effective_product_type = PRODUCT_TYPE or DEFAULT_PRODUCT_TYPE_BY_COLLECTION.get(COLLECTION)
 	cql2_filter = build_filter(effective_product_type, ADDITIONAL_FILTER)
 

@@ -26,7 +26,7 @@ DEFAULT_OUTPUT_DIR = ROOT_DIR / "datasets" / "asf_scenes_nisar"
 SEARCH_URL = "https://api.daac.asf.alaska.edu/services/search/param"
 REQUEST_TIMEOUT = 120
 DEFAULT_START = "2025-11-01T00:00:00Z"
-DEFAULT_END = "2026-06-11T23:59:59Z"
+DEFAULT_END = "2026-07-16T23:59:59Z"
 DEFAULT_PROCESSING_LEVEL = "RSLC"
 
 logging.getLogger("urllib3").setLevel(logging.ERROR)
