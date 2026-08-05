@@ -11,8 +11,10 @@ from __future__ import annotations
 
 import csv
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import UTC, datetime
 from pathlib import Path
+from threading import Lock
 from typing import Any
 
 import asf_search as asf
@@ -28,7 +30,7 @@ DEFAULT_OUTPUT_DIR = ROOT_DIR / "downloads" / "nisar_asf"
 # =========================
 # CONFIGURACAO DO USUARIO
 # =========================
-OUTPUT_DIR = Path("H:/nisar_data")
+OUTPUT_DIR = Path("E:/nisar_data")
 SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
 VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 DATE_START = "2025-11-01T00:00:00Z"  # inicio da busca (formato ISO 8601 UTC)
@@ -40,11 +42,12 @@ PATH_NUMBER_FILTERS: list[int] | None = None
 FLIGHT_DIRECTION: str | None = None   # asf.FLIGHT_DIRECTION.ASCENDING ou DESCENDING
 MAX_RESULTS_PER_QUERY: int | None = None
 SKIP_EXISTING = True
+MAX_DOWNLOAD_WORKERS = 4
 CMR_TIMEOUT_SECONDS = 120  # Aumentado de 30s para evitar timeouts em buscas grandes
 
 # Se definido, baixa apenas os produtos listados (um granule ID/scene name por linha)
 # e ignora a busca por criterios (DATE_START/DATE_END/AOI/orbita).
-PRODUCT_LIST_TXT: str | Path | None = None
+PRODUCT_LIST_TXT: str | Path | None = "datasets/selected_scenes_homogeneity/nisar_scene_name_to_download.txt"
 
 # Credenciais Earthdata Login
 # Metodo recomendado: configure ~/.netrc com:
@@ -58,6 +61,12 @@ EARTHDATA_TOKEN: str | None = None
 EARTHDATA_USERNAME: str | None = None
 EARTHDATA_PASSWORD: str | None = None
 CREDENTIALS_FILE = ROOT_DIR / "asf_credentials.txt"
+PRINT_LOCK = Lock()
+
+
+def safe_print(message: str) -> None:
+	with PRINT_LOCK:
+		print(message, flush=True)
 
 
 def _resolve_path(path: str | Path | None) -> Path | None:
@@ -315,6 +324,121 @@ def write_manifest(output_dir: Path, rows: list[dict[str, Any]]) -> Path:
 	return manifest_path
 
 
+def format_size_mb(bytes_count: int | None) -> str:
+	if not bytes_count:
+		return "?"
+	return f"{bytes_count / (1024 * 1024):.1f}"
+
+
+def download_with_progress(
+	url: str,
+	destination: Path,
+	session: asf.ASFSession,
+	prefix: str,
+	filename: str,
+) -> None:
+	tmp_destination = destination.with_suffix(destination.suffix + ".part")
+	last_reported = -1
+
+	with session.get(url, stream=True) as response:
+		response.raise_for_status()
+		total_bytes = int(response.headers.get("content-length", "0") or 0)
+
+		with tmp_destination.open("wb") as fh:
+			downloaded = 0
+			for chunk in response.iter_content(chunk_size=1024 * 1024):
+				if not chunk:
+					continue
+				fh.write(chunk)
+				downloaded += len(chunk)
+
+				if total_bytes > 0:
+					percent = int((downloaded * 100) / total_bytes)
+					if percent >= 100 or percent // 5 > last_reported // 5:
+						last_reported = percent
+						safe_print(
+							f"[NISAR] {prefix} Progresso - {filename}: {percent:3d}% "
+							f"({format_size_mb(downloaded)}/{format_size_mb(total_bytes)} MB)"
+						)
+				else:
+					# Sem content-length, reporta apenas tamanho baixado por chunk.
+					safe_print(
+						f"[NISAR] {prefix} Progresso - {filename}: {format_size_mb(downloaded)} MB"
+					)
+
+	tmp_destination.replace(destination)
+
+
+def _download_one(
+	idx: int,
+	total: int,
+	product: asf.ASFProduct,
+	output_dir: Path,
+	auth_available: bool,
+	session: asf.ASFSession,
+) -> dict[str, Any]:
+	props = product.properties
+	url = props.get("url") or props.get("downloadUrl") or ""
+	filename = (
+		props.get("fileName")
+		or props.get("granuleName")
+		or props.get("sceneName")
+		or "unknown"
+	)
+	destination = output_dir / filename
+	size_mb = props.get("sizeMB", "")
+	size_label = f" ({size_mb} MB)" if size_mb else ""
+	prefix = f"[{idx:>{len(str(total))}}/{total}]"
+
+	if not url:
+		status = "no_url"
+		safe_print(f"[NISAR] {prefix} SEM URL   - {filename}")
+	elif destination.exists() and SKIP_EXISTING:
+		status = "skipped"
+		safe_print(f"[NISAR] {prefix} PULADO    - {filename}{size_label}")
+	elif not auth_available:
+		status = "missing_auth"
+		safe_print(f"[NISAR] {prefix} SEM AUTH  - {filename}{size_label}")
+	else:
+		safe_print(f"[NISAR] {prefix} Baixando  - {filename}{size_label} ...")
+		try:
+			download_with_progress(
+				url=url,
+				destination=destination,
+				session=session,
+				prefix=prefix,
+				filename=filename,
+			)
+			status = "downloaded"
+			safe_print(f"[NISAR] {prefix} OK        - {filename}")
+		except Exception as err:
+			status = "error"
+			if destination.with_suffix(destination.suffix + ".part").exists():
+				destination.with_suffix(destination.suffix + ".part").unlink(missing_ok=True)
+			safe_print(f"[NISAR] {prefix} ERRO      - {filename}: {err}")
+
+	return {
+		"product_id": props.get("fileID") or props.get("granuleName") or props.get("sceneName", ""),
+		"scene_name": props.get("sceneName", ""),
+		"granule_name": props.get("granuleName", ""),
+		"platform": props.get("platform", ""),
+		"processing_level": props.get("processingLevel", ""),
+		"flight_direction": props.get("flightDirection", ""),
+		"path_number": props.get("pathNumber") or props.get("track", ""),
+		"relative_orbit": props.get("relativeOrbit", ""),
+		"absolute_orbit": props.get("absoluteOrbit") or props.get("orbit", ""),
+		"frame_number": props.get("frameNumber", ""),
+		"beam_mode": props.get("beamModeType", ""),
+		"start_time": props.get("startTime", ""),
+		"stop_time": props.get("stopTime", ""),
+		"size_mb": props.get("sizeMB", ""),
+		"download_url": url,
+		"filename": filename,
+		"download_path": str(destination),
+		"status": status,
+	}
+
+
 def main() -> None:
 	# Configurar timeout aumentado para CMR para evitar timeouts em buscas grandes
 	asf.constants.INTERNAL.CMR_TIMEOUT = CMR_TIMEOUT_SECONDS
@@ -411,64 +535,26 @@ def main() -> None:
 	downloaded_count = skipped_count = error_count = 0
 
 	print(f"[NISAR] Iniciando downloads: {total} cena(s) em {output_dir}", flush=True)
+	print(f"[NISAR] Workers paralelos: {MAX_DOWNLOAD_WORKERS}", flush=True)
 	print(f"[NISAR] {'=' * 60}", flush=True)
 
-	for idx, product in enumerate(products_list, start=1):
-		props = product.properties
-		url = props.get("url") or props.get("downloadUrl") or ""
-		filename = (
-			props.get("fileName")
-			or props.get("granuleName")
-			or props.get("sceneName")
-			or "unknown"
-		)
-		destination = output_dir / filename
-		size_mb = props.get("sizeMB", "")
-		size_label = f" ({size_mb} MB)" if size_mb else ""
-		prefix = f"[{idx:>{len(str(total))}}/{total}]"
+	with ThreadPoolExecutor(max_workers=max(1, MAX_DOWNLOAD_WORKERS)) as executor:
+		futures = [
+			executor.submit(_download_one, idx, total, product, output_dir, auth_available, session)
+			for idx, product in enumerate(products_list, start=1)
+		]
+		for future in as_completed(futures):
+			row = future.result()
+			manifest_rows.append(row)
 
-		if not url:
-			status = "no_url"
-			print(f"[NISAR] {prefix} SEM URL   - {filename}", flush=True)
-		elif destination.exists() and SKIP_EXISTING:
-			status = "skipped"
+	for row in manifest_rows:
+		status = row.get("status")
+		if status == "downloaded":
+			downloaded_count += 1
+		elif status == "skipped":
 			skipped_count += 1
-			print(f"[NISAR] {prefix} PULADO    - {filename}{size_label}", flush=True)
-		elif not auth_available:
-			status = "missing_auth"
-			print(f"[NISAR] {prefix} SEM AUTH  - {filename}{size_label}", flush=True)
-		else:
-			print(f"[NISAR] {prefix} Baixando  - {filename}{size_label} ...", flush=True)
-			try:
-				asf.download_url(url=url, path=str(output_dir), filename=filename, session=session)
-				status = "downloaded"
-				downloaded_count += 1
-				print(f"[NISAR] {prefix} OK        - {filename}", flush=True)
-			except Exception as err:
-				status = "error"
-				error_count += 1
-				print(f"[NISAR] {prefix} ERRO      - {filename}: {err}", flush=True)
-
-		manifest_rows.append({
-			"product_id": props.get("fileID") or props.get("granuleName") or props.get("sceneName", ""),
-			"scene_name": props.get("sceneName", ""),
-			"granule_name": props.get("granuleName", ""),
-			"platform": props.get("platform", ""),
-			"processing_level": props.get("processingLevel", ""),
-			"flight_direction": props.get("flightDirection", ""),
-			"path_number": props.get("pathNumber") or props.get("track", ""),
-			"relative_orbit": props.get("relativeOrbit", ""),
-			"absolute_orbit": props.get("absoluteOrbit") or props.get("orbit", ""),
-			"frame_number": props.get("frameNumber", ""),
-			"beam_mode": props.get("beamModeType", ""),
-			"start_time": props.get("startTime", ""),
-			"stop_time": props.get("stopTime", ""),
-			"size_mb": props.get("sizeMB", ""),
-			"download_url": url,
-			"filename": filename,
-			"download_path": str(destination),
-			"status": status,
-		})
+		elif status == "error":
+			error_count += 1
 
 	manifest_path = write_manifest(output_dir=output_dir, rows=manifest_rows)
 	print(f"[NISAR] {'=' * 60}", flush=True)

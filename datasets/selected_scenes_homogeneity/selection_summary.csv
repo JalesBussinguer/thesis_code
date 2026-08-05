@@ -1,0 +1,3 @@
+sensor,anchor_time,temporal_span_days,total_deviation_days,unique_scenes
+NISAR,2026-07-15T09:26:21+00:00,9.019271,257.591991,51
+SENTINEL1,2026-03-19T08:52:04+00:00,10.013565,446.784699,57
