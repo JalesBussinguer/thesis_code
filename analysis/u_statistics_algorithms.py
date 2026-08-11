@@ -6,10 +6,18 @@ Intensity Data With Nonparametric U-Statistics"
 Baseado no código IDL original de Negri et al.
 """
 
+import os
 import numpy as np
+from concurrent.futures import ProcessPoolExecutor
 from typing import List, Tuple, Optional, Union
 from dataclasses import dataclass
 from tqdm import tqdm  # Para progress bars (opcional)
+
+
+_BOOTSTRAP_X = None
+_BOOTSTRAP_GROUPS = None
+_BOOTSTRAP_GROUP_INDEXES = None
+_BOOTSTRAP_GAMMA = None
 
 
 @dataclass
@@ -67,6 +75,89 @@ def kernel(X: np.ndarray, Y: np.ndarray, kernel_type: int, kernel_par: float) ->
         raise ValueError(f"kernel_type desconhecido: {kernel_type}")
 
 
+def _as_2d_array(X: List[np.ndarray] | np.ndarray) -> np.ndarray:
+    if isinstance(X, np.ndarray):
+        arr = X
+    else:
+        arr = np.asarray(X, dtype=float)
+
+    if arr.ndim == 1:
+        arr = arr.reshape(-1, 1)
+
+    return arr.astype(float, copy=False)
+
+
+def _prepare_groups(group_indices: List[int]) -> Tuple[np.ndarray, np.ndarray, dict]:
+    groups = np.asarray(group_indices)
+    unique_groups = np.unique(groups)
+    group_sizes = {g: int(np.sum(groups == g)) for g in unique_groups}
+    return groups, unique_groups, group_sizes
+
+
+def _compute_statistic_T_array(
+    X: np.ndarray,
+    group_indices: np.ndarray,
+    gamma: float,
+    block_size: int = 512,
+) -> float:
+    n_obs = X.shape[0]
+    groups = np.unique(group_indices)
+    group_sizes = {g: int(np.sum(group_indices == g)) for g in groups}
+    N_total = n_obs
+
+    same_group_coeff = {
+        g: (-(N_total - group_size) / (group_size - 1) if group_size > 1 else 0.0)
+        for g, group_size in group_sizes.items()
+    }
+
+    T = 0.0
+    for start_i in range(0, n_obs, block_size):
+        end_i = min(start_i + block_size, n_obs)
+        X_i = X[start_i:end_i]
+        g_i = group_indices[start_i:end_i]
+
+        for start_j in range(0, n_obs, block_size):
+            end_j = min(start_j + block_size, n_obs)
+            X_j = X[start_j:end_j]
+            g_j = group_indices[start_j:end_j]
+
+            distances = np.sum(np.abs(X_i[:, None, :] - X_j[None, :, :]), axis=2) ** gamma
+            eta = np.ones((end_i - start_i, end_j - start_j), dtype=float)
+
+            same_mask = g_i[:, None] == g_j[None, :]
+            if np.any(same_mask):
+                for g, coeff in same_group_coeff.items():
+                    if coeff == 0.0:
+                        continue
+                    eta[np.logical_and(same_mask, g_i[:, None] == g)] = coeff
+
+            T += float(np.sum(eta * distances))
+
+    return T
+
+
+def _bootstrap_init(X: np.ndarray, groups: np.ndarray, group_indexes: List[np.ndarray], gamma: float) -> None:
+    global _BOOTSTRAP_X, _BOOTSTRAP_GROUPS, _BOOTSTRAP_GROUP_INDEXES, _BOOTSTRAP_GAMMA
+    _BOOTSTRAP_X = X
+    _BOOTSTRAP_GROUPS = groups
+    _BOOTSTRAP_GROUP_INDEXES = group_indexes
+    _BOOTSTRAP_GAMMA = gamma
+
+
+def _bootstrap_one(_: int) -> float:
+    X_boot = []
+    group_indices_boot = []
+
+    for g, indices_g in zip(_BOOTSTRAP_GROUPS, _BOOTSTRAP_GROUP_INDEXES):
+        boot_indices = np.random.choice(indices_g, size=len(indices_g), replace=True)
+        X_boot.append(_BOOTSTRAP_X[boot_indices])
+        group_indices_boot.append(np.full(len(boot_indices), g))
+
+    X_boot_arr = np.vstack(X_boot)
+    group_indices_boot_arr = np.concatenate(group_indices_boot)
+    return _compute_statistic_T_array(X_boot_arr, group_indices_boot_arr, _BOOTSTRAP_GAMMA)
+
+
 def compute_statistic_T(X: List[np.ndarray], 
                         group_indices: List[int], 
                         gamma: float) -> float:
@@ -88,32 +179,9 @@ def compute_statistic_T(X: List[np.ndarray],
     --------
     float: Valor da estatística T
     """
-    n_obs = len(X)
-    group_sizes = {}
-    
-    # Calcular tamanhos dos grupos
-    for idx, g in enumerate(group_indices):
-        group_sizes[g] = group_sizes.get(g, 0) + 1
-    
-    T = 0.0
-    N_total = len(X)
-    
-    for i in range(n_obs):
-        for j in range(n_obs):
-            # Determinar η_ij conforme equação (12)
-            if group_indices[i] != group_indices[j]:
-                # Observações em grupos diferentes
-                eta = 1.0
-            else:
-                # Observações no mesmo grupo
-                group_size = group_sizes[group_indices[i]]
-                eta = -(N_total - group_size) / (group_size - 1) if group_size > 1 else 0.0
-            
-            # Calcular distância L1^γ
-            dist = np.linalg.norm(X[i] - X[j], ord=1) ** gamma
-            T += eta * dist
-    
-    return T
+    X_arr = _as_2d_array(X)
+    groups_arr, _, _ = _prepare_groups(group_indices)
+    return _compute_statistic_T_array(X_arr, groups_arr, gamma)
 
 
 def compute_statistic_T_within(X: List[np.ndarray], 
@@ -152,7 +220,8 @@ def bootstrap_p_value(X: List[np.ndarray],
                       gamma: float, 
                       observed_T: float, 
                       B: int = 2000,
-                      verbose: bool = False) -> float:
+                      verbose: bool = False,
+                      n_jobs: Optional[int] = None) -> float:
     """
     Calcula o p-valor via bootstrap
     
@@ -175,40 +244,36 @@ def bootstrap_p_value(X: List[np.ndarray],
     --------
     float: p-valor
     """
-    n_obs = len(X)
-    groups = np.unique(group_indices)
-    group_sizes = [np.sum(np.array(group_indices) == g) for g in groups]
-    
-    T_bootstrap = []
-    
-    iterator = range(B)
-    if verbose:
-        iterator = tqdm(iterator, desc="Bootstrap")
-    
-    for _ in iterator:
-        # Reamostrar com reposição dentro de cada grupo
-        X_boot = []
-        group_indices_boot = []
-        
-        for g, size in zip(groups, group_sizes):
-            # Selecionar índices das observações do grupo g
-            indices_g = [i for i, gi in enumerate(group_indices) if gi == g]
-            # Reamostrar com reposição
-            boot_indices = np.random.choice(indices_g, size=size, replace=True)
-            
-            for idx in boot_indices:
-                X_boot.append(X[idx])
-                group_indices_boot.append(g)
-        
-        # Calcular T para a amostra bootstrap
-        T_boot = compute_statistic_T(X_boot, group_indices_boot, gamma)
-        T_bootstrap.append(T_boot)
-    
-    # Calcular p-valor
-    T_bootstrap = np.array(T_bootstrap)
-    p_value = np.mean(T_bootstrap >= observed_T)
-    
-    return p_value
+    X_arr = _as_2d_array(X)
+    groups_arr = np.asarray(group_indices)
+    groups = np.unique(groups_arr)
+    group_indexes = [np.where(groups_arr == g)[0] for g in groups]
+
+    if n_jobs is None:
+        n_jobs = max(1, (os.cpu_count() or 1) - 1)
+
+    if n_jobs <= 1 or B < 2:
+        iterator = range(B)
+        if verbose:
+            iterator = tqdm(iterator, desc="Bootstrap")
+
+        T_bootstrap = []
+        for _ in iterator:
+            T_bootstrap.append(_bootstrap_one(0))
+    else:
+        iterator = range(B)
+        if verbose:
+            iterator = tqdm(iterator, desc="Bootstrap")
+
+        with ProcessPoolExecutor(
+            max_workers=n_jobs,
+            initializer=_bootstrap_init,
+            initargs=(X_arr, groups, group_indexes, gamma),
+        ) as executor:
+            T_bootstrap = list(executor.map(_bootstrap_one, iterator, chunksize=max(1, B // (n_jobs * 4))))
+
+    T_bootstrap = np.asarray(T_bootstrap)
+    return float(np.mean(T_bootstrap >= observed_T))
 
 
 def homogeneity_test(X: List[np.ndarray], 
@@ -216,7 +281,8 @@ def homogeneity_test(X: List[np.ndarray],
                 gamma: float, 
                 alpha: float = 0.05, 
                 B: int = 2000,
-                verbose: bool = False) -> Tuple[float, bool]:
+                verbose: bool = False,
+                n_jobs: Optional[int] = None) -> Tuple[float, bool]:
     """
     Algoritmo 1: Teste de homogeneidade baseado em U-statistics
     
@@ -245,7 +311,7 @@ def homogeneity_test(X: List[np.ndarray],
     observed_T = compute_statistic_T(X, group_indices, gamma)
     
     # Calcular p-valor via bootstrap
-    p_value = bootstrap_p_value(X, group_indices, gamma, observed_T, B, verbose)
+    p_value = bootstrap_p_value(X, group_indices, gamma, observed_T, B, verbose, n_jobs)
     
     # Decisão
     reject_null = p_value < alpha
@@ -467,6 +533,35 @@ def image_classification(img: np.ndarray,
         classification_map[row, col] = best_class
     
     return classification_map
+
+
+# Wrappers com os nomes citados no artigo e no exemplo de uso.
+def algorithm_1(X: List[np.ndarray],
+                group_indices: List[int],
+                gamma: float,
+                alpha: float = 0.05,
+                B: int = 2000,
+                verbose: bool = False) -> Tuple[float, bool]:
+    return homogeneity_test(X, group_indices, gamma, alpha, B, verbose)
+
+
+def algorithm_2(X: List[np.ndarray],
+                group_indices: List[int],
+                gamma: float,
+                alpha: float = 0.05,
+                B: int = 2000,
+                verbose: bool = False) -> Tuple[List[int], dict]:
+    return hierarchical_separability_analysis(X, group_indices, gamma, alpha, B, verbose)
+
+
+def algorithm_3(img: np.ndarray,
+                training_data: List[np.ndarray],
+                training_labels: List[int],
+                gamma: float,
+                rho: int,
+                kernel_type: int = 1,
+                verbose: bool = False) -> np.ndarray:
+    return image_classification(img, training_data, training_labels, gamma, rho, kernel_type, verbose)
 
 
 # Funções auxiliares para processamento de dados PolSAR
