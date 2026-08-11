@@ -23,6 +23,12 @@ from shapely.geometry import shape
 from shapely.ops import unary_union
 from shapely.validation import make_valid
 
+try:
+	from tqdm import tqdm
+except ImportError:
+	def tqdm(iterable, **_kwargs):
+		return iterable
+
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = ROOT_DIR / "downloads" / "nisar_asf"
 
@@ -35,7 +41,7 @@ SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
 VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 DATE_START = "2025-11-01T00:00:00Z"  # inicio da busca (formato ISO 8601 UTC)
 DATE_END = "2026-06-12T23:59:59Z"    # fim da busca  (None = agora)
-PROCESSING_LEVEL = "RSLC"            # RSLC e o nivel mais comum para NISAR
+PROCESSING_LEVEL = "GSLC"            # RSLC e o nivel mais comum para NISAR
 WINDOW_MONTHS = 1
 RELATIVE_ORBIT_FILTERS: list[int] | None = None
 PATH_NUMBER_FILTERS: list[int] | None = None
@@ -336,35 +342,29 @@ def download_with_progress(
 	session: asf.ASFSession,
 	prefix: str,
 	filename: str,
+	position: int,
 ) -> None:
 	tmp_destination = destination.with_suffix(destination.suffix + ".part")
-	last_reported = -1
 
 	with session.get(url, stream=True) as response:
 		response.raise_for_status()
 		total_bytes = int(response.headers.get("content-length", "0") or 0)
 
-		with tmp_destination.open("wb") as fh:
-			downloaded = 0
+		desc = f"{prefix} {filename}"
+		with tmp_destination.open("wb") as fh, tqdm(
+				total=total_bytes or None,
+				desc=desc,
+				unit="B",
+				unit_scale=True,
+				unit_divisor=1024,
+				position=position,
+				leave=False,
+		) as progress:
 			for chunk in response.iter_content(chunk_size=1024 * 1024):
 				if not chunk:
 					continue
 				fh.write(chunk)
-				downloaded += len(chunk)
-
-				if total_bytes > 0:
-					percent = int((downloaded * 100) / total_bytes)
-					if percent >= 100 or percent // 5 > last_reported // 5:
-						last_reported = percent
-						safe_print(
-							f"[NISAR] {prefix} Progresso - {filename}: {percent:3d}% "
-							f"({format_size_mb(downloaded)}/{format_size_mb(total_bytes)} MB)"
-						)
-				else:
-					# Sem content-length, reporta apenas tamanho baixado por chunk.
-					safe_print(
-						f"[NISAR] {prefix} Progresso - {filename}: {format_size_mb(downloaded)} MB"
-					)
+				progress.update(len(chunk))
 
 	tmp_destination.replace(destination)
 
@@ -408,6 +408,7 @@ def _download_one(
 				session=session,
 				prefix=prefix,
 				filename=filename,
+				position=idx - 1,
 			)
 			status = "downloaded"
 			safe_print(f"[NISAR] {prefix} OK        - {filename}")

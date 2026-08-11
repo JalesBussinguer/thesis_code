@@ -1,0 +1,22 @@
+{
+  "input_dir": "E:/nisar_data",
+  "output_dir": "E:/nisar_data/output",
+  "recursive": true,
+  "search_extensions": [".h5", ".hdf5"],
+  "sensor_patterns": {
+    "nisar": ["nisar", "gslc"]
+  },
+  "sensor_filter": ["nisar"],
+  "nisar_extract_operation": "import_nisar_gslc",
+  "nisar_extract_kwargs": {
+    "inFile": "{input}",
+    "out_dir": "{output_dir}",
+    "mat": "C2",
+    "azlks": 2,
+    "rglks": 2,
+    "fmt": "tif",
+    "comp": true
+  },
+  "matrix_input_subdir": "C2",
+  "steps": []
+}

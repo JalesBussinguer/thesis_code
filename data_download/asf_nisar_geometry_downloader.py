@@ -27,7 +27,7 @@ SEARCH_URL = "https://api.daac.asf.alaska.edu/services/search/param"
 REQUEST_TIMEOUT = 120
 DEFAULT_START = "2025-11-01T00:00:00Z"
 DEFAULT_END = "2026-07-31T23:59:59Z"
-DEFAULT_PROCESSING_LEVEL = "RSLC"
+DEFAULT_PROCESSING_LEVEL = "GSLC"
 
 logging.getLogger("urllib3").setLevel(logging.ERROR)
 
