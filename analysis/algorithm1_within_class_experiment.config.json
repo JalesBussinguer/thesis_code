@@ -3,8 +3,8 @@
   "output_csv": "analysis/results/algorithm1_within_class_results.csv",
   "gamma": 1.0,
   "alpha": 0.05,
-  "B": 20,
+  "B": 500,
   "seed": 42,
   "verbose_bootstrap": true,
-  "verbose": true
+  "verbose": false
 }

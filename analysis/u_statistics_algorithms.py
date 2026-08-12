@@ -8,7 +8,7 @@ Baseado no código IDL original de Negri et al.
 
 import os
 import numpy as np
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import List, Tuple, Optional, Union
 from dataclasses import dataclass
 from tqdm import tqdm  # Para progress bars (opcional)
@@ -261,16 +261,20 @@ def bootstrap_p_value(X: List[np.ndarray],
         for _ in iterator:
             T_bootstrap.append(_bootstrap_one(0))
     else:
-        iterator = range(B)
-        if verbose:
-            iterator = tqdm(iterator, desc="Bootstrap")
-
         with ProcessPoolExecutor(
             max_workers=n_jobs,
             initializer=_bootstrap_init,
             initargs=(X_arr, groups, group_indexes, gamma),
         ) as executor:
-            T_bootstrap = list(executor.map(_bootstrap_one, iterator, chunksize=max(1, B // (n_jobs * 4))))
+            futures = [executor.submit(_bootstrap_one, i) for i in range(B)]
+            T_bootstrap = []
+
+            if verbose:
+                for future in tqdm(as_completed(futures), total=B, desc="Bootstrap"):
+                    T_bootstrap.append(future.result())
+            else:
+                for future in as_completed(futures):
+                    T_bootstrap.append(future.result())
 
     T_bootstrap = np.asarray(T_bootstrap)
     return float(np.mean(T_bootstrap >= observed_T))

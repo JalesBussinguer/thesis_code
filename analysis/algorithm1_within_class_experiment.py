@@ -25,11 +25,11 @@ import numpy as np
 from tqdm import tqdm
 
 try:
-    from analysis.u_statistics_algorithms import homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
 except ModuleNotFoundError:
     # Permite execucao direta: python analysis/algorithm1_within_class_experiment.py
     sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from analysis.u_statistics_algorithms import homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
 
 
 CLASS_NAME_MAP = {
@@ -180,9 +180,8 @@ def run_within_class_algorithm_1(
     )
 
     class_items = sorted(grouped_files.items())
-    class_iterator = tqdm(class_items, desc="Classes", leave=True)
 
-    for class_code, files in class_iterator:
+    for class_code, files in class_items:
         if len(files) < 2:
             logger.warning(
                 "Classe %s ignorada: possui apenas %d amostra(s)",
@@ -201,6 +200,7 @@ def run_within_class_algorithm_1(
 
         X, group_indices, sample_names = build_X_and_groups(files, show_progress=True)
 
+        observed_T = compute_statistic_T(X, group_indices, gamma)
         p_value, reject_h0 = homogeneity_test(
             X=X,
             group_indices=group_indices,
@@ -226,14 +226,16 @@ def run_within_class_algorithm_1(
                 "alpha": float(alpha),
                 "B": int(B),
                 "seed": int(seed),
+                "T_observed": float(observed_T),
                 "p_value": float(p_value),
                 "reject_h0": bool(reject_h0),
             }
         )
 
         logger.info(
-            "Classe %s concluida | p=%.6f | reject_h0=%s",
+            "Classe %s concluida | T=%.6f | p=%.6f | reject_h0=%s",
             class_code,
+            observed_T,
             p_value,
             reject_h0,
         )
@@ -252,6 +254,7 @@ def write_results_csv(results: List[dict], output_csv: Path) -> None:
         "group_sizes",
         "n_observations_total",
         "gamma",
+        "T_observed",
         "p_value",
         "alpha",
         "B",
@@ -278,7 +281,7 @@ def print_summary(results: List[dict]) -> None:
         decision = "Rejeita H0" if row["reject_h0"] else "Nao rejeita H0"
         print(
             f"Classe {row['class_code']} ({row['class_name']}): "
-            f"p={row['p_value']:.6f}, {decision}"
+            f"T={row['T_observed']:.6f}, p={row['p_value']:.6f}, {decision}"
         )
 
 
