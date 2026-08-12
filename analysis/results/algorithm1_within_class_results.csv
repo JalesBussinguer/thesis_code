@@ -1,4 +1,4 @@
 class_code,class_name,n_samples,sample_names,group_sizes,n_observations_total,gamma,T_observed,p_value,alpha,B,seed,reject_h0
-Fo,Floresta,5,Fo_B|Fo_G|Fo_R|Fo_U|Fo_W,2713|3059|3396|4730|5376,19274,1.0,650662.6728069687,0.618,0.05,500,42,False
-Gl,Graminea,5,Gl_B|Gl_G|Gl_R|Gl_U|Gl_W,216|2217|516|258|498,3705,1.0,19802.168551905863,0.596,0.05,500,42,False
-Sv,Savana,5,Sv_B|Sv_G|Sv_R|Sv_U|Sv_W,8571|3316|2692|4112|5174,23865,1.0,4872347.145711004,0.542,0.05,500,42,False
+Fo,Floresta,5,Fo_B|Fo_G|Fo_R|Fo_U|Fo_W,2713|3059|3396|4730|5376,19274,1.0,650662.6728069687,0.62,0.05,1000,42,False
+Gl,Graminea,5,Gl_B|Gl_G|Gl_R|Gl_U|Gl_W,216|2217|516|258|498,3705,1.0,19802.168551905863,0.627,0.05,1000,42,False
+Sv,Savana,5,Sv_B|Sv_G|Sv_R|Sv_U|Sv_W,8571|3316|2692|4112|5174,23865,1.0,4872347.145711004,0.555,0.05,1000,42,False

@@ -1,6 +1,6 @@
 {
   "input_dir": "datasets/samples_sbsr_bsb",
-  "output_csv": "analysis/results/algorithm1_within_class_results.csv",
+  "output_csv": "analysis/results/algorithm1_between_class_results.csv",
   "gamma": 1.0,
   "alpha": 0.05,
   "B": 1000,
