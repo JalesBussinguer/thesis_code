@@ -23,10 +23,16 @@ import numpy as np
 from tqdm import tqdm
 
 try:
-    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
+    from analysis.u_statistics_algorithms import (
+        compute_statistic_T_between_groups,
+        homogeneity_test,
+    )
 except ModuleNotFoundError:
     sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
+    from analysis.u_statistics_algorithms import (
+        compute_statistic_T_between_groups,
+        homogeneity_test,
+    )
 
 
 CLASS_NAME_MAP = {
@@ -172,7 +178,7 @@ def run_between_class_algorithm_1(
         )
 
         # Neste experimento, os dois grupos sao as classes inteiras.
-        observed_T = compute_statistic_T(X, group_indices, gamma)
+        observed_T = compute_statistic_T_between_groups(X, group_indices, gamma)
         p_value, reject_h0 = homogeneity_test(
             X=X,
             group_indices=group_indices,

@@ -18,6 +18,7 @@ _BOOTSTRAP_X = None
 _BOOTSTRAP_GROUPS = None
 _BOOTSTRAP_GROUP_INDEXES = None
 _BOOTSTRAP_GAMMA = None
+_BOOTSTRAP_DISTANCES = None
 
 
 @dataclass
@@ -94,46 +95,127 @@ def _prepare_groups(group_indices: List[int]) -> Tuple[np.ndarray, np.ndarray, d
     return groups, unique_groups, group_sizes
 
 
+def _pairwise_distances(X: np.ndarray, gamma: float) -> np.ndarray:
+    """Calcula a matriz simétrica de distâncias entre as observações."""
+    differences = X[:, None, :] - X[None, :, :]
+    distances = np.sum(np.abs(differences), axis=2)
+    return distances ** gamma
+
+
+def _compute_statistic_T_from_distances(
+    distances: np.ndarray,
+    group_indices: np.ndarray,
+) -> float:
+    """Calcula T reutilizando uma matriz de distâncias já calculada."""
+    n_obs = len(group_indices)
+    groups, inverse = np.unique(group_indices, return_inverse=True)
+    group_sizes = np.bincount(inverse, minlength=len(groups))
+    coefficients = np.zeros(len(groups), dtype=float)
+    valid = group_sizes > 1
+    coefficients[valid] = -(n_obs - group_sizes[valid]) / (group_sizes[valid] - 1)
+    same_group = inverse[:, None] == inverse[None, :]
+    weights = np.where(same_group, coefficients[inverse[:, None]], 1.0)
+    return float(np.sum(weights * distances))
+
+
+def _compute_statistic_T_within_group_array(
+    X: np.ndarray,
+    group_indices: np.ndarray,
+    gamma: float,
+    block_size: int = 512,
+) -> float:
+    """
+    Cálculo explícito da estatística T para o caso intra-grupo.
+
+    Este método é usado quando o objetivo é medir a variabilidade dentro de um
+    mesmo grupo (amostra ou classe). Os pares dentro do mesmo grupo recebem o
+    coeficiente η_ij = -(N - n_g)/(n_g - 1), enquanto pares entre grupos são
+    tratados como 1.
+    """
+    return _compute_statistic_T_array(X, group_indices, gamma, block_size)
+
+
+def compute_statistic_T_within_group(
+    X: List[np.ndarray],
+    group_indices: List[int],
+    gamma: float,
+    block_size: int = 512,
+) -> float:
+    """
+    Calcula a estatística T para o caso intra-grupo.
+    """
+    X_arr = _as_2d_array(X)
+    groups_arr, _, _ = _prepare_groups(group_indices)
+    return _compute_statistic_T_within_group_array(X_arr, groups_arr, gamma, block_size=block_size)
+
+
+def _compute_statistic_T_between_groups_array(
+    X: np.ndarray,
+    group_indices: np.ndarray,
+    gamma: float,
+    block_size: int = 512,
+) -> float:
+    """
+    Cálculo explícito da estatística T para a comparação entre dois grupos.
+
+    Este é o caminho distinto do caso intra-grupo, com a mesma estrutura de
+    pesos do artigo: grupos iguais recebem η_ij = -(N - n_g)/(n_g - 1) e pares
+    entre grupos distintos recebem η_ij = 1.
+    """
+    unique_groups = np.unique(group_indices)
+    if unique_groups.size != 2:
+        raise ValueError(
+            "A comparação entre grupos exige exatamente 2 grupos; "
+            f"foram encontrados {unique_groups.size}: {unique_groups}"
+        )
+
+    return _compute_statistic_T_array(X, group_indices, gamma, block_size)
+
+
 def _compute_statistic_T_array(
     X: np.ndarray,
     group_indices: np.ndarray,
     gamma: float,
     block_size: int = 512,
 ) -> float:
+    """Calcula T em blocos, computando cada par apenas uma vez."""
     n_obs = X.shape[0]
-    groups = np.unique(group_indices)
-    group_sizes = {g: int(np.sum(group_indices == g)) for g in groups}
-    N_total = n_obs
-
-    same_group_coeff = {
-        g: (-(N_total - group_size) / (group_size - 1) if group_size > 1 else 0.0)
-        for g, group_size in group_sizes.items()
-    }
-
-    T = 0.0
+    total = 0.0
     for start_i in range(0, n_obs, block_size):
         end_i = min(start_i + block_size, n_obs)
         X_i = X[start_i:end_i]
-        g_i = group_indices[start_i:end_i]
-
-        for start_j in range(0, n_obs, block_size):
+        groups_i = group_indices[start_i:end_i]
+        for start_j in range(start_i, n_obs, block_size):
             end_j = min(start_j + block_size, n_obs)
-            X_j = X[start_j:end_j]
-            g_j = group_indices[start_j:end_j]
+            distances = np.sum(
+                np.abs(X_i[:, None, :] - X[start_j:end_j][None, :, :]), axis=2
+            ) ** gamma
+            groups_j = group_indices[start_j:end_j]
+            weights = np.where(groups_i[:, None] == groups_j[None, :], 0.0, 1.0)
+            for group in np.unique(group_indices):
+                size = np.sum(group_indices == group)
+                coefficient = -(n_obs - size) / (size - 1) if size > 1 else 0.0
+                weights[groups_i[:, None] == group] = np.where(
+                    groups_j[None, :] == group, coefficient, weights[groups_i[:, None] == group]
+                )
+            total += float(np.sum(weights * distances))
+            if start_j != start_i:
+                total += float(np.sum(weights * distances.T))
+    return total
 
-            distances = np.sum(np.abs(X_i[:, None, :] - X_j[None, :, :]), axis=2) ** gamma
-            eta = np.ones((end_i - start_i, end_j - start_j), dtype=float)
 
-            same_mask = g_i[:, None] == g_j[None, :]
-            if np.any(same_mask):
-                for g, coeff in same_group_coeff.items():
-                    if coeff == 0.0:
-                        continue
-                    eta[np.logical_and(same_mask, g_i[:, None] == g)] = coeff
-
-            T += float(np.sum(eta * distances))
-
-    return T
+def compute_statistic_T_between_groups(
+    X: List[np.ndarray],
+    group_indices: List[int],
+    gamma: float,
+    block_size: int = 512,
+) -> float:
+    """
+    Calcula a estatística T para comparação entre dois grupos distintos.
+    """
+    X_arr = _as_2d_array(X)
+    groups_arr, _, _ = _prepare_groups(group_indices)
+    return _compute_statistic_T_between_groups_array(X_arr, groups_arr, gamma, block_size=block_size)
 
 
 def _bootstrap_init(X: np.ndarray, groups: np.ndarray, group_indexes: List[np.ndarray], gamma: float) -> None:
@@ -162,26 +244,13 @@ def compute_statistic_T(X: List[np.ndarray],
                         group_indices: List[int], 
                         gamma: float) -> float:
     """
-    Calcula a estatística T conforme equação (11) do artigo
-    
-    T(Z) = Σ η_ij * ||Z_i - Z_j||_1^γ
-    
-    Parameters:
-    -----------
-    X : List[np.ndarray]
-        Lista de todas as observações
-    group_indices : List[int]
-        Índices dos grupos para cada observação
-    gamma : float
-        Parâmetro γ do kernel
-    
-    Returns:
-    --------
-    float: Valor da estatística T
+    Compatibilidade: mantém o nome antigo, mas o cálculo passa a ser
+    explicitamente o caso intra-grupo.
+
+    Para o experimento entre dois grupos, use
+    compute_statistic_T_between_groups(...).
     """
-    X_arr = _as_2d_array(X)
-    groups_arr, _, _ = _prepare_groups(group_indices)
-    return _compute_statistic_T_array(X_arr, groups_arr, gamma)
+    return compute_statistic_T_within_group(X, group_indices, gamma)
 
 
 def compute_statistic_T_within(X: List[np.ndarray], 

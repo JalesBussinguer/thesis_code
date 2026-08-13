@@ -25,11 +25,11 @@ import numpy as np
 from tqdm import tqdm
 
 try:
-    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T_within_group, homogeneity_test
 except ModuleNotFoundError:
     # Permite execucao direta: python analysis/algorithm1_within_class_experiment.py
     sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from analysis.u_statistics_algorithms import compute_statistic_T, homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T_within_group, homogeneity_test
 
 
 CLASS_NAME_MAP = {
@@ -200,7 +200,7 @@ def run_within_class_algorithm_1(
 
         X, group_indices, sample_names = build_X_and_groups(files, show_progress=True)
 
-        observed_T = compute_statistic_T(X, group_indices, gamma)
+        observed_T = compute_statistic_T_within_group(X, group_indices, gamma)
         p_value, reject_h0 = homogeneity_test(
             X=X,
             group_indices=group_indices,
