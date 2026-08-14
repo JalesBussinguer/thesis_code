@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import sys
+from itertools import combinations
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -25,11 +26,11 @@ import numpy as np
 from tqdm import tqdm
 
 try:
-    from analysis.u_statistics_algorithms import compute_statistic_T_within_group, homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T_between_groups
 except ModuleNotFoundError:
     # Permite execucao direta: python analysis/algorithm1_within_class_experiment.py
     sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from analysis.u_statistics_algorithms import compute_statistic_T_within_group, homogeneity_test
+    from analysis.u_statistics_algorithms import compute_statistic_T_between_groups
 
 
 CLASS_NAME_MAP = {
@@ -160,6 +161,39 @@ def build_X_and_groups(class_files: List[Path], show_progress: bool = False) -> 
     return X, group_indices, sample_names
 
 
+def pooled_bootstrap_p_value(
+    X: List[np.ndarray],
+    group_indices: List[int],
+    gamma: float,
+    observed_T: float,
+    B: int,
+    seed: int,
+    verbose: bool = False,
+) -> float:
+    """Bootstrap de um par com os dois grupos reunidos em uma bacia X."""
+    if B < 1:
+        raise ValueError("B deve ser maior que zero")
+
+    X_array = np.asarray(X, dtype=float)
+    labels = np.asarray(group_indices, dtype=int)
+    if not np.any(labels == 0) or not np.any(labels == 1):
+        raise ValueError("O bootstrap exige dois grupos nao vazios")
+
+    rng = np.random.default_rng(seed)
+    extreme_count = 0
+    iterator = tqdm(range(B), desc="Bootstrap", leave=False) if verbose else range(B)
+    for _ in iterator:
+        pooled_indices = rng.integers(0, len(X_array), size=len(X_array))
+        bootstrap_T = compute_statistic_T_between_groups(
+            X_array[pooled_indices],
+            labels.tolist(),
+            gamma,
+        )
+        extreme_count += int(bootstrap_T >= observed_T)
+
+    return (extreme_count + 1) / (B + 1)
+
+
 def run_within_class_algorithm_1(
     input_dir: Path,
     gamma: float,
@@ -198,47 +232,50 @@ def run_within_class_algorithm_1(
             len(files),
         )
 
-        X, group_indices, sample_names = build_X_and_groups(files, show_progress=True)
+        for file_a, file_b in combinations(sorted(files), 2):
+            _, values_a = load_numeric_columns(file_a)
+            _, values_b = load_numeric_columns(file_b)
+            observations_a = [row.astype(float) for row in values_a]
+            observations_b = [row.astype(float) for row in values_b]
 
-        observed_T = compute_statistic_T_within_group(X, group_indices, gamma)
-        p_value, reject_h0 = homogeneity_test(
-            X=X,
-            group_indices=group_indices,
-            gamma=gamma,
-            alpha=alpha,
-            B=B,
-            verbose=verbose_bootstrap,
-        )
-
-        group_sizes = []
-        for gid in range(len(sample_names)):
-            group_sizes.append(int(np.sum(np.array(group_indices) == gid)))
-
-        results.append(
-            {
-                "class_code": class_code,
-                "class_name": class_name,
-                "n_samples": len(sample_names),
-                "sample_names": "|".join(sample_names),
-                "group_sizes": "|".join(str(x) for x in group_sizes),
-                "n_observations_total": len(X),
-                "gamma": float(gamma),
-                "alpha": float(alpha),
-                "B": int(B),
-                "seed": int(seed),
-                "T_observed": float(observed_T),
-                "p_value": float(p_value),
-                "reject_h0": bool(reject_h0),
-            }
-        )
-
-        logger.info(
-            "Classe %s concluida | T=%.6f | p=%.6f | reject_h0=%s",
-            class_code,
-            observed_T,
-            p_value,
-            reject_h0,
-        )
+            observed_X = observations_a + observations_b
+            observed_groups = [0] * len(observations_a) + [1] * len(observations_b)
+            observed_T = compute_statistic_T_between_groups(
+                observed_X, observed_groups, gamma
+            )
+            pair_seed = seed + len(results)
+            p_value = pooled_bootstrap_p_value(
+                observed_X,
+                observed_groups,
+                gamma,
+                observed_T,
+                B,
+                pair_seed,
+                verbose_bootstrap,
+            )
+            reject_h0 = p_value < alpha
+            results.append(
+                {
+                    "class_code": class_code,
+                    "class_name": class_name,
+                    "sample_a": file_a.stem,
+                    "sample_b": file_b.stem,
+                    "sample_a_size": len(observations_a),
+                    "sample_b_size": len(observations_b),
+                    "n_observations_total": len(observed_X),
+                    "gamma": float(gamma),
+                    "alpha": float(alpha),
+                    "B": int(B),
+                    "seed": int(pair_seed),
+                    "T_observed": float(observed_T),
+                    "p_value": float(p_value),
+                    "reject_h0": bool(reject_h0),
+                }
+            )
+            logger.info(
+                "%s: %s x %s | T=%.6f | p=%.6f | reject_h0=%s",
+                class_code, file_a.stem, file_b.stem, observed_T, p_value, reject_h0
+            )
 
     return results
 
@@ -249,9 +286,10 @@ def write_results_csv(results: List[dict], output_csv: Path) -> None:
     headers = [
         "class_code",
         "class_name",
-        "n_samples",
-        "sample_names",
-        "group_sizes",
+        "sample_a",
+        "sample_b",
+        "sample_a_size",
+        "sample_b_size",
         "n_observations_total",
         "gamma",
         "T_observed",
@@ -277,10 +315,10 @@ def print_summary(results: List[dict]) -> None:
         return
 
     print(f"Total de classes avaliadas: {len(results)}")
-    for row in sorted(results, key=lambda x: x["class_code"]):
+    for row in results:
         decision = "Rejeita H0" if row["reject_h0"] else "Nao rejeita H0"
         print(
-            f"Classe {row['class_code']} ({row['class_name']}): "
+            f"{row['class_code']} | {row['sample_a']} x {row['sample_b']}: "
             f"T={row['T_observed']:.6f}, p={row['p_value']:.6f}, {decision}"
         )
 

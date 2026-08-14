@@ -25,13 +25,11 @@ from tqdm import tqdm
 try:
     from analysis.u_statistics_algorithms import (
         compute_statistic_T_between_groups,
-        homogeneity_test,
     )
 except ModuleNotFoundError:
     sys.path.append(str(Path(__file__).resolve().parent.parent))
     from analysis.u_statistics_algorithms import (
         compute_statistic_T_between_groups,
-        homogeneity_test,
     )
 
 
@@ -92,7 +90,6 @@ def load_numeric_columns(csv_path: Path) -> Tuple[List[str], np.ndarray]:
 
     return columns, values
 
-
 def group_files_by_class(input_dir: Path) -> Dict[str, List[Path]]:
     grouped: Dict[str, List[Path]] = {}
     for csv_file in sorted(input_dir.glob("*.csv")):
@@ -151,6 +148,42 @@ def build_pair_data(
     )
 
 
+def pooled_bootstrap_p_value(
+    X: List[np.ndarray],
+    group_indices: List[int],
+    gamma: float,
+    observed_T: float,
+    B: int,
+    seed: int,
+    verbose: bool = False,
+) -> float:
+    """Bootstrap sob H0 usando os dois grupos reunidos em uma unica bacia."""
+    if B < 1:
+        raise ValueError("B deve ser maior que zero")
+
+    X_array = np.asarray(X, dtype=float)
+    labels = np.asarray(group_indices, dtype=int)
+    if not np.any(labels == 0) or not np.any(labels == 1):
+        raise ValueError("O bootstrap exige dois grupos nao vazios")
+
+    rng = np.random.default_rng(seed)
+    extreme_count = 0
+    iterator = tqdm(range(B), desc="Bootstrap", leave=False) if verbose else range(B)
+    for _ in iterator:
+        # Toda a bacia X e reamostrada de uma vez. Os rotulos apenas mantem
+        # a particicao posicional necessaria para calcular a estatistica T.
+        pooled_indices = rng.integers(0, len(X_array), size=len(X_array))
+        X_boot = X_array[pooled_indices]
+        bootstrap_T = compute_statistic_T_between_groups(
+            X_boot,
+            labels.tolist(),
+            gamma,
+        )
+        extreme_count += int(bootstrap_T >= observed_T)
+
+    return (extreme_count + 1) / (B + 1)
+
+
 def run_between_class_algorithm_1(
     input_dir: Path,
     gamma: float,
@@ -173,20 +206,33 @@ def run_between_class_algorithm_1(
             CLASS_NAME_MAP.get(class_b, class_b),
         )
 
-        X, group_indices, sample_names, sample_sizes = build_pair_data(
-            class_a, files_a, class_b, files_b
+        observations_a, groups_a, names_a, sizes_a = build_class_group(files_a, 0, True)
+        observations_b, groups_b, names_b, sizes_b = build_class_group(files_b, 1, True)
+
+        # Primeiro calcula T com os dois grupos originais, ainda separados.
+        observed_X = observations_a + observations_b
+        observed_groups = groups_a + groups_b
+        observed_T = compute_statistic_T_between_groups(
+            observed_X,
+            observed_groups,
+            gamma,
         )
 
-        # Neste experimento, os dois grupos sao as classes inteiras.
-        observed_T = compute_statistic_T_between_groups(X, group_indices, gamma)
-        p_value, reject_h0 = homogeneity_test(
+        # Somente depois une os datasets na bacia X usada pelo bootstrap.
+        X = observed_X
+        group_indices = observed_groups
+        sample_names = names_a + names_b
+        sample_sizes = sizes_a + sizes_b
+        p_value = pooled_bootstrap_p_value(
             X=X,
             group_indices=group_indices,
             gamma=gamma,
-            alpha=alpha,
+            observed_T=observed_T,
             B=B,
+            seed=seed,
             verbose=verbose_bootstrap,
         )
+        reject_h0 = p_value < alpha
 
         results.append(
             {

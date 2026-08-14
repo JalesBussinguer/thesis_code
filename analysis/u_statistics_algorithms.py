@@ -178,29 +178,38 @@ def _compute_statistic_T_array(
     gamma: float,
     block_size: int = 512,
 ) -> float:
-    """Calcula T em blocos, computando cada par apenas uma vez."""
+    """Cálculo em blocos da estatística T com pesos compatíveis para cada par."""
     n_obs = X.shape[0]
+    groups = np.unique(group_indices)
+    group_sizes = {g: int(np.sum(group_indices == g)) for g in groups}
+    N_total = n_obs
+    same_group_coeff = {
+        g: (-(N_total - group_size) / (group_size - 1) if group_size > 1 else 0.0)
+        for g, group_size in group_sizes.items()
+    }
+
     total = 0.0
     for start_i in range(0, n_obs, block_size):
         end_i = min(start_i + block_size, n_obs)
         X_i = X[start_i:end_i]
-        groups_i = group_indices[start_i:end_i]
-        for start_j in range(start_i, n_obs, block_size):
+        g_i = group_indices[start_i:end_i]
+
+        for start_j in range(0, n_obs, block_size):
             end_j = min(start_j + block_size, n_obs)
-            distances = np.sum(
-                np.abs(X_i[:, None, :] - X[start_j:end_j][None, :, :]), axis=2
-            ) ** gamma
-            groups_j = group_indices[start_j:end_j]
-            weights = np.where(groups_i[:, None] == groups_j[None, :], 0.0, 1.0)
-            for group in np.unique(group_indices):
-                size = np.sum(group_indices == group)
-                coefficient = -(n_obs - size) / (size - 1) if size > 1 else 0.0
-                weights[groups_i[:, None] == group] = np.where(
-                    groups_j[None, :] == group, coefficient, weights[groups_i[:, None] == group]
-                )
-            total += float(np.sum(weights * distances))
-            if start_j != start_i:
-                total += float(np.sum(weights * distances.T))
+            X_j = X[start_j:end_j]
+            g_j = group_indices[start_j:end_j]
+
+            distances = np.sum(np.abs(X_i[:, None, :] - X_j[None, :, :]), axis=2) ** gamma
+            eta = np.ones((end_i - start_i, end_j - start_j), dtype=float)
+
+            same_mask = g_i[:, None] == g_j[None, :]
+            for g, coeff in same_group_coeff.items():
+                if coeff == 0.0:
+                    continue
+                eta[((g_i[:, None] == g) & (g_j[None, :] == g))] = coeff
+
+            total += float(np.sum(eta * distances))
+
     return total
 
 
