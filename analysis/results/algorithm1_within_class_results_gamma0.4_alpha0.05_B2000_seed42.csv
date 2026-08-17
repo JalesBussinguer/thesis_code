@@ -1,0 +1,4 @@
+class_code,class_name,samples,sample_sizes,n_samples,n_observations_total,gamma,T_observed,p_value,alpha,B,seed,reject_h0
+Fo,Floresta,Fo_B|Fo_G|Fo_R|Fo_U|Fo_W,3690|1946|2263|2722|4647,5,15268,0.4,211851.6420720647,0.0,0.05,2000,42,True
+Gl,Graminea,Gl_B|Gl_G|Gl_R|Gl_U|Gl_W,1435|3931|4596|3279|2366,5,15607,0.4,1195506.154398052,0.0,0.05,2000,43,True
+Sv,Savana,Sv_B|Sv_G|Sv_R|Sv_U|Sv_W,3485|2913|2695|3322|3641,5,16056,0.4,3324513.968102895,0.0,0.05,2000,44,True

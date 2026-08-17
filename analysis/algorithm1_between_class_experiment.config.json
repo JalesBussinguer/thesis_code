@@ -3,7 +3,7 @@
   "output_csv": "analysis/results/algorithm1_between_class_results.csv",
   "gamma": 1.0,
   "alpha": 0.05,
-  "B": 50,
+  "B": 2000,
   "seed": 42,
   "verbose_bootstrap": true,
   "verbose": false

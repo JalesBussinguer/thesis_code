@@ -17,8 +17,9 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sys
-from itertools import combinations
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -26,11 +27,11 @@ import numpy as np
 from tqdm import tqdm
 
 try:
-    from analysis.u_statistics_algorithms import compute_statistic_T_between_groups
+    from analysis.u_statistics_algorithms import compute_statistic_T_within_group
 except ModuleNotFoundError:
     # Permite execucao direta: python analysis/algorithm1_within_class_experiment.py
     sys.path.append(str(Path(__file__).resolve().parent.parent))
-    from analysis.u_statistics_algorithms import compute_statistic_T_between_groups
+    from analysis.u_statistics_algorithms import compute_statistic_T_within_group
 
 
 CLASS_NAME_MAP = {
@@ -43,6 +44,28 @@ CONFIG_PATH = Path(__file__).with_suffix(".config.json")
 
 
 logger = logging.getLogger(__name__)
+
+
+def _bootstrap_worker(args: tuple[np.ndarray, np.ndarray, np.ndarray, float, int]) -> float:
+    """Gera uma replicata bootstrap sob H0 usando o pool combinado dos dois grupos.
+
+    A ideia e aproximar a distribuicao nula de T reamostrando o conjunto de
+    observacoes combinado e depois reaplicando os tamanhos originais dos grupos
+    (n1 e n2). Isso preserva a hipotese H0 de que os grupos provem da mesma
+    distribuicao, ao mesmo tempo em que mantem a estrutura amostral do teste.
+    """
+    X_array, group_indices_by_id, group_ids, gamma, seed = args
+    rng = np.random.default_rng(seed)
+    pooled_indices = np.concatenate(list(group_indices_by_id))
+    group_sizes = [len(indices) for indices in group_indices_by_id]
+    bootstrap_indices = rng.choice(pooled_indices, size=len(pooled_indices), replace=True)
+    bootstrap_labels = np.concatenate([
+        np.full(size, group_id)
+        for size, group_id in zip(group_sizes, group_ids)
+    ])
+    return float(compute_statistic_T_within_group(
+        X_array[bootstrap_indices], bootstrap_labels.tolist(), gamma
+    ))
 
 
 def setup_logging(verbose: bool) -> None:
@@ -58,9 +81,22 @@ def load_config(config_path: Path = CONFIG_PATH) -> dict:
     with config_path.open("r", encoding="utf-8") as f:
         config = json.load(f)
 
-    config["input_dir"] = Path(config["input_dir"])
-    config["output_csv"] = Path(config["output_csv"])
+    project_root = config_path.parent.parent
+    for key in ("input_dir", "output_csv"):
+        path = Path(config[key])
+        config[key] = path if path.is_absolute() else project_root / path
     return config
+
+
+def resolve_gamma_values(config: dict) -> List[float]:
+    """Le "gamma" (numero unico) ou "gamma_sweep" ({start, stop, step}) do config."""
+    sweep = config.get("gamma_sweep")
+    if sweep is None:
+        return [float(config["gamma"])]
+
+    start, stop, step = float(sweep["start"]), float(sweep["stop"]), float(sweep["step"])
+    n_steps = round((stop - start) / step) + 1
+    return [round(start + i * step, 10) for i in range(n_steps)]
 
 
 def parse_sample_name(file_path: Path) -> Tuple[str, str]:
@@ -169,29 +205,43 @@ def pooled_bootstrap_p_value(
     B: int,
     seed: int,
     verbose: bool = False,
-) -> float:
-    """Bootstrap de um par com os dois grupos reunidos em uma bacia X."""
+) -> Tuple[float, List[float]]:
+    """Calcula o p-valor bootstrap sob H0 usando o pool combinado dos grupos.
+
+    Os dados sao reunidos em um unico pool, reamostrados com reposicao, e depois
+    redistribuidos entre todos os grupos mantendo os tamanhos originais. Isso
+    gera a referencia nula da estatistica T para o teste de homogeneidade entre
+    as amostras de uma mesma classe.
+    """
     if B < 1:
         raise ValueError("B deve ser maior que zero")
 
     X_array = np.asarray(X, dtype=float)
     labels = np.asarray(group_indices, dtype=int)
-    if not np.any(labels == 0) or not np.any(labels == 1):
-        raise ValueError("O bootstrap exige dois grupos nao vazios")
+    group_indices_by_id = {
+        group_id: np.flatnonzero(labels == group_id)
+        for group_id in np.unique(labels)
+    }
+    if len(group_indices_by_id) < 2:
+        raise ValueError("O bootstrap exige ao menos dois grupos nao vazios")
 
-    rng = np.random.default_rng(seed)
-    extreme_count = 0
-    iterator = tqdm(range(B), desc="Bootstrap", leave=False) if verbose else range(B)
-    for _ in iterator:
-        pooled_indices = rng.integers(0, len(X_array), size=len(X_array))
-        bootstrap_T = compute_statistic_T_between_groups(
-            X_array[pooled_indices],
-            labels.tolist(),
-            gamma,
-        )
-        extreme_count += int(bootstrap_T >= observed_T)
+    group_ids = np.array(list(group_indices_by_id), dtype=int)
+    group_indices_array = np.array(list(group_indices_by_id.values()), dtype=object)
+    seeds = np.random.SeedSequence(seed).spawn(B)
+    tasks = [
+        (X_array, group_indices_array, group_ids, gamma, int(child.generate_state(1)[0]))
+        for child in seeds
+    ]
+    workers = max(1, (os.cpu_count() or 1) - 2)
+    if workers == 1 or B < 2:
+        bootstrap_values = [_bootstrap_worker(task) for task in tasks]
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as executor:
+            iterator = executor.map(_bootstrap_worker, tasks)
+            bootstrap_values = list(tqdm(iterator, total=B, desc="Bootstrap", leave=False)) if verbose else list(iterator)
 
-    return (extreme_count + 1) / (B + 1)
+    extreme_count = sum(value >= observed_T for value in bootstrap_values)
+    return extreme_count / B, bootstrap_values
 
 
 def run_within_class_algorithm_1(
@@ -201,8 +251,11 @@ def run_within_class_algorithm_1(
     B: int,
     seed: int,
     verbose_bootstrap: bool,
-) -> List[dict]:
+    checkpoint_csv: Path | None = None,
+    checkpoint_dir: Path | None = None,
+) -> Tuple[List[dict], dict[str, List[float]]]:
     results: List[dict] = []
+    bootstrap_distributions: dict[str, List[float]] = {}
     grouped_files = group_files_by_class(input_dir)
     np.random.seed(seed)
     logger.info(
@@ -232,52 +285,65 @@ def run_within_class_algorithm_1(
             len(files),
         )
 
-        for file_a, file_b in combinations(sorted(files), 2):
-            _, values_a = load_numeric_columns(file_a)
-            _, values_b = load_numeric_columns(file_b)
-            observations_a = [row.astype(float) for row in values_a]
-            observations_b = [row.astype(float) for row in values_b]
+        observed_X, observed_groups, sample_names = build_X_and_groups(files)
+        observed_T = compute_statistic_T_within_group(
+            observed_X, observed_groups, gamma
+        )
+        class_seed = seed + len(results)
+        p_value, bootstrap_values = pooled_bootstrap_p_value(
+            observed_X,
+            observed_groups,
+            gamma,
+            observed_T,
+            B,
+            class_seed,
+            verbose_bootstrap,
+        )
+        bootstrap_distributions[class_code] = bootstrap_values
+        reject_h0 = p_value < alpha
+        sample_sizes = np.bincount(observed_groups).tolist()
+        results.append(
+            {
+                "class_code": class_code,
+                "class_name": class_name,
+                "samples": "|".join(sample_names),
+                "sample_sizes": "|".join(str(size) for size in sample_sizes),
+                "n_samples": len(sample_names),
+                "n_observations_total": len(observed_X),
+                "gamma": float(gamma),
+                "alpha": float(alpha),
+                "B": int(B),
+                "seed": int(class_seed),
+                "T_observed": float(observed_T),
+                "p_value": float(p_value),
+                "reject_h0": bool(reject_h0),
+            }
+        )
+        if checkpoint_csv is not None:
+            append_result_csv(results[-1], checkpoint_csv)
+        if checkpoint_dir is not None:
+            append_bootstrap_csv(class_code, bootstrap_values, checkpoint_dir)
+        logger.info(
+            "%s: %d amostras | T=%.6f | p=%.6f | reject_h0=%s",
+            class_code, len(sample_names), observed_T, p_value, reject_h0
+        )
 
-            observed_X = observations_a + observations_b
-            observed_groups = [0] * len(observations_a) + [1] * len(observations_b)
-            observed_T = compute_statistic_T_between_groups(
-                observed_X, observed_groups, gamma
-            )
-            pair_seed = seed + len(results)
-            p_value = pooled_bootstrap_p_value(
-                observed_X,
-                observed_groups,
-                gamma,
-                observed_T,
-                B,
-                pair_seed,
-                verbose_bootstrap,
-            )
-            reject_h0 = p_value < alpha
-            results.append(
-                {
-                    "class_code": class_code,
-                    "class_name": class_name,
-                    "sample_a": file_a.stem,
-                    "sample_b": file_b.stem,
-                    "sample_a_size": len(observations_a),
-                    "sample_b_size": len(observations_b),
-                    "n_observations_total": len(observed_X),
-                    "gamma": float(gamma),
-                    "alpha": float(alpha),
-                    "B": int(B),
-                    "seed": int(pair_seed),
-                    "T_observed": float(observed_T),
-                    "p_value": float(p_value),
-                    "reject_h0": bool(reject_h0),
-                }
-            )
-            logger.info(
-                "%s: %s x %s | T=%.6f | p=%.6f | reject_h0=%s",
-                class_code, file_a.stem, file_b.stem, observed_T, p_value, reject_h0
-            )
+    return results, bootstrap_distributions
 
-    return results
+
+def write_bootstrap_csv(distributions: dict[str, List[float]], output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for pair_name, values in distributions.items():
+        output_csv = output_dir / f"{pair_name}.csv"
+        with output_csv.open("w", encoding="utf-8", newline="") as file:
+            file.write("bootstrap_id,T_bootstrap\n")
+            for bootstrap_id, value in enumerate(values, start=1):
+                file.write(f"{bootstrap_id},{value:.17g}\n")
+        logger.info("Distribuicao bootstrap salva em %s", output_csv)
+
+
+def append_bootstrap_csv(pair_name: str, values: List[float], output_dir: Path) -> None:
+    write_bootstrap_csv({pair_name: values}, output_dir)
 
 
 def write_results_csv(results: List[dict], output_csv: Path) -> None:
@@ -286,10 +352,9 @@ def write_results_csv(results: List[dict], output_csv: Path) -> None:
     headers = [
         "class_code",
         "class_name",
-        "sample_a",
-        "sample_b",
-        "sample_a_size",
-        "sample_b_size",
+        "samples",
+        "sample_sizes",
+        "n_samples",
         "n_observations_total",
         "gamma",
         "T_observed",
@@ -309,6 +374,20 @@ def write_results_csv(results: List[dict], output_csv: Path) -> None:
     logger.info("Resultados salvos em %s", output_csv)
 
 
+def append_result_csv(result: dict, output_csv: Path) -> None:
+    headers = [
+        "class_code", "class_name", "samples", "sample_sizes", "n_samples",
+        "n_observations_total", "gamma", "T_observed", "p_value",
+        "alpha", "B", "seed", "reject_h0",
+    ]
+    output_csv.parent.mkdir(parents=True, exist_ok=True)
+    needs_header = not output_csv.exists() or output_csv.stat().st_size == 0
+    with output_csv.open("a", encoding="utf-8", newline="") as file:
+        if needs_header:
+            file.write(",".join(headers) + "\n")
+        file.write(",".join(str(result[header]) for header in headers) + "\n")
+
+
 def print_summary(results: List[dict]) -> None:
     if not results:
         print("Nenhum resultado gerado.")
@@ -318,9 +397,15 @@ def print_summary(results: List[dict]) -> None:
     for row in results:
         decision = "Rejeita H0" if row["reject_h0"] else "Nao rejeita H0"
         print(
-            f"{row['class_code']} | {row['sample_a']} x {row['sample_b']}: "
+            f"{row['class_code']} | {row['n_samples']} amostras ({row['samples']}): "
             f"T={row['T_observed']:.6f}, p={row['p_value']:.6f}, {decision}"
         )
+
+
+def build_output_csv_path(output_csv: Path, gamma: float, alpha: float, B: int, seed: int) -> Path:
+    """Acrescenta gamma, alpha, B e seed ao nome do arquivo de saida."""
+    suffix = f"_gamma{gamma}_alpha{alpha}_B{B}_seed{seed}"
+    return output_csv.with_name(f"{output_csv.stem}{suffix}{output_csv.suffix}")
 
 
 def main() -> None:
@@ -329,20 +414,33 @@ def main() -> None:
 
     logger.info("Configuracao carregada de %s", CONFIG_PATH)
     logger.info("Diretorio de entrada: %s", config["input_dir"])
-    logger.info("Arquivo de saida: %s", config["output_csv"])
 
-    results = run_within_class_algorithm_1(
-        input_dir=config["input_dir"],
-        gamma=float(config["gamma"]),
-        alpha=float(config["alpha"]),
-        B=int(config["B"]),
-        seed=int(config["seed"]),
-        verbose_bootstrap=bool(config.get("verbose_bootstrap", False)),
-    )
-    write_results_csv(results, config["output_csv"])
-    print_summary(results)
+    alpha = float(config["alpha"])
+    B = int(config["B"])
+    seed = int(config["seed"])
 
-    print(f"Resultados salvos em: {config['output_csv']}")
+    for gamma in resolve_gamma_values(config):
+        output_csv = build_output_csv_path(config["output_csv"], gamma, alpha, B, seed)
+        logger.info("Arquivo de saida: %s", output_csv)
+
+        results, bootstrap_distributions = run_within_class_algorithm_1(
+            input_dir=config["input_dir"],
+            gamma=gamma,
+            alpha=alpha,
+            B=B,
+            seed=seed,
+            verbose_bootstrap=bool(config.get("verbose_bootstrap", False)),
+            checkpoint_csv=output_csv,
+            checkpoint_dir=output_csv.parent / f"bootstrap_distributions{output_csv.stem[len(config['output_csv'].stem):]}",
+        )
+        write_results_csv(results, output_csv)
+        write_bootstrap_csv(
+            bootstrap_distributions,
+            output_csv.parent / f"bootstrap_distributions{output_csv.stem[len(config['output_csv'].stem):]}",
+        )
+        print_summary(results)
+
+        print(f"Resultados salvos em: {output_csv}")
 
 
 if __name__ == "__main__":

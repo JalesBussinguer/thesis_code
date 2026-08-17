@@ -236,16 +236,15 @@ def _bootstrap_init(X: np.ndarray, groups: np.ndarray, group_indexes: List[np.nd
 
 
 def _bootstrap_one(_: int) -> float:
-    X_boot = []
-    group_indices_boot = []
+    """Reamostra com reposicao do pool combinado sob H0, mantendo os tamanhos de grupo."""
+    pooled_indices = np.concatenate(_BOOTSTRAP_GROUP_INDEXES)
+    boot_indices = np.random.choice(pooled_indices, size=len(pooled_indices), replace=True)
 
-    for g, indices_g in zip(_BOOTSTRAP_GROUPS, _BOOTSTRAP_GROUP_INDEXES):
-        boot_indices = np.random.choice(indices_g, size=len(indices_g), replace=True)
-        X_boot.append(_BOOTSTRAP_X[boot_indices])
-        group_indices_boot.append(np.full(len(boot_indices), g))
-
-    X_boot_arr = np.vstack(X_boot)
-    group_indices_boot_arr = np.concatenate(group_indices_boot)
+    X_boot_arr = _BOOTSTRAP_X[boot_indices]
+    group_indices_boot_arr = np.concatenate([
+        np.full(len(indices_g), g)
+        for g, indices_g in zip(_BOOTSTRAP_GROUPS, _BOOTSTRAP_GROUP_INDEXES)
+    ])
     return _compute_statistic_T_array(X_boot_arr, group_indices_boot_arr, _BOOTSTRAP_GAMMA)
 
 
