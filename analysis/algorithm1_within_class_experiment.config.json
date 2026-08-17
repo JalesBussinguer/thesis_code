@@ -2,7 +2,7 @@
   "input_dir": "datasets/samples_sbsr_bsb",
   "output_csv": "analysis/results/algorithm1_within_class_results.csv",
   "gamma": 1.0,
-  "gamma_sweep": {"start": 1, "stop": 2.0, "step": 0.2},
+  "gamma_sweep": {"start": 1, "stop": 2.0, "step": 0.5},
   "alpha": 0.05,
   "B": 2000,
   "seed": 42,

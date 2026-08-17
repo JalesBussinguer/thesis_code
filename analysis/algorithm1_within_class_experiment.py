@@ -15,6 +15,7 @@ U-statistics com p-valor por bootstrap.
 
 from __future__ import annotations
 
+import csv
 import json
 import logging
 import os
@@ -253,6 +254,7 @@ def run_within_class_algorithm_1(
     verbose_bootstrap: bool,
     checkpoint_csv: Path | None = None,
     checkpoint_dir: Path | None = None,
+    skip_classes: set[str] | None = None,
 ) -> Tuple[List[dict], dict[str, List[float]]]:
     results: List[dict] = []
     bootstrap_distributions: dict[str, List[float]] = {}
@@ -266,7 +268,9 @@ def run_within_class_algorithm_1(
         seed,
     )
 
+    skip_classes = skip_classes or set()
     class_items = sorted(grouped_files.items())
+    processed_class_count = 0
 
     for class_code, files in class_items:
         if len(files) < 2:
@@ -275,6 +279,10 @@ def run_within_class_algorithm_1(
                 class_code,
                 len(files),
             )
+            continue
+        if class_code in skip_classes:
+            processed_class_count += 1
+            logger.info("Classe %s ja processada; pulando", class_code)
             continue
 
         class_name = CLASS_NAME_MAP.get(class_code, class_code)
@@ -289,7 +297,7 @@ def run_within_class_algorithm_1(
         observed_T = compute_statistic_T_within_group(
             observed_X, observed_groups, gamma
         )
-        class_seed = seed + len(results)
+        class_seed = seed + processed_class_count
         p_value, bootstrap_values = pooled_bootstrap_p_value(
             observed_X,
             observed_groups,
@@ -323,6 +331,7 @@ def run_within_class_algorithm_1(
             append_result_csv(results[-1], checkpoint_csv)
         if checkpoint_dir is not None:
             append_bootstrap_csv(class_code, bootstrap_values, checkpoint_dir)
+        processed_class_count += 1
         logger.info(
             "%s: %d amostras | T=%.6f | p=%.6f | reject_h0=%s",
             class_code, len(sample_names), observed_T, p_value, reject_h0
@@ -344,6 +353,51 @@ def write_bootstrap_csv(distributions: dict[str, List[float]], output_dir: Path)
 
 def append_bootstrap_csv(pair_name: str, values: List[float], output_dir: Path) -> None:
     write_bootstrap_csv({pair_name: values}, output_dir)
+
+
+def _coerce_result_row(row: dict) -> dict:
+    numeric_fields = {"n_samples", "n_observations_total", "B", "seed"}
+    float_fields = {"gamma", "T_observed", "p_value", "alpha"}
+    coerced: dict[str, object] = {}
+    for key, value in row.items():
+        if value is None:
+            coerced[key] = value
+            continue
+        if key == "reject_h0":
+            coerced[key] = str(value).strip().lower() in {"true", "1", "yes"}
+        elif key in numeric_fields:
+            coerced[key] = int(value)
+        elif key in float_fields:
+            coerced[key] = float(value)
+        else:
+            coerced[key] = value
+    return coerced
+
+
+def read_result_rows(output_csv: Path | None) -> List[dict]:
+    if output_csv is None or not output_csv.exists() or output_csv.stat().st_size == 0:
+        return []
+
+    with output_csv.open("r", encoding="utf-8", newline="") as file:
+        reader = csv.DictReader(file)
+        return [_coerce_result_row(row) for row in reader]
+
+
+def read_bootstrap_distribution(output_dir: Path | None) -> dict[str, List[float]]:
+    if output_dir is None or not output_dir.exists():
+        return {}
+
+    distributions: dict[str, List[float]] = {}
+    for csv_path in sorted(output_dir.glob("*.csv")):
+        with csv_path.open("r", encoding="utf-8", newline="") as file:
+            reader = csv.DictReader(file)
+            values = []
+            for row in reader:
+                value = row.get("T_bootstrap")
+                if value is not None:
+                    values.append(float(value))
+        distributions[csv_path.stem] = values
+    return distributions
 
 
 def write_results_csv(results: List[dict], output_csv: Path) -> None:
@@ -418,10 +472,31 @@ def main() -> None:
     alpha = float(config["alpha"])
     B = int(config["B"])
     seed = int(config["seed"])
+    grouped_files = group_files_by_class(config["input_dir"])
+    completed_classes = {
+        class_code
+        for class_code, files in grouped_files.items()
+        if len(files) >= 2
+    }
 
     for gamma in resolve_gamma_values(config):
         output_csv = build_output_csv_path(config["output_csv"], gamma, alpha, B, seed)
+        checkpoint_dir = output_csv.parent / f"bootstrap_distributions{output_csv.stem[len(config['output_csv'].stem):]}"
         logger.info("Arquivo de saida: %s", output_csv)
+
+        existing_results = read_result_rows(output_csv)
+        existing_classes = {
+            row["class_code"]
+            for row in existing_results
+            if row.get("class_code")
+        }
+        if existing_classes >= completed_classes:
+            logger.info(
+                "Gamma %.10g ja concluido em %s; pulando processamento.",
+                gamma,
+                output_csv,
+            )
+            continue
 
         results, bootstrap_distributions = run_within_class_algorithm_1(
             input_dir=config["input_dir"],
@@ -431,14 +506,15 @@ def main() -> None:
             seed=seed,
             verbose_bootstrap=bool(config.get("verbose_bootstrap", False)),
             checkpoint_csv=output_csv,
-            checkpoint_dir=output_csv.parent / f"bootstrap_distributions{output_csv.stem[len(config['output_csv'].stem):]}",
+            checkpoint_dir=checkpoint_dir,
+            skip_classes=existing_classes,
         )
-        write_results_csv(results, output_csv)
-        write_bootstrap_csv(
-            bootstrap_distributions,
-            output_csv.parent / f"bootstrap_distributions{output_csv.stem[len(config['output_csv'].stem):]}",
-        )
-        print_summary(results)
+        final_results = existing_results + results
+        final_bootstrap = read_bootstrap_distribution(checkpoint_dir)
+        final_bootstrap.update(bootstrap_distributions)
+        write_results_csv(final_results, output_csv)
+        write_bootstrap_csv(final_bootstrap, checkpoint_dir)
+        print_summary(final_results)
 
         print(f"Resultados salvos em: {output_csv}")
 
