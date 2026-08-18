@@ -1,0 +1,2 @@
+class_code,class_name,samples,sample_sizes,n_samples,n_observations_total,gamma,T_observed,p_value,alpha,B,seed,reject_h0
+Fo,Floresta,Fo_B|Fo_G|Fo_R|Fo_U|Fo_W,3690|1946|2263|2722|4647,5,15268,1.5,277133.93133538455,0.0,0.05,2000,42,True

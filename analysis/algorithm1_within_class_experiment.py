@@ -270,7 +270,6 @@ def run_within_class_algorithm_1(
 
     skip_classes = skip_classes or set()
     class_items = sorted(grouped_files.items())
-    processed_class_count = 0
 
     for class_code, files in class_items:
         if len(files) < 2:
@@ -281,7 +280,6 @@ def run_within_class_algorithm_1(
             )
             continue
         if class_code in skip_classes:
-            processed_class_count += 1
             logger.info("Classe %s ja processada; pulando", class_code)
             continue
 
@@ -297,7 +295,7 @@ def run_within_class_algorithm_1(
         observed_T = compute_statistic_T_within_group(
             observed_X, observed_groups, gamma
         )
-        class_seed = seed + processed_class_count
+        class_seed = seed
         p_value, bootstrap_values = pooled_bootstrap_p_value(
             observed_X,
             observed_groups,
@@ -331,7 +329,6 @@ def run_within_class_algorithm_1(
             append_result_csv(results[-1], checkpoint_csv)
         if checkpoint_dir is not None:
             append_bootstrap_csv(class_code, bootstrap_values, checkpoint_dir)
-        processed_class_count += 1
         logger.info(
             "%s: %d amostras | T=%.6f | p=%.6f | reject_h0=%s",
             class_code, len(sample_names), observed_T, p_value, reject_h0

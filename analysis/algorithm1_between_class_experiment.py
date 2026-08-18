@@ -12,6 +12,7 @@ as observacoes vetoriais [IHH, IHV] e estima o p-valor por bootstrap.
 
 from __future__ import annotations
 
+import csv
 import json
 import logging
 import os
@@ -228,14 +229,21 @@ def run_between_class_algorithm_1(
     verbose_bootstrap: bool,
     checkpoint_csv: Path | None = None,
     checkpoint_dir: Path | None = None,
+    skip_pairs: set[str] | None = None,
 ) -> Tuple[List[dict], dict[str, List[float]]]:
     grouped_files = group_files_by_class(input_dir)
     results: List[dict] = []
     bootstrap_distributions: dict[str, List[float]] = {}
     np.random.seed(seed)
 
+    skip_pairs = skip_pairs or set()
     class_items = sorted(grouped_files.items())
     for (class_a, files_a), (class_b, files_b) in combinations(class_items, 2):
+        pair_name = f"{class_a}_x_{class_b}"
+        if pair_name in skip_pairs:
+            logger.info("Par %s ja processado; pulando", pair_name)
+            continue
+
         logger.info(
             "Comparando %s (%s) x %s (%s)",
             class_a,
@@ -270,7 +278,6 @@ def run_between_class_algorithm_1(
             seed=seed,
             verbose=verbose_bootstrap,
         )
-        pair_name = f"{class_a}_x_{class_b}"
         bootstrap_distributions[pair_name] = bootstrap_values
         reject_h0 = p_value < alpha
 
@@ -322,6 +329,51 @@ def write_bootstrap_csv(distributions: dict[str, List[float]], output_dir: Path)
         logger.info("Distribuicao bootstrap salva em %s", output_csv)
 
 
+def _coerce_result_row(row: dict) -> dict:
+    numeric_fields = {"class_a_group_size", "class_b_group_size", "n_observations_total", "B", "seed"}
+    float_fields = {"gamma", "T_observed", "p_value", "alpha"}
+    coerced: dict[str, object] = {}
+    for key, value in row.items():
+        if value is None:
+            coerced[key] = value
+            continue
+        if key == "reject_h0":
+            coerced[key] = str(value).strip().lower() in {"true", "1", "yes"}
+        elif key in numeric_fields:
+            coerced[key] = int(value)
+        elif key in float_fields:
+            coerced[key] = float(value)
+        else:
+            coerced[key] = value
+    return coerced
+
+
+def read_result_rows(output_csv: Path | None) -> List[dict]:
+    if output_csv is None or not output_csv.exists() or output_csv.stat().st_size == 0:
+        return []
+
+    with output_csv.open("r", encoding="utf-8", newline="") as file:
+        reader = csv.DictReader(file)
+        return [_coerce_result_row(row) for row in reader]
+
+
+def read_bootstrap_distribution(output_dir: Path | None) -> dict[str, List[float]]:
+    if output_dir is None or not output_dir.exists():
+        return {}
+
+    distributions: dict[str, List[float]] = {}
+    for csv_path in sorted(output_dir.glob("*.csv")):
+        with csv_path.open("r", encoding="utf-8", newline="") as file:
+            reader = csv.DictReader(file)
+            values = []
+            for row in reader:
+                value = row.get("T_bootstrap")
+                if value is not None:
+                    values.append(float(value))
+        distributions[csv_path.stem] = values
+    return distributions
+
+
 def append_result_csv(result: dict, output_csv: Path) -> None:
     headers = [
         "class_a_code", "class_a_name", "class_b_code", "class_b_name",
@@ -367,7 +419,25 @@ def main() -> None:
     alpha = float(config["alpha"])
     B = int(config["B"])
     seed = int(config["seed"])
+    grouped_files = group_files_by_class(config["input_dir"])
+    class_items = sorted(grouped_files.items())
+    completed_pairs = {
+        f"{class_a}_x_{class_b}"
+        for (class_a, _), (class_b, _) in combinations(class_items, 2)
+    }
+
     output_csv = build_output_csv_path(config["output_csv"], gamma, alpha, B, seed)
+    checkpoint_dir = output_csv.parent / f"bootstrap_distributions_between{output_csv.stem[len(config['output_csv'].stem):]}"
+
+    existing_results = read_result_rows(output_csv)
+    existing_pairs = {
+        f"{row['class_a_code']}_x_{row['class_b_code']}"
+        for row in existing_results
+        if row.get("class_a_code") and row.get("class_b_code")
+    }
+    if existing_pairs >= completed_pairs:
+        logger.info("Gamma %.10g ja concluido em %s; pulando processamento.", gamma, output_csv)
+        return
 
     results, bootstrap_distributions = run_between_class_algorithm_1(
         input_dir=config["input_dir"],
@@ -377,13 +447,14 @@ def main() -> None:
         seed=seed,
         verbose_bootstrap=bool(config.get("verbose_bootstrap", False)),
         checkpoint_csv=output_csv,
-        checkpoint_dir=output_csv.parent / f"bootstrap_distributions_between{output_csv.stem[len(config['output_csv'].stem):]}",
+        checkpoint_dir=checkpoint_dir,
+        skip_pairs=existing_pairs,
     )
-    write_results_csv(results, output_csv)
-    write_bootstrap_csv(
-        bootstrap_distributions,
-        output_csv.parent / f"bootstrap_distributions_between{output_csv.stem[len(config['output_csv'].stem):]}",
-    )
+    final_results = existing_results + results
+    final_bootstrap = read_bootstrap_distribution(checkpoint_dir)
+    final_bootstrap.update(bootstrap_distributions)
+    write_results_csv(final_results, output_csv)
+    write_bootstrap_csv(final_bootstrap, checkpoint_dir)
     print(f"Resultados salvos em: {output_csv}")
 
 
