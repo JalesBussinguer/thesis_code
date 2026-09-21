@@ -470,6 +470,11 @@ def main() -> None:
     B = int(config["B"])
     seed = int(config["seed"])
     grouped_files = group_files_by_class(config["input_dir"])
+    if not grouped_files:
+        raise ValueError(
+            f"Nenhuma classe encontrada em {config['input_dir']}; "
+            "verifique se o diretorio de entrada existe e contem os arquivos CSV esperados."
+        )
     completed_classes = {
         class_code
         for class_code, files in grouped_files.items()

@@ -1,13 +1,13 @@
 """
 Experimento entre pares de classes com o Algoritmo 1 do artigo.
 
-Diferenca em relacao ao experimento intra-classe:
-- cada classe inteira e um grupo do teste;
-- todos os poligonos da classe sao reunidos no mesmo grupo;
-- cada comparacao possui exatamente dois grupos: classe A e classe B.
+Diferença em relação ao experimento intra-classe:
+- cada classe inteira é um grupo do teste;
+- todos os polígonos da classe são reunidos no mesmo grupo;
+- cada comparação possui exatamente dois grupos: classe A e classe B.
 
-Para cada par de classes, o Algoritmo 1 calcula a estatistica T usando
-as observacoes vetoriais [IHH, IHV] e estima o p-valor por bootstrap.
+Para cada par de classes, o Algoritmo 1 calcula a estatística T usando
+as observações vetoriais [IHH, IHV] e estima o p-valor por bootstrap.
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ except ModuleNotFoundError:
 
 CLASS_NAME_MAP = {
     "Fo": "Floresta",
-    "Gl": "Graminea",
+    "Gl": "Gramínea",
     "Sv": "Savana",
 }
 
@@ -49,10 +49,10 @@ logger = logging.getLogger(__name__)
 def _bootstrap_worker(args: tuple[np.ndarray, np.ndarray, np.ndarray, float, int]) -> float:
     """Gera uma replicata bootstrap sob H0 usando o pool combinado dos dois grupos.
 
-    A ideia e aproximar a distribuicao nula de T reamostrando o conjunto de
-    observacoes combinado e depois reaplicando os tamanhos originais dos grupos
-    (n1 e n2). Isso preserva a hipotese H0 de que os grupos provem da mesma
-    distribuicao, ao mesmo tempo em que mantem a estrutura amostral do teste.
+    A ideia é aproximar a distribuição nula de T reamostrando o conjunto de
+    observações combinado e depois reaplicando os tamanhos originais dos grupos
+    (n1 e n2). Isso preserva a hipótese H0 de que os grupos provêm da mesma
+    distribuição, ao mesmo tempo em que mantém a estrutura amostral do teste.
     """
     X_array, group_indices_by_id, group_ids, gamma, seed = args
     rng = np.random.default_rng(seed)
@@ -88,7 +88,7 @@ def load_config(config_path: Path = CONFIG_PATH) -> dict:
 
 def parse_sample_name(file_path: Path) -> Tuple[str, str]:
     if "_" not in file_path.stem:
-        raise ValueError(f"Nome de arquivo invalido: {file_path.name}")
+        raise ValueError(f"Nome de arquivo inválido: {file_path.name}")
     return tuple(file_path.stem.split("_", 1))
 
 
@@ -106,7 +106,7 @@ def load_numeric_columns(csv_path: Path) -> Tuple[List[str], np.ndarray]:
 
     columns = [column for column in data.dtype.names or [] if column.lower() != "id"]
     if not columns:
-        raise ValueError(f"Nenhuma coluna numerica util em: {csv_path}")
+        raise ValueError(f"Nenhuma coluna numérica útil em: {csv_path}")
 
     if data.ndim == 0:
         values = np.array([[float(data[column]) for column in columns]], dtype=float)
@@ -144,7 +144,7 @@ def build_class_group(
             reference_columns = columns
         elif columns != reference_columns:
             raise ValueError(
-                f"Colunas incompativeis: {sample_file.name} possui {columns}, "
+                f"Colunas incompatíveis: {sample_file.name} possui {columns}, "
                 f"esperado {reference_columns}"
             )
 
@@ -184,9 +184,9 @@ def pooled_bootstrap_p_value(
 ) -> Tuple[float, List[float]]:
     """Calcula o p-valor bootstrap sob H0 usando o pool combinado dos grupos.
 
-    Os dados sao reunidos em um unico pool, reamostrados com reposicao, e depois
-    redistribuidos entre os dois grupos mantendo os tamanhos originais. Isso
-    gera a referencia nula da estatistica T para o teste de igualdade entre
+    Os dados são reunidos em um único pool, reamostrados com reposição, e depois
+    redistribuídos entre os dois grupos mantendo os tamanhos originais. Isso
+    gera a referência nula da estatística T para o teste de igualdade entre
     grupos.
     """
     if B < 1:
@@ -199,7 +199,7 @@ def pooled_bootstrap_p_value(
         for group_id in np.unique(labels)
     }
     if len(group_indices_by_id) != 2:
-        raise ValueError("O bootstrap exige dois grupos nao vazios")
+        raise ValueError("O bootstrap exige dois grupos não vazios")
 
     group_ids = np.array(list(group_indices_by_id), dtype=int)
     group_indices_array = np.array(list(group_indices_by_id.values()), dtype=object)
@@ -241,7 +241,7 @@ def run_between_class_algorithm_1(
     for (class_a, files_a), (class_b, files_b) in combinations(class_items, 2):
         pair_name = f"{class_a}_x_{class_b}"
         if pair_name in skip_pairs:
-            logger.info("Par %s ja processado; pulando", pair_name)
+            logger.info("Par %s já processado; pulando", pair_name)
             continue
 
         logger.info(
@@ -307,7 +307,7 @@ def run_between_class_algorithm_1(
             write_bootstrap_csv({pair_name: bootstrap_values}, checkpoint_dir)
 
         logger.info(
-            "%s x %s concluido | T=%.6f | p=%.6f | reject_h0=%s",
+            "%s x %s concluído | T=%.6f | p=%.6f | reject_h0=%s",
             class_a,
             class_b,
             observed_T,
@@ -326,7 +326,7 @@ def write_bootstrap_csv(distributions: dict[str, List[float]], output_dir: Path)
             file.write("bootstrap_id,T_bootstrap\n")
             for bootstrap_id, value in enumerate(values, start=1):
                 file.write(f"{bootstrap_id},{value:.17g}\n")
-        logger.info("Distribuicao bootstrap salva em %s", output_csv)
+        logger.info("Distribuição bootstrap salva em %s", output_csv)
 
 
 def _coerce_result_row(row: dict) -> dict:
@@ -405,7 +405,7 @@ def write_results_csv(results: List[dict], output_csv: Path) -> None:
 
 
 def build_output_csv_path(output_csv: Path, gamma: float, alpha: float, B: int, seed: int) -> Path:
-    """Acrescenta gamma, alpha, B e seed ao nome do arquivo de saida."""
+    """Acrescenta gamma, alpha, B e seed ao nome do arquivo de saída."""
     suffix = f"_gamma{gamma}_alpha{alpha}_B{B}_seed{seed}"
     return output_csv.with_name(f"{output_csv.stem}{suffix}{output_csv.suffix}")
 
@@ -413,7 +413,7 @@ def build_output_csv_path(output_csv: Path, gamma: float, alpha: float, B: int, 
 def main() -> None:
     config = load_config()
     setup_logging(bool(config.get("verbose", False)))
-    logger.info("Configuracao carregada de %s", CONFIG_PATH)
+    logger.info("Configuração carregada de %s", CONFIG_PATH)
 
     gamma = float(config["gamma"])
     alpha = float(config["alpha"])
@@ -421,6 +421,11 @@ def main() -> None:
     seed = int(config["seed"])
     grouped_files = group_files_by_class(config["input_dir"])
     class_items = sorted(grouped_files.items())
+    if len(class_items) < 2:
+        raise ValueError(
+            f"Menos de duas classes encontradas em {config['input_dir']}; "
+            "verifique se o diretório de entrada existe e contém os arquivos CSV esperados."
+        )
     completed_pairs = {
         f"{class_a}_x_{class_b}"
         for (class_a, _), (class_b, _) in combinations(class_items, 2)
@@ -436,7 +441,7 @@ def main() -> None:
         if row.get("class_a_code") and row.get("class_b_code")
     }
     if existing_pairs >= completed_pairs:
-        logger.info("Gamma %.10g ja concluido em %s; pulando processamento.", gamma, output_csv)
+        logger.info("Gamma %.10g já concluído em %s; pulando processamento.", gamma, output_csv)
         return
 
     results, bootstrap_distributions = run_between_class_algorithm_1(
