@@ -1,17 +1,43 @@
 """Estimadores independentes de entropia de Tsallis para amostras de pixels."""
 
 from .tsallis_entropy import (
+    AdaptiveTsallisConfig,
     bootstrap_tsallis_entropy,
+    binary_map_metrics,
+    border_coefficient_of_variation,
     excess_tsallis_entropy,
     gamma_sar_tsallis_entropy,
     m_spacing,
+    monte_carlo_null_calibration,
+    compute_metrics,
+    pixelwise_p_value,
+    read_single_band_geotiff,
+    select_adaptive_window,
+    standardize_observed_scale,
     tsallis_entropy,
+    tsallis_image,
+    TsallisMapResult,
+    write_tsallis_maps,
+    run_tsallis_image,
 )
 
 __all__ = [
     "bootstrap_tsallis_entropy",
+    "AdaptiveTsallisConfig",
+    "TsallisMapResult",
+    "binary_map_metrics",
+    "compute_metrics",
+    "border_coefficient_of_variation",
     "excess_tsallis_entropy",
     "gamma_sar_tsallis_entropy",
     "m_spacing",
+    "monte_carlo_null_calibration",
+    "pixelwise_p_value",
+    "read_single_band_geotiff",
+    "select_adaptive_window",
+    "standardize_observed_scale",
     "tsallis_entropy",
+    "tsallis_image",
+    "run_tsallis_image",
+    "write_tsallis_maps",
 ]
