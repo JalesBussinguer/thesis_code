@@ -1,0 +1,2 @@
+class_a_code,class_a_name,class_b_code,class_b_name,class_a_samples,class_b_samples,class_a_group_size,class_b_group_size,n_observations_total,gamma,T_observed,p_value,alpha,B,seed,reject_h0
+Fo,Floresta,Gl,Gramínea,Fo_B|Fo_G|Fo_R|Fo_U|Fo_W,Gl_B|Gl_G|Gl_R|Gl_U|Gl_W,11537,11528,23065,1.5,35835408.43303654,0.0,0.05,2000,42,True
