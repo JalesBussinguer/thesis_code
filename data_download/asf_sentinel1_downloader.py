@@ -28,7 +28,7 @@ DEFAULT_OUTPUT_DIR = ROOT_DIR / "downloads" / "sentinel1_asf"
 # =========================
 # CONFIGURACAO DO USUARIO
 # =========================
-OUTPUT_DIR = Path("H:/sentinel1_data")
+OUTPUT_DIR = Path("E:/sentinel1_data")
 SEARCH_GEOJSON_PATH = "datasets/cerrado_bbox.geojson"
 VALIDATION_GEOJSON_PATH = "datasets/cerrado_border.geojson"
 DATE_START = "2025-11-01T00:00:00Z"   # inicio da busca (formato ISO 8601 UTC)
