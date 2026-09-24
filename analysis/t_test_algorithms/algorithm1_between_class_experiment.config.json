@@ -1,7 +1,7 @@
 {
   "input_dir": "datasets/samples_sbsr_bsb",
   "output_csv": "analysis/t_test_algorithms/results/algorithm1_between_class_results_SBSR.csv",
-  "gamma": 1.5,
+  "gamma": 2.0,
   "alpha": 0.05,
   "B": 2000,
   "seed": 42,
