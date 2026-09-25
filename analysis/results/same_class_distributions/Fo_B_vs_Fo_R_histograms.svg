@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560">
+<rect width="100%" height="100%" fill="white"/>
+<text x="550.0" y="32.0" font-family="Arial, sans-serif" font-size="21px" text-anchor="middle" font-weight="bold" fill="#222">Histogramas sobrepostos das amostras Fo_B e Fo_R</text>
+<text x="550.0" y="55.0" font-family="Arial, sans-serif" font-size="13px" text-anchor="middle" font-weight="normal" fill="#555">Densidade normalizada</text>
+<text x="320.0" y="60.0" font-family="Arial, sans-serif" font-size="17px" text-anchor="middle" font-weight="bold" fill="#222">IHH</text>
+<rect x="90.0" y="78.0" width="460.0" height="404.0" fill="#fafafa" stroke="#444"/>
+<line x1="90.0" y1="482.0" x2="90.0" y2="487.0" stroke="#444"/>
+<text x="90.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.0</text>
+<line x1="182.0" y1="482.0" x2="182.0" y2="487.0" stroke="#444"/>
+<text x="182.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.2</text>
+<line x1="274.0" y1="482.0" x2="274.0" y2="487.0" stroke="#444"/>
+<text x="274.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.4</text>
+<line x1="366.0" y1="482.0" x2="366.0" y2="487.0" stroke="#444"/>
+<text x="366.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.6</text>
+<line x1="458.0" y1="482.0" x2="458.0" y2="487.0" stroke="#444"/>
+<text x="458.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.8</text>
+<line x1="550.0" y1="482.0" x2="550.0" y2="487.0" stroke="#444"/>
+<text x="550.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">1.0</text>
+<text x="320.0" y="535.0" font-family="Arial, sans-serif" font-size="13px" text-anchor="middle" font-weight="normal" fill="#222">Intensidade</text>
+<text x="38.0" y="280.0" font-family="Arial, sans-serif" font-size="13px" text-anchor="middle" font-weight="normal" fill="#222">Densidade</text>
+<polyline points="99.2,477.6 117.6,464.4 136.0,433.7 154.4,403.0 172.8,376.6 191.2,367.8 209.6,367.8 228.0,381.0 246.4,381.0 264.8,376.6 283.2,394.2 301.6,407.3 320.0,442.5 338.4,438.1 356.8,429.3 375.2,442.5 393.6,446.9 412.0,455.7 430.4,460.0 448.8,464.4 467.2,477.6 485.6,473.2 504.0,473.2 522.4,482.0 540.8,468.8" fill="none" stroke="#0072B2" stroke-width="2.5" opacity="0.9"/>
+<polyline points="99.2,477.6 117.6,407.3 136.0,394.2 154.4,332.7 172.8,302.0 191.2,328.3 209.6,381.0 228.0,385.4 246.4,381.0 264.8,442.5 283.2,398.6 301.6,429.3 320.0,433.7 338.4,464.4 356.8,460.0 375.2,446.9 393.6,473.2 412.0,468.8 430.4,477.6 448.8,473.2 467.2,464.4 485.6,473.2 504.0,477.6 522.4,482.0 540.8,477.6" fill="none" stroke="#D55E00" stroke-width="2.5" opacity="0.9"/>
+<line x1="435.0" y1="100.0" x2="459.0" y2="100.0" stroke="#0072B2" stroke-width="3"/>
+<text x="467.0" y="104.0" font-family="Arial, sans-serif" font-size="12px" text-anchor="start" font-weight="normal" fill="#222">Fo_B</text>
+<line x1="435.0" y1="122.0" x2="459.0" y2="122.0" stroke="#D55E00" stroke-width="3"/>
+<text x="467.0" y="126.0" font-family="Arial, sans-serif" font-size="12px" text-anchor="start" font-weight="normal" fill="#222">Fo_R</text>
+<text x="835.0" y="60.0" font-family="Arial, sans-serif" font-size="17px" text-anchor="middle" font-weight="bold" fill="#222">IHV</text>
+<rect x="605.0" y="78.0" width="460.0" height="404.0" fill="#fafafa" stroke="#444"/>
+<line x1="605.0" y1="482.0" x2="605.0" y2="487.0" stroke="#444"/>
+<text x="605.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.0</text>
+<line x1="697.0" y1="482.0" x2="697.0" y2="487.0" stroke="#444"/>
+<text x="697.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.2</text>
+<line x1="789.0" y1="482.0" x2="789.0" y2="487.0" stroke="#444"/>
+<text x="789.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.4</text>
+<line x1="881.0" y1="482.0" x2="881.0" y2="487.0" stroke="#444"/>
+<text x="881.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.6</text>
+<line x1="973.0" y1="482.0" x2="973.0" y2="487.0" stroke="#444"/>
+<text x="973.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">0.8</text>
+<line x1="1065.0" y1="482.0" x2="1065.0" y2="487.0" stroke="#444"/>
+<text x="1065.0" y="506.0" font-family="Arial, sans-serif" font-size="11px" text-anchor="middle" font-weight="normal" fill="#222">1.0</text>
+<text x="835.0" y="535.0" font-family="Arial, sans-serif" font-size="13px" text-anchor="middle" font-weight="normal" fill="#222">Intensidade</text>
+<text x="553.0" y="280.0" font-family="Arial, sans-serif" font-size="13px" text-anchor="middle" font-weight="normal" fill="#222">Densidade</text>
+<polyline points="614.2,363.4 632.6,192.2 651.0,170.2 669.4,280.0 687.8,328.3 706.2,420.5 724.6,389.8 743.0,438.1 761.4,468.8 779.8,464.4 798.2,477.6 816.6,477.6 835.0,482.0 853.4,477.6 871.8,482.0 890.2,482.0 908.6,482.0 927.0,482.0 945.4,482.0 963.8,482.0 982.2,482.0 1000.6,482.0 1019.0,482.0 1037.4,482.0 1055.8,482.0" fill="none" stroke="#0072B2" stroke-width="2.5" opacity="0.9"/>
+<polyline points="614.2,310.7 632.6,78.0 651.0,205.3 669.4,310.7 687.8,359.0 706.2,407.3 724.6,442.5 743.0,455.7 761.4,473.2 779.8,482.0 798.2,473.2 816.6,477.6 835.0,477.6 853.4,477.6 871.8,482.0 890.2,482.0 908.6,482.0 927.0,482.0 945.4,482.0 963.8,482.0 982.2,482.0 1000.6,482.0 1019.0,482.0 1037.4,482.0 1055.8,482.0" fill="none" stroke="#D55E00" stroke-width="2.5" opacity="0.9"/>
+<line x1="950.0" y1="100.0" x2="974.0" y2="100.0" stroke="#0072B2" stroke-width="3"/>
+<text x="982.0" y="104.0" font-family="Arial, sans-serif" font-size="12px" text-anchor="start" font-weight="normal" fill="#222">Fo_B</text>
+<line x1="950.0" y1="122.0" x2="974.0" y2="122.0" stroke="#D55E00" stroke-width="3"/>
+<text x="982.0" y="126.0" font-family="Arial, sans-serif" font-size="12px" text-anchor="start" font-weight="normal" fill="#222">Fo_R</text>
+</svg>

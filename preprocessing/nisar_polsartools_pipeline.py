@@ -421,7 +421,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT_DIR / "analysis" / "nisar_polsartools_pipeline_config.json",
+        default=ROOT_DIR / "preprocessing" / "nisar_polsartools_pipeline_config.json",
         help="Caminho para o arquivo JSON de configuracao da pipeline.",
     )
     parser.add_argument(

@@ -13,7 +13,7 @@
     "out_dir": "{output_dir}",
     "mat": "C2",
     "azlks": 2,
-    "rglks": 2,
+    "rglks": 1,
     "fmt": "tif",
     "comp": true
   },

@@ -1,9 +1,10 @@
 {
   "root_dir": "C:/Users/jales/Desktop/sbsr_paper/sentinel1_data/",
-  "tiff_c11_path": "C11.tif",
-  "tiff_c22_path": "C22.tif",
+  "tiff_path": "subset_0_of_S1D_IW_SLC__1SDV_20260625T084430_20260625T084457_003390_005F64_AC59_Orb_Deb_ML_TC.tif",
+  "vv_band": 1,
+  "vh_band": 2,
   "samples_geojson_path": "C:/Users/jales/Documents/GitHub/thesis_code/datasets/homogeneity_samples_sbsr_bsb.geojson",
-  "output_txt_path": "pixels_extraidos.txt",
+  "output_dir": "samples_sentinel1",
   "class_column": "class",
   "sample_column": "sample",
   "keep_nodata": false

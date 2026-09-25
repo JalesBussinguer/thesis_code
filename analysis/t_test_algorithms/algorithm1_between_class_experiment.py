@@ -56,9 +56,9 @@ def _bootstrap_worker(args: tuple[np.ndarray, np.ndarray, np.ndarray, float, int
     """
     X_array, group_indices_by_id, group_ids, gamma, seed = args
     rng = np.random.default_rng(seed)
-    pooled_indices = np.concatenate(list(group_indices_by_id))
+    pooled_indices = np.concatenate(list(group_indices_by_id)).astype(np.intp)
     group_sizes = [len(indices) for indices in group_indices_by_id]
-    bootstrap_indices = rng.choice(pooled_indices, size=len(pooled_indices), replace=True)
+    bootstrap_indices = rng.choice(pooled_indices, size=len(pooled_indices), replace=True).astype(np.intp)
     bootstrap_labels = np.concatenate([
         np.full(size, group_id)
         for size, group_id in zip(group_sizes, group_ids)
@@ -204,7 +204,10 @@ def pooled_bootstrap_p_value(
         raise ValueError("O bootstrap exige dois grupos não vazios")
 
     group_ids = np.array(list(group_indices_by_id), dtype=int)
-    group_indices_array = np.array(list(group_indices_by_id.values()), dtype=object)
+    # Mantém uma lista simples (não um np.array(dtype=object)): quando os dois
+    # grupos têm o mesmo tamanho, o numpy tenta empilhar os arrays de índices em
+    # uma matriz retangular, o que corrompe o dtype inteiro dos índices.
+    group_indices_array = list(group_indices_by_id.values())
     seeds = np.random.SeedSequence(seed).spawn(B)
     tasks = [
         (X_array, group_indices_array, group_ids, gamma, int(child.generate_state(1)[0]))
