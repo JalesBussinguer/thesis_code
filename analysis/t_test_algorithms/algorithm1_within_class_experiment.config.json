@@ -1,8 +1,8 @@
 {
-  "input_dir": "datasets/samples_sbsr_bsb/",
-  "output_csv": "analysis/t_test_algorithms/results/algorithm1_within_class_results.csv",
+  "input_dir": "datasets/samples_sbsr_bsb/sentinel_1_samples/",
+  "output_csv": "analysis/t_test_algorithms/results/sentinel_1/algorithm1_within_class_results.csv",
   "gamma": 1.0,
-  "gamma_sweep": {"start": 1, "stop": 2.0, "step": 0.5},
+  "gamma_sweep": {"start": 0.1, "stop": 2.0, "step": 0.1},
   "alpha": 0.05,
   "B": 2000,
   "seed": 42,
