@@ -283,7 +283,7 @@ def _run_nisar_extract(
     # Padroes para gerar GeoTIFF multilook na importacao nativa do NISAR.
     resolved_kwargs.setdefault("mat", "C2")
     resolved_kwargs.setdefault("azlks", 2)
-    resolved_kwargs.setdefault("rglks", 2)
+    resolved_kwargs.setdefault("rglks", 1)
     resolved_kwargs.setdefault("fmt", "tif")
 
     mat_name = str(resolved_kwargs.get("mat", "")).upper()

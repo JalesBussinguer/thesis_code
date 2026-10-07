@@ -1,5 +1,5 @@
 {
-  "input_dir": "E:/nisar_data",
+  "input_dir": "E:/nisar_data/",
   "output_dir": "E:/nisar_data/output",
   "recursive": true,
   "search_extensions": [".h5", ".hdf5"],
@@ -12,7 +12,7 @@
     "inFile": "{input}",
     "out_dir": "{output_dir}",
     "mat": "C2",
-    "azlks": 2,
+    "azlks": 1,
     "rglks": 1,
     "fmt": "tif",
     "comp": true
