@@ -1,0 +1,11 @@
+class_a_code,class_b_code,class_a_samples,class_b_samples,gamma,T_observed,p_value,alpha,reject_h0
+Fo,Sv,Fo_W,Sv_U,0.1,-67.8141458526552,0.6365,0.05,False
+Fo,Sv,Fo_W,Sv_U,0.5,-7734.499684672919,0.61,0.05,False
+Fo,Sv,Fo_W,Sv_U,1.0,-985280.5106734186,0.5445,0.05,False
+Fo,Sv,Fo_W,Sv_U,1.5,-110691634.90846872,0.488,0.05,False
+Fo,Sv,Fo_W,Sv_U,2.0,-9178280660.985992,0.4005,0.05,False
+Fo,Sv,Fo_W,Sv_W,0.1,-36.51307297848325,0.54,0.05,False
+Fo,Sv,Fo_W,Sv_W,0.5,-5987.5670793775935,0.5535,0.05,False
+Fo,Sv,Fo_W,Sv_W,1.0,-1059003.5059319213,0.578,0.05,False
+Fo,Sv,Fo_W,Sv_W,1.5,-168645285.93709183,0.6275,0.05,False
+Fo,Sv,Fo_W,Sv_W,2.0,-25228630792.52246,0.662,0.05,False

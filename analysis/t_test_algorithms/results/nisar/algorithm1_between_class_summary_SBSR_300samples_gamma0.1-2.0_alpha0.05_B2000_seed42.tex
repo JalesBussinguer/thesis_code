@@ -1,0 +1,36 @@
+\begin{table}[htbp]
+\caption{Summary of between-class NISAR tests by $\gamma$.}
+\label{tab:nisar-resumo-pares-amostras-gamma}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\noindent\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}l r c r@{}}
+\toprule
+Class pair & $\gamma$ & $H_0$ rejections & Median $T$ [min; max] \\
+\midrule
+\multirow{5}{*}{Fo vs. GL} & 0.1 & 25/25 (100\%) & 19956.88 [15952.83; 23976.39] \\
+ & 0.5 & 25/25 (100\%) & 42849.89 [35562.23; 55633.49] \\
+ & 1.0 & 25/25 (100\%) & 36659.81 [30894.64; 52677.07] \\
+ & 1.5 & 25/25 (100\%) & 28045.05 [23605.57; 44896.60] \\
+ & 2.0 & 25/25 (100\%) & 21552.62 [18421.82; 39268.55] \\
+\midrule
+\multirow{5}{*}{Fo vs. Sv} & 0.1 & 25/25 (100\%) & 1305.35 [97.44; 4003.48] \\
+ & 0.5 & 24/25 (96\%) & 3186.41 [185.91; 10783.67] \\
+ & 1.0 & 24/25 (96\%) & 2958.72 [118.77; 11348.35] \\
+ & 1.5 & 23/25 (92\%) & 2353.37 [66.24; 10212.72] \\
+ & 2.0 & 23/25 (92\%) & 1962.15 [47.52; 9245.42] \\
+\midrule
+\multirow{5}{*}{Sv vs. GL} & 0.1 & 25/25 (100\%) & 17514.05 [13042.80; 22088.85] \\
+ & 0.5 & 25/25 (100\%) & 34764.02 [26114.34; 47977.77] \\
+ & 1.0 & 25/25 (100\%) & 26640.62 [19363.08; 41030.40] \\
+ & 1.5 & 25/25 (100\%) & 17283.34 [12342.58; 31147.45] \\
+ & 2.0 & 25/25 (100\%) & 11174.93 [7823.58; 23933.60] \\
+\bottomrule
+\end{tabular}
+}
+
+\begin{minipage}{\columnwidth}
+\footnotesize
+\textit{Note:} Fo = Forest; GL = Grassland; Sv = Savanna. Each class pair includes 25 sample combinations. Rejections were determined using $\alpha=0.05$, $B=2000$ bootstrap replicates, and seed 42. The rejection proportion is descriptive because the comparisons share samples; no multiple-comparison adjustment was applied. $T$ values are rounded to two decimal places.
+\end{minipage}
+\end{table}

@@ -1,13 +1,11 @@
 """
-Experimento entre pares de classes com o Algoritmo 1 do artigo.
+Experimento par a par de amostras de classes diferentes com o Algoritmo 1.
 
-Diferença em relação ao experimento intra-classe:
-- cada classe inteira é um grupo do teste;
-- todos os polígonos da classe são reunidos no mesmo grupo;
-- cada comparação possui exatamente dois grupos: classe A e classe B.
+Cada comparação usa uma amostra de cada classe como um dos dois grupos do
+teste. Todas as combinações de amostras entre classes são avaliadas.
 
-Para cada par de classes, o Algoritmo 1 calcula a estatística T usando
-as observações vetoriais [IHH, IHV] e estima o p-valor por bootstrap.
+Para cada par de amostras, o Algoritmo 1 calcula a estatística T usando as
+observações vetoriais [IHH, IHV] e estima o p-valor por bootstrap.
 """
 
 from __future__ import annotations
@@ -18,7 +16,7 @@ import logging
 import os
 import sys
 from concurrent.futures import ProcessPoolExecutor
-from itertools import combinations
+from itertools import combinations, product
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -159,13 +157,11 @@ def build_class_group(
 
 
 def build_pair_data(
-    class_a: str,
-    files_a: List[Path],
-    class_b: str,
-    files_b: List[Path],
+    sample_a: Path,
+    sample_b: Path,
 ) -> Tuple[List[np.ndarray], List[int], List[str], List[int]]:
-    observations_a, groups_a, names_a, sizes_a = build_class_group(files_a, 0, True)
-    observations_b, groups_b, names_b, sizes_b = build_class_group(files_b, 1, True)
+    observations_a, groups_a, names_a, sizes_a = build_class_group([sample_a], 0)
+    observations_b, groups_b, names_b, sizes_b = build_class_group([sample_b], 1)
 
     return (
         observations_a + observations_b,
@@ -244,81 +240,67 @@ def run_between_class_algorithm_1(
     skip_pairs = skip_pairs or set()
     class_items = sorted(grouped_files.items())
     for (class_a, files_a), (class_b, files_b) in combinations(class_items, 2):
-        pair_name = f"{class_a}_x_{class_b}"
-        if pair_name in skip_pairs:
-            logger.info("Par %s já processado; pulando", pair_name)
-            continue
+        for sample_a, sample_b in product(sorted(files_a), sorted(files_b)):
+            pair_name = f"{sample_a.stem}_x_{sample_b.stem}"
+            if pair_name in skip_pairs:
+                logger.info("Par %s já processado; pulando", pair_name)
+                continue
 
-        logger.info(
-            "Comparando %s (%s) x %s (%s)",
-            class_a,
-            CLASS_NAME_MAP.get(class_a, class_a),
-            class_b,
-            CLASS_NAME_MAP.get(class_b, class_b),
-        )
+            logger.info(
+                "Comparando amostras %s (%s) x %s (%s)",
+                sample_a.stem,
+                CLASS_NAME_MAP.get(class_a, class_a),
+                sample_b.stem,
+                CLASS_NAME_MAP.get(class_b, class_b),
+            )
 
-        observations_a, groups_a, names_a, sizes_a = build_class_group(files_a, 0, True)
-        observations_b, groups_b, names_b, sizes_b = build_class_group(files_b, 1, True)
+            X, group_indices, sample_names, sample_sizes = build_pair_data(sample_a, sample_b)
+            observed_T = compute_statistic_T_between_groups(X, group_indices, gamma)
+            p_value, bootstrap_values = pooled_bootstrap_p_value(
+                X=X,
+                group_indices=group_indices,
+                gamma=gamma,
+                observed_T=observed_T,
+                B=B,
+                seed=seed,
+                verbose=verbose_bootstrap,
+            )
+            bootstrap_distributions[pair_name] = bootstrap_values
+            reject_h0 = p_value < alpha
 
-        # Primeiro calcula T com os dois grupos originais, ainda separados.
-        observed_X = observations_a + observations_b
-        observed_groups = groups_a + groups_b
-        observed_T = compute_statistic_T_between_groups(
-            observed_X,
-            observed_groups,
-            gamma,
-        )
+            results.append(
+                {
+                    "class_a_code": class_a,
+                    "class_a_name": CLASS_NAME_MAP.get(class_a, class_a),
+                    "class_b_code": class_b,
+                    "class_b_name": CLASS_NAME_MAP.get(class_b, class_b),
+                    "class_a_samples": sample_names[0],
+                    "class_b_samples": sample_names[1],
+                    "class_a_group_size": int(sample_sizes[0]),
+                    "class_b_group_size": int(sample_sizes[1]),
+                    "n_observations_total": len(X),
+                    "gamma": float(gamma),
+                    "T_observed": float(observed_T),
+                    "p_value": float(p_value),
+                    "alpha": float(alpha),
+                    "B": int(B),
+                    "seed": int(seed),
+                    "reject_h0": bool(reject_h0),
+                }
+            )
+            if checkpoint_csv is not None:
+                append_result_csv(results[-1], checkpoint_csv)
+            if checkpoint_dir is not None:
+                write_bootstrap_csv({pair_name: bootstrap_values}, checkpoint_dir)
 
-        # Somente depois une os datasets na bacia X usada pelo bootstrap.
-        X = observed_X
-        group_indices = observed_groups
-        sample_names = names_a + names_b
-        sample_sizes = sizes_a + sizes_b
-        p_value, bootstrap_values = pooled_bootstrap_p_value(
-            X=X,
-            group_indices=group_indices,
-            gamma=gamma,
-            observed_T=observed_T,
-            B=B,
-            seed=seed,
-            verbose=verbose_bootstrap,
-        )
-        bootstrap_distributions[pair_name] = bootstrap_values
-        reject_h0 = p_value < alpha
-
-        results.append(
-            {
-                "class_a_code": class_a,
-                "class_a_name": CLASS_NAME_MAP.get(class_a, class_a),
-                "class_b_code": class_b,
-                "class_b_name": CLASS_NAME_MAP.get(class_b, class_b),
-                "class_a_samples": "|".join(sample_names[:len(files_a)]),
-                "class_b_samples": "|".join(sample_names[len(files_a):]),
-                "class_a_group_size": int(sum(sample_sizes[:len(files_a)])),
-                "class_b_group_size": int(sum(sample_sizes[len(files_a):])),
-                "n_observations_total": len(X),
-                "gamma": float(gamma),
-                "T_observed": float(observed_T),
-                "p_value": float(p_value),
-                "alpha": float(alpha),
-                "B": int(B),
-                "seed": int(seed),
-                "reject_h0": bool(reject_h0),
-            }
-        )
-        if checkpoint_csv is not None:
-            append_result_csv(results[-1], checkpoint_csv)
-        if checkpoint_dir is not None:
-            write_bootstrap_csv({pair_name: bootstrap_values}, checkpoint_dir)
-
-        logger.info(
-            "%s x %s concluído | T=%.6f | p=%.6f | reject_h0=%s",
-            class_a,
-            class_b,
-            observed_T,
-            p_value,
-            reject_h0,
-        )
+            logger.info(
+                "%s x %s concluído | T=%.6f | p=%.6f | reject_h0=%s",
+                sample_names[0],
+                sample_names[1],
+                observed_T,
+                p_value,
+                reject_h0,
+            )
 
     return results, bootstrap_distributions
 
@@ -432,18 +414,29 @@ def main() -> None:
             "verifique se o diretório de entrada existe e contém os arquivos CSV esperados."
         )
     completed_pairs = {
-        f"{class_a}_x_{class_b}"
-        for (class_a, _), (class_b, _) in combinations(class_items, 2)
+        f"{sample_a.stem}_x_{sample_b.stem}"
+        for (_, files_a), (_, files_b) in combinations(class_items, 2)
+        for sample_a, sample_b in product(files_a, files_b)
     }
 
     output_csv = build_output_csv_path(config["output_csv"], gamma, alpha, B, seed)
-    checkpoint_dir = output_csv.parent / f"bootstrap_distributions_between{output_csv.stem[len(config['output_csv'].stem):]}"
+    checkpoint_dir = output_csv.parent / (
+        f"bootstrap_distributions_between_samples"
+        f"{output_csv.stem[len(config['output_csv'].stem):]}"
+    )
 
-    existing_results = read_result_rows(output_csv)
+    existing_results = [
+        row
+        for row in read_result_rows(output_csv)
+        if row.get("class_a_samples")
+        and row.get("class_b_samples")
+        and "|" not in row["class_a_samples"]
+        and "|" not in row["class_b_samples"]
+    ]
     existing_pairs = {
-        f"{row['class_a_code']}_x_{row['class_b_code']}"
+        f"{row['class_a_samples']}_x_{row['class_b_samples']}"
         for row in existing_results
-        if row.get("class_a_code") and row.get("class_b_code")
+        if f"{row['class_a_samples']}_x_{row['class_b_samples']}" in completed_pairs
     }
     if existing_pairs >= completed_pairs:
         logger.info("Gamma %.10g já concluído em %s; pulando processamento.", gamma, output_csv)

@@ -1,0 +1,36 @@
+\begin{table}[htbp]
+\caption{Summary of Sentinel-1 between-class tests by $\gamma$.}
+\label{tab:sentinel1-summary-between-class-samples-gamma}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\noindent\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}l r c r@{}}
+\toprule
+Class pair & $\gamma$ & $H_0$ rejections & Median $T$ [min; max] \\
+\midrule
+\multirow{5}{*}{Fo vs. GL} & 0.1 & 25/25 (100\%) & 29590.68 [12249.13; 51302.93] \\
+ & 0.5 & 25/25 (100\%) & 4104401.06 [1627192.79; 7184456.15] \\
+ & 1.0 & 25/25 (100\%) & 571238167.21 [225282520.40; 1146753750.91] \\
+ & 1.5 & 25/25 (100\%) & 75310005707.95 [26526971668.97; 164418035591.88] \\
+ & 2.0 & 25/25 (100\%) & 10246533142858.70 [3075481662797.05; 23855362646329.90] \\
+\midrule
+\multirow{5}{*}{Fo vs. Sv} & 0.1 & 23/25 (92\%) & 4133.43 [-67.81; 14664.47] \\
+ & 0.5 & 23/25 (92\%) & 652901.29 [-7734.50; 2405194.26] \\
+ & 1.0 & 23/25 (92\%) & 105865129.40 [-1059003.51; 428062308.61] \\
+ & 1.5 & 23/25 (92\%) & 13750095677.01 [-168645285.94; 63772698611.19] \\
+ & 2.0 & 23/25 (92\%) & 1766959023737.28 [-25228630792.52; 9210959190827.43] \\
+\midrule
+\multirow{5}{*}{Sv vs. GL} & 0.1 & 25/25 (100\%) & 17253.25 [4798.44; 38110.25] \\
+ & 0.5 & 25/25 (100\%) & 2049457.70 [573343.12; 4514541.17] \\
+ & 1.0 & 25/25 (100\%) & 255603255.28 [71719715.90; 563285332.94] \\
+ & 1.5 & 25/25 (100\%) & 28535003859.02 [8156773632.01; 62352640161.09] \\
+ & 2.0 & 25/25 (100\%) & 3007519658909.37 [1004559065469.92; 7081979049368.13] \\
+\bottomrule
+\end{tabular}
+}
+
+\begin{minipage}{\columnwidth}
+\footnotesize
+\textit{Note:} Fo = Forest; GL = Grassland; Sv = Savanna. Each class pair includes 25 sample combinations. Rejections were determined using $\alpha=0.05$, $B=2000$ bootstrap replicates, and seed 42. The rejection proportion is descriptive because the comparisons share samples; no multiple-comparison adjustment was applied. $T$ values are rounded to two decimal places.
+\end{minipage}
+\end{table}
